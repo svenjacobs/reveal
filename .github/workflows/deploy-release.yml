@@ -1,0 +1,21 @@
+name: Deploy Release
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  deploy:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/gradle-cache
+      - name: Deploy release
+        env:
+          RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
+          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
+          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
+        run: ./gradlew publishToSonatype closeSonatypeStagingRepository
