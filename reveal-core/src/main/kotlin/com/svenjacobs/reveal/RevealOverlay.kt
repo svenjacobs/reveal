@@ -36,7 +36,6 @@ internal class RevealOverlayScopeInstance(
 	private val revealRect: IntRect,
 ) : RevealOverlayScope {
 
-	// TODO: fix RTL layout
 	override fun Modifier.align(alignment: RevealOverlayAlignment): Modifier = this.then(
 		Modifier.layout { measurable, constraints ->
 			val placeable = measurable.measure(constraints)
