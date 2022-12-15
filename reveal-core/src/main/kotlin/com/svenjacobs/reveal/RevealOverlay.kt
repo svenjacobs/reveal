@@ -8,7 +8,7 @@ import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.LayoutDirection
 
 enum class RevealOverlayAlignment {
-	Start, Top, End, Bottom,
+	Start, Top, End, Bottom, TopNoCenter, BottomNotCenter
 }
 
 /**
@@ -64,6 +64,11 @@ internal class RevealOverlayScopeInstance(
 							x = horizontalCenterX,
 							y = revealRect.top - placeable.height,
 						)
+					RevealOverlayAlignment.TopNoCenter ->
+						placeable.place(
+							x = 0,
+							y = revealRect.top - placeable.height
+						)
 					RevealOverlayAlignment.End ->
 						placeable.place(
 							x = revealRect.right,
@@ -73,6 +78,11 @@ internal class RevealOverlayScopeInstance(
 						placeable.place(
 							x = horizontalCenterX,
 							y = revealRect.bottom,
+						)
+					RevealOverlayAlignment.BottomNotCenter ->
+						placeable.place(
+							x = 0,
+							y = revealRect.bottom
 						)
 				}
 			}
