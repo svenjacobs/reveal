@@ -7,6 +7,8 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.LayoutDirection
+import java.lang.Integer.max
+import java.lang.Integer.min
 
 enum class RevealOverlayAlignment {
 	Start, Top, End, Bottom
@@ -126,41 +128,41 @@ internal class RevealOverlayScopeInstance(
 						&& actualAnchor == VerticalRevealOverlayAnchor.ParentStart -> {
 							placeable.place(
 								x = 0,
-								y = revealRect.top - placeable.height
+								y = max(revealRect.top - placeable.height, 0)
 							)
 						}
 					verticalAlignment == VerticalRevealOverlayAlignment.Top
 						&& actualAnchor == VerticalRevealOverlayAnchor.ParentCenter -> {
 							placeable.place(
 								x = (constraints.maxWidth / 2) - (placeable.width / 2),
-								y = revealRect.top - placeable.height
+								y = max(revealRect.top - placeable.height, 0)
 							)
 						}
 					verticalAlignment == VerticalRevealOverlayAlignment.Top
 						&& actualAnchor == VerticalRevealOverlayAnchor.ParentEnd -> {
 						placeable.place(
 							x = constraints.maxWidth - placeable.width,
-							y = revealRect.top - placeable.height
+							y = max(revealRect.top - placeable.height, 0)
 						)
 					}
 					verticalAlignment == VerticalRevealOverlayAlignment.Top
 						&& actualAnchor == VerticalRevealOverlayAnchor.RevealableStart -> {
 						placeable.place(
-							x = revealRect.left,
-							y = revealRect.top - placeable.height
+							x = max(revealRect.left, 0),
+							y = max(revealRect.top - placeable.height, 0)
 						)
 					}
 					verticalAlignment == VerticalRevealOverlayAlignment.Top
 						&& actualAnchor == VerticalRevealOverlayAnchor.RevealableCenter -> {
 						placeable.place(
 							x = revealRect.left + (revealRect.width - placeable.width) / 2,
-							y = revealRect.top - placeable.height
+							y = max(revealRect.top - placeable.height, 0)
 						)
 					}
 					verticalAlignment == VerticalRevealOverlayAlignment.Top
 						&& actualAnchor == VerticalRevealOverlayAnchor.RevealableEnd -> {
 						placeable.place(
-							x = revealRect.right,
+							x = min(revealRect.right, constraints.maxWidth),
 							y = revealRect.top - placeable.height
 						)
 					}
@@ -168,21 +170,21 @@ internal class RevealOverlayScopeInstance(
 						&& actualAnchor == VerticalRevealOverlayAnchor.ParentStart -> {
 						placeable.place(
 							x = 0,
-							y = revealRect.bottom
+							y = min(revealRect.bottom, constraints.maxHeight)
 						)
 					}
 					verticalAlignment == VerticalRevealOverlayAlignment.Bottom
 						&& actualAnchor == VerticalRevealOverlayAnchor.ParentCenter -> {
 						placeable.place(
 							x = (constraints.maxWidth / 2) - (placeable.width / 2),
-							y = revealRect.bottom
+							y = min(revealRect.bottom, constraints.maxHeight)
 						)
 					}
 					verticalAlignment == VerticalRevealOverlayAlignment.Bottom
 						&& actualAnchor == VerticalRevealOverlayAnchor.ParentEnd -> {
 						placeable.place(
 							x = constraints.maxWidth - placeable.width,
-							y = revealRect.bottom
+							y = min(revealRect.bottom, constraints.maxHeight)
 						)
 					}
 					verticalAlignment == VerticalRevealOverlayAlignment.Bottom
@@ -230,42 +232,42 @@ internal class RevealOverlayScopeInstance(
 					actualAlignment == HorizontalRevealOverlayAlignment.Start
 						&& anchor == HorizontalRevealOverlayAnchor.ParentTop -> {
 							placeable.place(
-								x = revealRect.left - placeable.width,
+								x = max(revealRect.left - placeable.width, 0),
 								y = 0
 							)
 						}
 					actualAlignment == HorizontalRevealOverlayAlignment.Start
 						&& anchor == HorizontalRevealOverlayAnchor.ParentCenter -> {
 							placeable.place(
-								x = revealRect.left - placeable.width,
+								x = max(revealRect.left - placeable.width, 0),
 								y = (constraints.maxHeight / 2) - (placeable.height / 2)
 							)
 						}
 					actualAlignment == HorizontalRevealOverlayAlignment.Start
 						&& anchor == HorizontalRevealOverlayAnchor.ParentBottom -> {
 							placeable.place(
-								x = revealRect.left - placeable.width,
+								x = max(revealRect.left - placeable.width, 0),
 								y = constraints.maxHeight - (placeable.height)
 							)
 						}
 					actualAlignment == HorizontalRevealOverlayAlignment.Start
 						&& anchor == HorizontalRevealOverlayAnchor.RevealableTop -> {
 							placeable.place(
-								x = revealRect.left - placeable.width,
-								y = revealRect.top - placeable.height
+								x = max(revealRect.left - placeable.width, 0),
+								y = max(revealRect.top - placeable.height, 0)
 							)
 						}
 					actualAlignment == HorizontalRevealOverlayAlignment.Start
 						&& anchor == HorizontalRevealOverlayAnchor.RevealableCenter -> {
 							placeable.place(
-								x = revealRect.left - placeable.width,
+								x = max(revealRect.left - placeable.width, 0),
 								y = revealRect.top + (revealRect.height - placeable.height) / 2
 							)
 						}
 					actualAlignment == HorizontalRevealOverlayAlignment.Start
 						&& anchor == HorizontalRevealOverlayAnchor.RevealableBottom -> {
 							placeable.place(
-								x = revealRect.left - placeable.width,
+								x = max(revealRect.left - placeable.width, 0),
 								y = revealRect.bottom
 							)
 						}
@@ -295,7 +297,7 @@ internal class RevealOverlayScopeInstance(
 						&& anchor == HorizontalRevealOverlayAnchor.RevealableTop -> {
 						placeable.place(
 							x = revealRect.right,
-							y = revealRect.top - placeable.height
+							y = max(revealRect.top - placeable.height, 0)
 						)
 					}
 					actualAlignment == HorizontalRevealOverlayAlignment.End
