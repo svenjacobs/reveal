@@ -4,6 +4,8 @@ import androidx.compose.ui.unit.Dp
 
 /**
  * Shape of the reveal area.
+ *
+ * TODO: Shapes should draw themselves via a draw() method
  */
 sealed interface RevealShape {
 

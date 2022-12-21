@@ -112,7 +112,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun RevealOverlayScope.RevealOverlayContent(key: Key) {
+private fun RevealOverlayScope.RevealOverlayContent(key: Key) {
 	when (key) {
 		Keys.Fab -> OverlayText(
 			modifier = Modifier.align(RevealOverlayAlignment.Start),

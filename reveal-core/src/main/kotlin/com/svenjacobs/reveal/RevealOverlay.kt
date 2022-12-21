@@ -7,6 +7,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.LayoutDirection
 
+// TODO: Should become classes with alignment logic in an align() method
 enum class RevealOverlayAlignment {
 	Start, Top, End, Bottom,
 }
