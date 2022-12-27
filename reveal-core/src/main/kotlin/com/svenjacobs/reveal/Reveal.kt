@@ -27,9 +27,7 @@ import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntRect
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
+import com.svenjacobs.reveal.internal.pair.safe
 
 /**
  * Container composable for the reveal effect.
@@ -189,17 +187,5 @@ public fun Reveal(
 				}
 			}
 		}
-	}
-}
-
-@OptIn(ExperimentalContracts::class)
-private inline fun <A : Any, B : Any, R> Pair<A?, B?>.safe(body: (A, B) -> R): R? {
-	contract {
-		callsInPlace(body, InvocationKind.AT_MOST_ONCE)
-	}
-	return if (first == null || second == null) {
-		null
-	} else {
-		body(first!!, second!!)
 	}
 }
