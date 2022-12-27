@@ -41,6 +41,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
 	val revealState = rememberRevealState()
 
 	LaunchedEffect(Unit) {
+		if (revealState.isVisible) return@LaunchedEffect
 		delay(2.seconds)
 		revealState.reveal(Keys.Fab)
 	}
