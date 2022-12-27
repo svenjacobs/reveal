@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.svenjacobs.reveal.internal.revealable.Revealable
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 

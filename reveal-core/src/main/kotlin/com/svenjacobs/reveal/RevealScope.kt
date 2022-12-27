@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
+import com.svenjacobs.reveal.internal.revealable.Revealable
 
 /**
  * Scope inside [Reveal]'s contents which provides [revealable] modifier.
