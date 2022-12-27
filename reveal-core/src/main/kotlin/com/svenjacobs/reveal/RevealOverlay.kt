@@ -17,32 +17,22 @@ public object RevealOverlayArrangement {
 		 * Returns an [IntRect] which represents the position and size of the overlay layout area
 		 * for a [revealable] within available [space].
 		 */
-		public fun arrange(
-			revealable: IntRect,
-			space: IntSize,
-			confineHeight: Boolean,
-		): IntRect
+		public fun arrange(revealable: IntRect, space: IntSize, confineHeight: Boolean): IntRect
 
 		/**
 		 * Returns an [IntOffset] to place the overlay content with [size] in available [layout].
 		 */
-		public fun align(
-			size: IntSize,
-			layout: IntRect,
-		): IntOffset
+		public fun align(size: IntSize, layout: IntRect): IntOffset
 
 		public object Start : Horizontal {
 
-			override fun arrange(
-				revealable: IntRect,
-				space: IntSize,
-				confineHeight: Boolean,
-			): IntRect = IntRect(
-				left = 0,
-				top = if (confineHeight) revealable.top else 0,
-				right = revealable.left,
-				bottom = if (confineHeight) revealable.bottom else space.height,
-			)
+			override fun arrange(revealable: IntRect, space: IntSize, confineHeight: Boolean): IntRect =
+				IntRect(
+					left = 0,
+					top = if (confineHeight) revealable.top else 0,
+					right = revealable.left,
+					bottom = if (confineHeight) revealable.bottom else space.height,
+				)
 
 			override fun align(size: IntSize, layout: IntRect): IntOffset =
 				IntOffset(x = layout.right - size.width, y = 0)
@@ -50,19 +40,15 @@ public object RevealOverlayArrangement {
 
 		public object End : Horizontal {
 
-			override fun arrange(
-				revealable: IntRect,
-				space: IntSize,
-				confineHeight: Boolean,
-			): IntRect = IntRect(
-				left = revealable.right,
-				top = if (confineHeight) revealable.top else 0,
-				right = space.width,
-				bottom = if (confineHeight) revealable.bottom else space.height,
-			)
+			override fun arrange(revealable: IntRect, space: IntSize, confineHeight: Boolean): IntRect =
+				IntRect(
+					left = revealable.right,
+					top = if (confineHeight) revealable.top else 0,
+					right = space.width,
+					bottom = if (confineHeight) revealable.bottom else space.height,
+				)
 
-			override fun align(size: IntSize, layout: IntRect): IntOffset =
-				IntOffset(x = layout.left, y = 0)
+			override fun align(size: IntSize, layout: IntRect): IntOffset = IntOffset(x = layout.left, y = 0)
 		}
 	}
 
@@ -72,27 +58,16 @@ public object RevealOverlayArrangement {
 		 * Returns an [IntRect] which represents the position and size of the overlay layout area
 		 * for a [revealable] within available [space].
 		 */
-		public fun arrange(
-			revealable: IntRect,
-			space: IntSize,
-			confineWidth: Boolean,
-		): IntRect
+		public fun arrange(revealable: IntRect, space: IntSize, confineWidth: Boolean): IntRect
 
 		/**
 		 * Returns an [IntOffset] to place the overlay content with [size] in available [layout].
 		 */
-		public fun align(
-			size: IntSize,
-			layout: IntRect,
-		): IntOffset
+		public fun align(size: IntSize, layout: IntRect): IntOffset
 
 		public object Top : Vertical {
 
-			override fun arrange(
-				revealable: IntRect,
-				space: IntSize,
-				confineWidth: Boolean,
-			): IntRect =
+			override fun arrange(revealable: IntRect, space: IntSize, confineWidth: Boolean): IntRect =
 				IntRect(
 					left = if (confineWidth) revealable.left else 0,
 					top = 0,
@@ -100,10 +75,7 @@ public object RevealOverlayArrangement {
 					bottom = revealable.top,
 				)
 
-			override fun align(
-				size: IntSize,
-				layout: IntRect,
-			): IntOffset = IntOffset(
+			override fun align(size: IntSize, layout: IntRect): IntOffset = IntOffset(
 				x = 0,
 				y = layout.bottom - size.height,
 			)
@@ -111,11 +83,7 @@ public object RevealOverlayArrangement {
 
 		public object Bottom : Vertical {
 
-			override fun arrange(
-				revealable: IntRect,
-				space: IntSize,
-				confineWidth: Boolean,
-			): IntRect =
+			override fun arrange(revealable: IntRect, space: IntSize, confineWidth: Boolean): IntRect =
 				IntRect(
 					left = if (confineWidth) revealable.left else 0,
 					top = revealable.bottom,
@@ -123,10 +91,7 @@ public object RevealOverlayArrangement {
 					bottom = space.height,
 				)
 
-			override fun align(
-				size: IntSize,
-				layout: IntRect,
-			): IntOffset = IntOffset(
+			override fun align(size: IntSize, layout: IntRect): IntOffset = IntOffset(
 				x = 0,
 				y = layout.top,
 			)

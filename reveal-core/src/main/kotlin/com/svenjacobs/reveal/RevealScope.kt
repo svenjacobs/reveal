@@ -36,11 +36,7 @@ internal class RevealScopeInstance(
 	private val revealState: RevealState,
 ) : RevealScope {
 
-	override fun Modifier.revealable(
-		key: Key,
-		padding: PaddingValues,
-		shape: RevealShape,
-	): Modifier =
+	override fun Modifier.revealable(key: Key, padding: PaddingValues, shape: RevealShape): Modifier =
 		this.then(
 			Modifier.onGloballyPositioned { layoutCoordinates ->
 				revealState.putRevealable(
