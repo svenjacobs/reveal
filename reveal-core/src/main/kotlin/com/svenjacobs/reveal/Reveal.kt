@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.ClipOp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.clipPath
@@ -26,8 +25,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.IntRect
-import com.svenjacobs.reveal.internal.pair.safe
+import com.svenjacobs.reveal.internal.rect.toIntRect
+import com.svenjacobs.reveal.internal.revealable.getRevealArea
 
 /**
  * Container composable for the reveal effect.
@@ -96,50 +95,29 @@ public fun Reveal(
 	}
 	val layoutDirection = LocalLayoutDirection.current
 	val density = LocalDensity.current
-	// Rect (in pixels) of the reveal area including padding
-	val currentRevealableRect by remember {
-		derivedStateOf {
-			revealState.currentRevealable?.let { revealable ->
-				val pos = revealable.layoutCoordinates.positionInRoot() - positionInRoot
-				with(density) {
-					val rect = Rect(
-						left = pos.x -
-							revealable.padding.calculateLeftPadding(layoutDirection).toPx(),
-						top = pos.y -
-							revealable.padding.calculateTopPadding().toPx(),
-						right = pos.x +
-							revealable.padding.calculateRightPadding(layoutDirection).toPx() +
-							revealable.layoutCoordinates.size.width.toFloat(),
-						bottom = pos.y +
-							revealable.padding.calculateBottomPadding().toPx() +
-							revealable.layoutCoordinates.size.height.toFloat(),
-					)
-
-					if (revealable.shape == RevealShape.Circle) {
-						Rect(rect.center, rect.maxDimension / 2.0f)
-					} else {
-						rect
-					}
-				}
-			}
-		}
-	}
 
 	Box(
 		modifier = modifier.onGloballyPositioned { layoutCoordinates = it },
 	) {
 		content(RevealScopeInstance(revealState))
 
-		Pair(
-			revealState.currentRevealable,
-			currentRevealableRect,
-		).safe { revealable, rect ->
+		revealState.currentRevealable?.let { revealable ->
+			val revealableRect by remember(revealable) {
+				derivedStateOf {
+					revealable.getRevealArea(
+						containerPositionInRoot = positionInRoot,
+						density = density,
+						layoutDirection = layoutDirection,
+					)
+				}
+			}
+
 			val clickModifier = when (revealState.visible) {
 				true -> Modifier.pointerInput(Unit) {
 					detectTapGestures(
 						onPress = { offset ->
-							revealState.currentRevealable?.key?.let(
-								if (currentRevealableRect?.contains(offset) == true) {
+							revealable.key.let(
+								if (revealableRect.contains(offset)) {
 									onRevealableClick
 								} else {
 									onOverlayClick
@@ -156,7 +134,7 @@ public fun Reveal(
 					.matchParentSize()
 					.drawBehind {
 						val path = revealable.shape.clip(
-							revealRect = rect,
+							revealableRect = revealableRect,
 							density = density,
 						)
 
@@ -167,19 +145,14 @@ public fun Reveal(
 			) {
 				// Optimization: don't place element into composition if it isn't visible at all
 				if (animatedOverlayContentAlpha > 0f) {
-					val intRect = IntRect(
-						left = rect.left.toInt(),
-						top = rect.top.toInt(),
-						right = rect.right.toInt(),
-						bottom = rect.bottom.toInt(),
-					)
-
 					Box(
 						modifier = Modifier
 							.matchParentSize()
 							.alpha(animatedOverlayContentAlpha),
 						content = {
-							RevealOverlayScopeInstance(intRect).overlayContent(
+							RevealOverlayScopeInstance(
+								revealableRect = revealableRect.toIntRect(),
+							).overlayContent(
 								revealable.key,
 							)
 						},

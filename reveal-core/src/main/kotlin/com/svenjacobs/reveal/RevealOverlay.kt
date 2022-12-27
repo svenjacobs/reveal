@@ -154,7 +154,7 @@ public interface RevealOverlayScope {
 }
 
 internal class RevealOverlayScopeInstance(
-	private val revealRect: IntRect,
+	private val revealableRect: IntRect,
 ) : RevealOverlayScope {
 
 	override fun Modifier.align(
@@ -164,7 +164,7 @@ internal class RevealOverlayScopeInstance(
 	): Modifier = this.then(
 		Modifier.layout { measurable, constraints ->
 			val layoutSize = horizontalArrangement.arrange(
-				revealable = revealRect,
+				revealable = revealableRect,
 				space = IntSize(
 					width = constraints.maxWidth,
 					height = constraints.maxHeight,
@@ -197,7 +197,7 @@ internal class RevealOverlayScopeInstance(
 	): Modifier = this.then(
 		Modifier.layout { measurable, constraints ->
 			val layoutSize = verticalArrangement.arrange(
-				revealable = revealRect,
+				revealable = revealableRect,
 				space = IntSize(
 					width = constraints.maxWidth,
 					height = constraints.maxHeight,
