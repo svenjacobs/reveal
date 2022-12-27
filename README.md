@@ -73,7 +73,7 @@ Reveal(
             Keys.HelloWorld -> {
                 Surface(
                     modifier = Modifier
-                        .align(RevealOverlayAlignment.Start)
+                        .align(horizontalArrangement = RevealOverlayArrangement.Horizontal.Start)
                         .padding(8.dp),
                     shape = RoundedCornerShape(4.dp),
                     color = Color.White,
@@ -88,8 +88,8 @@ Reveal(
 }
 ```
 
-The scope of the overlay content composable provides the `align()` modifier to align the item either
-to the start, top, end or bottom of the reveal area.
+The scope of the overlay content composable provides `align()` modifiers to align the item either to
+the start, top, end or bottom of the reveal area.
 
 `Reveal` provides two click listeners: `onRevealableClick` is called when the reveal area is clicked
 with the key of the current revealable as the first argument. `onOverlayClick` is called when the
