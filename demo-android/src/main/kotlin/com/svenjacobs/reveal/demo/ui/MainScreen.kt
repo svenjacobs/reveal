@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.svenjacobs.reveal.Key
 import com.svenjacobs.reveal.Reveal
-import com.svenjacobs.reveal.RevealOverlayAlignment
+import com.svenjacobs.reveal.RevealOverlayArrangement
 import com.svenjacobs.reveal.RevealOverlayScope
 import com.svenjacobs.reveal.RevealShape
 import com.svenjacobs.reveal.demo.ui.theme.DemoTheme
@@ -115,11 +115,15 @@ fun MainScreen(modifier: Modifier = Modifier) {
 private fun RevealOverlayScope.RevealOverlayContent(key: Key) {
 	when (key) {
 		Keys.Fab -> OverlayText(
-			modifier = Modifier.align(RevealOverlayAlignment.Start),
+			modifier = Modifier.align(
+				horizontalArrangement = RevealOverlayArrangement.Horizontal.Start,
+			),
 			text = "Click button to get started",
 		)
 		Keys.Explanation -> OverlayText(
-			modifier = Modifier.align(RevealOverlayAlignment.Bottom),
+			modifier = Modifier.align(
+				verticalArrangement = RevealOverlayArrangement.Vertical.Bottom,
+			),
 			text = "Actually we already started. This was an example of the reveal effect.",
 		)
 	}
