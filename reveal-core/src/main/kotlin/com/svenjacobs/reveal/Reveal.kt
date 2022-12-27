@@ -76,7 +76,7 @@ import kotlin.contracts.contract
  * @see RevealOverlayScope
  */
 @Composable
-fun Reveal(
+public fun Reveal(
 	onRevealableClick: (key: Key) -> Unit,
 	onOverlayClick: (key: Key) -> Unit,
 	modifier: Modifier = Modifier,
