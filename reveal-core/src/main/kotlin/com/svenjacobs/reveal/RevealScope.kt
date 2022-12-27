@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
  * Scope inside [Reveal]'s contents which provides [revealable] modifier.
  */
 @Immutable
-interface RevealScope {
+public interface RevealScope {
 
 	/**
 	 * Registers the element as a revealable item.
@@ -25,7 +25,7 @@ interface RevealScope {
 	 * @param shape   Shape of the reveal effect around the element. Defaults to a rounded rect
 	 *                with a corner size of 4 dp.
 	 */
-	fun Modifier.revealable(
+	public fun Modifier.revealable(
 		key: Key,
 		padding: PaddingValues = PaddingValues(8.dp),
 		shape: RevealShape = RevealShape.RoundRect(4.dp),

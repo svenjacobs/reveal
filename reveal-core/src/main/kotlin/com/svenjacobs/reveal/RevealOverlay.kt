@@ -9,15 +9,15 @@ import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 
-object RevealOverlayArrangement {
+public object RevealOverlayArrangement {
 
-	sealed interface Horizontal {
+	public sealed interface Horizontal {
 
 		/**
 		 * Returns an [IntRect] which represents the position and size of the overlay layout area
 		 * for a [revealable] within available [space].
 		 */
-		fun arrange(
+		public fun arrange(
 			revealable: IntRect,
 			space: IntSize,
 			confineHeight: Boolean,
@@ -26,12 +26,12 @@ object RevealOverlayArrangement {
 		/**
 		 * Returns an [IntOffset] to place the overlay content with [size] in available [layout].
 		 */
-		fun align(
+		public fun align(
 			size: IntSize,
 			layout: IntRect,
 		): IntOffset
 
-		object Start : Horizontal {
+		public object Start : Horizontal {
 
 			override fun arrange(
 				revealable: IntRect,
@@ -48,7 +48,7 @@ object RevealOverlayArrangement {
 				IntOffset(x = layout.right - size.width, y = 0)
 		}
 
-		object End : Horizontal {
+		public object End : Horizontal {
 
 			override fun arrange(
 				revealable: IntRect,
@@ -66,13 +66,13 @@ object RevealOverlayArrangement {
 		}
 	}
 
-	sealed interface Vertical {
+	public sealed interface Vertical {
 
 		/**
 		 * Returns an [IntRect] which represents the position and size of the overlay layout area
 		 * for a [revealable] within available [space].
 		 */
-		fun arrange(
+		public fun arrange(
 			revealable: IntRect,
 			space: IntSize,
 			confineWidth: Boolean,
@@ -81,12 +81,12 @@ object RevealOverlayArrangement {
 		/**
 		 * Returns an [IntOffset] to place the overlay content with [size] in available [layout].
 		 */
-		fun align(
+		public fun align(
 			size: IntSize,
 			layout: IntRect,
 		): IntOffset
 
-		object Top : Vertical {
+		public object Top : Vertical {
 
 			override fun arrange(
 				revealable: IntRect,
@@ -109,7 +109,7 @@ object RevealOverlayArrangement {
 			)
 		}
 
-		object Bottom : Vertical {
+		public object Bottom : Vertical {
 
 			override fun arrange(
 				revealable: IntRect,
@@ -141,7 +141,7 @@ object RevealOverlayArrangement {
  * @see align
  */
 @Immutable
-interface RevealOverlayScope {
+public interface RevealOverlayScope {
 
 	/**
 	 * Aligns the element horizontally either to the start or end of the reveal area.
@@ -159,7 +159,7 @@ interface RevealOverlayScope {
 	 *
 	 * @see RevealOverlayArrangement.Horizontal
 	 */
-	fun Modifier.align(
+	public fun Modifier.align(
 		horizontalArrangement: RevealOverlayArrangement.Horizontal,
 		verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
 		confineHeight: Boolean = true,
@@ -181,7 +181,7 @@ interface RevealOverlayScope {
 	 *
 	 * @see RevealOverlayArrangement.Vertical
 	 */
-	fun Modifier.align(
+	public fun Modifier.align(
 		verticalArrangement: RevealOverlayArrangement.Vertical,
 		horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
 		confineWidth: Boolean = true,

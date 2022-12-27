@@ -7,13 +7,13 @@ import androidx.compose.ui.unit.Dp
  *
  * TODO: Shapes should draw themselves via a draw() method
  */
-sealed interface RevealShape {
+public sealed interface RevealShape {
 
-	object Rect : RevealShape
+	public object Rect : RevealShape
 
-	object Circle : RevealShape
+	public object Circle : RevealShape
 
-	data class RoundRect(
+	public data class RoundRect(
 		val cornerSize: Dp,
 	) : RevealShape
 }

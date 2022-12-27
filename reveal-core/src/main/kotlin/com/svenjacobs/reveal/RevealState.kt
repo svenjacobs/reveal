@@ -10,7 +10,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 @Stable
-class RevealState {
+public class RevealState {
 
 	private val mutex = Mutex()
 
@@ -20,7 +20,7 @@ class RevealState {
 		private set
 	private val revealables: MutableMap<Key, Revealable> = mutableMapOf()
 
-	suspend fun reveal(key: Key) {
+	public suspend fun reveal(key: Key) {
 		mutex.withLock {
 			// TODO: hide when key was not found?
 			currentRevealable = revealables[key]
@@ -28,7 +28,7 @@ class RevealState {
 		}
 	}
 
-	suspend fun hide() {
+	public suspend fun hide() {
 		mutex.withLock {
 			visible = false
 		}
@@ -40,4 +40,4 @@ class RevealState {
 }
 
 @Composable
-fun rememberRevealState() = remember { RevealState() }
+public fun rememberRevealState(): RevealState = remember { RevealState() }
