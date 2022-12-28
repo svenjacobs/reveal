@@ -82,11 +82,11 @@ public fun Reveal(
 	content: @Composable RevealScope.() -> Unit,
 ) {
 	val animatedOverlayColor by animateColorAsState(
-		targetValue = if (revealState.visible) overlayColor else Color.Transparent,
+		targetValue = if (revealState.isVisible) overlayColor else Color.Transparent,
 		animationSpec = overlayColorAnimationSpec,
 	)
 	val animatedOverlayContentAlpha by animateFloatAsState(
-		targetValue = if (revealState.visible) 1.0f else 0.0f,
+		targetValue = if (revealState.isVisible) 1.0f else 0.0f,
 		animationSpec = overlayContentAnimationSpec,
 	)
 	var layoutCoordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
@@ -112,7 +112,7 @@ public fun Reveal(
 				}
 			}
 
-			val clickModifier = when (revealState.visible) {
+			val clickModifier = when (revealState.isVisible) {
 				true -> Modifier.pointerInput(Unit) {
 					detectTapGestures(
 						onPress = { offset ->

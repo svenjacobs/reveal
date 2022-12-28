@@ -21,12 +21,10 @@ public class RevealState internal constructor(
 
 	private val mutex = Mutex()
 	private var didRestoreCurrentRevealable = false
-
-	internal var visible by mutableStateOf(visible)
-		private set
+	private var visible by mutableStateOf(visible)
+	private val revealables: MutableMap<Key, Revealable> = mutableMapOf()
 	internal var currentRevealable by mutableStateOf<Revealable?>(null)
 		private set
-	private val revealables: MutableMap<Key, Revealable> = mutableMapOf()
 
 	public val isVisible: Boolean
 		get() = visible
