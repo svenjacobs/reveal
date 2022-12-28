@@ -42,9 +42,12 @@ public class RevealState internal constructor(
 
 	public suspend fun hide() {
 		mutex.withLock {
-			currentRevealable = null
 			visible = false
 		}
+	}
+
+	internal fun onHideAnimationFinished() {
+		currentRevealable = null
 	}
 
 	internal fun putRevealable(revealable: Revealable) {

@@ -88,6 +88,11 @@ public fun Reveal(
 	val animatedOverlayContentAlpha by animateFloatAsState(
 		targetValue = if (revealState.isVisible) 1.0f else 0.0f,
 		animationSpec = overlayContentAnimationSpec,
+		finishedListener = { alpha ->
+			if (alpha == 0.0f) {
+				revealState.onHideAnimationFinished()
+			}
+		},
 	)
 	var layoutCoordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
 	val positionInRoot by remember {
