@@ -97,9 +97,20 @@ public sealed interface Arrow {
 
 	public val width: Dp
 	public val height: Dp
+
+	/**
+	 * [PaddingValues] that must be applied to Balloon content to account for arrow.
+	 */
 	public val padding: PaddingValues
 
+	/**
+	 * Returns [Path] that renders arrow.
+	 */
 	public fun path(density: Density): Path
+
+	/**
+	 * Returns [Offset] which must be applied to [Path] returned by [path] when shape is rendered.
+	 */
 	public fun offset(
 		density: Density,
 		size: Size,
