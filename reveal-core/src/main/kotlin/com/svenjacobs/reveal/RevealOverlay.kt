@@ -4,7 +4,6 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
@@ -17,38 +16,51 @@ public object RevealOverlayArrangement {
 		 * Returns an [IntRect] which represents the position and size of the overlay layout area
 		 * for a [revealable] within available [space].
 		 */
-		public fun arrange(revealable: IntRect, space: IntSize, confineHeight: Boolean): IntRect
+		public fun arrange(
+			revealable: IntRect,
+			space: IntSize,
+			confineHeight: Boolean,
+			layoutDirection: LayoutDirection,
+		): IntRect
 
 		/**
-		 * Returns an [IntOffset] to place the overlay content with [size] in available [layout].
+		 * Returns the X offset to place the overlay content with width [size] in available [layout]
+		 * width and total [space] width.
 		 */
-		public fun align(size: IntSize, layout: IntRect): IntOffset
+		public fun align(size: Int, layout: Int, space: Int): Int
 
 		public object Start : Horizontal {
 
-			override fun arrange(revealable: IntRect, space: IntSize, confineHeight: Boolean): IntRect =
-				IntRect(
-					left = 0,
-					top = if (confineHeight) revealable.top else 0,
-					right = revealable.left,
-					bottom = if (confineHeight) revealable.bottom else space.height,
-				)
+			override fun arrange(
+				revealable: IntRect,
+				space: IntSize,
+				confineHeight: Boolean,
+				layoutDirection: LayoutDirection,
+			): IntRect = IntRect(
+				left = if (layoutDirection == LayoutDirection.Ltr) 0 else revealable.right,
+				top = if (confineHeight) revealable.top else 0,
+				right = if (layoutDirection == LayoutDirection.Ltr) revealable.left else space.width,
+				bottom = if (confineHeight) revealable.bottom else space.height,
+			)
 
-			override fun align(size: IntSize, layout: IntRect): IntOffset =
-				IntOffset(x = layout.right - size.width, y = 0)
+			override fun align(size: Int, layout: Int, space: Int): Int = layout - size
 		}
 
 		public object End : Horizontal {
 
-			override fun arrange(revealable: IntRect, space: IntSize, confineHeight: Boolean): IntRect =
-				IntRect(
-					left = revealable.right,
-					top = if (confineHeight) revealable.top else 0,
-					right = space.width,
-					bottom = if (confineHeight) revealable.bottom else space.height,
-				)
+			override fun arrange(
+				revealable: IntRect,
+				space: IntSize,
+				confineHeight: Boolean,
+				layoutDirection: LayoutDirection,
+			): IntRect = IntRect(
+				left = if (layoutDirection == LayoutDirection.Ltr) revealable.right else 0,
+				top = if (confineHeight) revealable.top else 0,
+				right = if (layoutDirection == LayoutDirection.Ltr) space.width else revealable.left,
+				bottom = if (confineHeight) revealable.bottom else space.height,
+			)
 
-			override fun align(size: IntSize, layout: IntRect): IntOffset = IntOffset(x = layout.left, y = 0)
+			override fun align(size: Int, layout: Int, space: Int): Int = space - layout
 		}
 	}
 
@@ -61,9 +73,10 @@ public object RevealOverlayArrangement {
 		public fun arrange(revealable: IntRect, space: IntSize, confineWidth: Boolean): IntRect
 
 		/**
-		 * Returns an [IntOffset] to place the overlay content with [size] in available [layout].
+		 * Returns an Y offset to place the overlay content with height [size] in available [layout]
+		 * height and total [space] height.
 		 */
-		public fun align(size: IntSize, layout: IntRect): IntOffset
+		public fun align(size: Int, layout: Int, space: Int): Int
 
 		public object Top : Vertical {
 
@@ -75,10 +88,7 @@ public object RevealOverlayArrangement {
 					bottom = revealable.top,
 				)
 
-			override fun align(size: IntSize, layout: IntRect): IntOffset = IntOffset(
-				x = 0,
-				y = layout.bottom - size.height,
-			)
+			override fun align(size: Int, layout: Int, space: Int): Int = layout - size
 		}
 
 		public object Bottom : Vertical {
@@ -91,10 +101,7 @@ public object RevealOverlayArrangement {
 					bottom = space.height,
 				)
 
-			override fun align(size: IntSize, layout: IntRect): IntOffset = IntOffset(
-				x = 0,
-				y = layout.top,
-			)
+			override fun align(size: Int, layout: Int, space: Int): Int = space - layout
 		}
 	}
 }
@@ -163,24 +170,27 @@ internal class RevealOverlayScopeInstance(
 		confineHeight: Boolean,
 	): Modifier = this.then(
 		Modifier.layout { measurable, constraints ->
+			val space = IntSize(
+				width = constraints.maxWidth,
+				height = constraints.maxHeight,
+			)
 			val layoutSize = horizontalArrangement.arrange(
 				revealable = revealableRect,
-				space = IntSize(
-					width = constraints.maxWidth,
-					height = constraints.maxHeight,
-				),
+				space = space,
 				confineHeight = confineHeight,
+				layoutDirection = layoutDirection,
 			)
 			val placeable = measurable.measure(
 				constraints.copy(maxWidth = layoutSize.width),
 			)
 
-			layout(placeable.width, placeable.height) {
+			layout(layoutSize.width, layoutSize.height) {
 				placeable.placeRelative(
 					x = horizontalArrangement.align(
-						size = IntSize(placeable.width, placeable.height),
-						layout = layoutSize,
-					).x,
+						size = placeable.width,
+						layout = layoutSize.width,
+						space = space.width,
+					),
 					y = layoutSize.top + verticalAlignment.align(
 						size = placeable.height,
 						space = layoutSize.height,
@@ -196,19 +206,20 @@ internal class RevealOverlayScopeInstance(
 		confineWidth: Boolean,
 	): Modifier = this.then(
 		Modifier.layout { measurable, constraints ->
+			val space = IntSize(
+				width = constraints.maxWidth,
+				height = constraints.maxHeight,
+			)
 			val layoutSize = verticalArrangement.arrange(
 				revealable = revealableRect,
-				space = IntSize(
-					width = constraints.maxWidth,
-					height = constraints.maxHeight,
-				),
+				space = space,
 				confineWidth = confineWidth,
 			)
 			val placeable = measurable.measure(
 				constraints.copy(maxHeight = layoutSize.height),
 			)
 
-			layout(placeable.width, placeable.height) {
+			layout(layoutSize.width, layoutSize.height) {
 				placeable.placeRelative(
 					x = layoutSize.left + horizontalAlignment.align(
 						size = placeable.width,
@@ -216,9 +227,10 @@ internal class RevealOverlayScopeInstance(
 						layoutDirection = LayoutDirection.Ltr, // Ltr because we use placeRelative()
 					),
 					y = verticalArrangement.align(
-						size = IntSize(placeable.width, placeable.height),
-						layout = layoutSize,
-					).y,
+						size = placeable.height,
+						layout = layoutSize.height,
+						space = space.height,
+					),
 				)
 			}
 		},
