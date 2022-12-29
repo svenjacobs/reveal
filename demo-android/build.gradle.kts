@@ -58,6 +58,7 @@ dependencies {
 	val composeBom = platform(libs.androidx.compose.bom)
 
 	implementation(project(":reveal-core"))
+	implementation(project(":reveal-shapes"))
 	implementation(composeBom)
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.lifecycle.runtime.ktx)
