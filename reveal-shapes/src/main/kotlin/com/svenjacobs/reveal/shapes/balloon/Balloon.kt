@@ -9,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -28,8 +27,6 @@ public fun Balloon(
 	contentAlignment: Alignment = Alignment.TopStart,
 	content: @Composable BoxScope.() -> Unit,
 ) {
-	val density = LocalDensity.current
-
 	Box(
 		modifier = modifier
 			.graphicsLayer {
@@ -37,7 +34,7 @@ public fun Balloon(
 				shape = BalloonShape(
 					arrow = arrow,
 					cornerRadius = cornerRadius,
-					density = density,
+					density = this@graphicsLayer,
 				)
 				clip = true
 			}
