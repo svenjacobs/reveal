@@ -3,7 +3,6 @@ package com.svenjacobs.reveal.demo.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -12,7 +11,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,6 +27,8 @@ import com.svenjacobs.reveal.RevealOverlayScope
 import com.svenjacobs.reveal.RevealShape
 import com.svenjacobs.reveal.demo.ui.theme.DemoTheme
 import com.svenjacobs.reveal.rememberRevealState
+import com.svenjacobs.reveal.shapes.balloon.Arrow
+import com.svenjacobs.reveal.shapes.balloon.Balloon
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -120,25 +120,28 @@ private fun RevealOverlayScope.RevealOverlayContent(key: Key) {
 				horizontalArrangement = RevealOverlayArrangement.Horizontal.Start,
 			),
 			text = "Click button to get started",
+			arrow = Arrow.end(),
 		)
 		Keys.Explanation -> OverlayText(
 			modifier = Modifier.align(
 				verticalArrangement = RevealOverlayArrangement.Vertical.Bottom,
 			),
 			text = "Actually we already started. This was an example of the reveal effect.",
+			arrow = Arrow.top(),
 		)
 	}
 }
 
 @Composable
-private fun OverlayText(text: String, modifier: Modifier = Modifier) {
-	Surface(
+private fun OverlayText(text: String, arrow: Arrow, modifier: Modifier = Modifier) {
+	Balloon(
 		modifier = modifier.padding(8.dp),
-		shape = RoundedCornerShape(4.dp),
+		arrow = arrow,
 		color = MaterialTheme.colorScheme.secondaryContainer,
+		elevation = 2.dp,
 	) {
 		Text(
-			modifier = Modifier.padding(4.dp),
+			modifier = Modifier.padding(8.dp),
 			text = text,
 			style = MaterialTheme.typography.labelLarge,
 			textAlign = TextAlign.Center,
