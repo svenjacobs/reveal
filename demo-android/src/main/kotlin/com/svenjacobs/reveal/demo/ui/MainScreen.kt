@@ -137,7 +137,7 @@ private fun OverlayText(text: String, arrow: Arrow, modifier: Modifier = Modifie
 	Balloon(
 		modifier = modifier.padding(8.dp),
 		arrow = arrow,
-		color = MaterialTheme.colorScheme.secondaryContainer,
+		backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
 		elevation = 2.dp,
 	) {
 		Text(
