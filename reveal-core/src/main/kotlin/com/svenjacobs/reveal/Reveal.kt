@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.ClipOp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.clipPath
@@ -138,10 +139,23 @@ public fun Reveal(
 				modifier = clickModifier
 					.matchParentSize()
 					.drawBehind {
-						val path = revealable.shape.clip(
-							revealableRect = revealableRect,
-							density = density,
-						)
+						val path = revealable.shape
+							.clip(
+								size = Size(
+									width = revealableRect.width,
+									height = revealableRect.height,
+								),
+								density = density,
+								layoutDirection = layoutDirection,
+							)
+							.apply {
+								translate(
+									Offset(
+										x = revealableRect.left,
+										y = revealableRect.top,
+									),
+								)
+							}
 
 						clipPath(path, clipOp = ClipOp.Difference) {
 							drawRect(animatedOverlayColor)
