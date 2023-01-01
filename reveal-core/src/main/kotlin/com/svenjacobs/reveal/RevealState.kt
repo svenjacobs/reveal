@@ -1,5 +1,6 @@
 package com.svenjacobs.reveal
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -9,7 +10,7 @@ import androidx.compose.runtime.saveable.autoSaver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.svenjacobs.reveal.internal.revealable.Revealable
+import androidx.compose.ui.layout.LayoutCoordinates
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -22,8 +23,8 @@ public class RevealState internal constructor(
 	private val mutex = Mutex()
 	private var didRestoreCurrentRevealable = false
 	private var visible by mutableStateOf(visible)
-	private val revealables: MutableMap<Key, Revealable> = mutableMapOf()
-	internal var currentRevealable by mutableStateOf<Revealable?>(null)
+	private val revealables: MutableMap<Key, InternalRevealable> = mutableMapOf()
+	internal var currentRevealable by mutableStateOf<InternalRevealable?>(null)
 		private set
 
 	public val isVisible: Boolean
@@ -50,10 +51,22 @@ public class RevealState internal constructor(
 		currentRevealable = null
 	}
 
-	internal fun putRevealable(revealable: Revealable) {
-		revealables[revealable.key] = revealable
+	internal fun putRevealable(
+		key: Key,
+		shape: RevealShape,
+		padding: PaddingValues,
+		layoutCoordinates: LayoutCoordinates,
+	) {
+		val revealable = InternalRevealableInstance(
+			key = key,
+			shape = shape,
+			padding = padding,
+			layoutCoordinates = layoutCoordinates,
+		)
 
-		if (!didRestoreCurrentRevealable && restoreRevealableKey == revealable.key) {
+		revealables[key] = revealable
+
+		if (!didRestoreCurrentRevealable && restoreRevealableKey == key) {
 			currentRevealable = revealable
 			didRestoreCurrentRevealable = true
 		}

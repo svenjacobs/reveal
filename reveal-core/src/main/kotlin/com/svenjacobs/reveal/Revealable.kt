@@ -1,4 +1,4 @@
-package com.svenjacobs.reveal.internal.revealable
+package com.svenjacobs.reveal
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Immutable
@@ -8,20 +8,36 @@ import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import com.svenjacobs.reveal.Key
-import com.svenjacobs.reveal.RevealShape
+
+public interface Revealable {
+	public val key: Key
+	public val shape: RevealShape
+	public val padding: PaddingValues
+}
 
 @Immutable
-internal class Revealable(
-	val key: Key,
-	val layoutCoordinates: LayoutCoordinates,
-	val padding: PaddingValues,
-	val shape: RevealShape,
-) {
+public class CurrentRevealable(
+	override val key: Key,
+	override val shape: RevealShape,
+	override val padding: PaddingValues,
+	public val revealArea: Rect,
+) : Revealable
+
+internal interface InternalRevealable : Revealable {
+	val layoutCoordinates: LayoutCoordinates
+}
+
+@Immutable
+internal class InternalRevealableInstance(
+	override val key: Key,
+	override val shape: RevealShape,
+	override val padding: PaddingValues,
+	override val layoutCoordinates: LayoutCoordinates,
+) : InternalRevealable {
 
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true
-		if (other !is Revealable) return false
+		if (other !is InternalRevealableInstance) return false
 
 		if (key != other.key) return false
 
@@ -34,7 +50,7 @@ internal class Revealable(
 /**
  * Returns [Rect] in pixels of the reveal area including padding for this [Revealable].
  */
-internal fun Revealable.getRevealArea(
+internal fun InternalRevealable.getRevealArea(
 	containerPositionInRoot: Offset,
 	density: Density,
 	layoutDirection: LayoutDirection,
