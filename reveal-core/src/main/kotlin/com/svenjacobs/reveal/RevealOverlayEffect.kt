@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -39,6 +40,7 @@ public interface RevealOverlayEffect {
  * @param colorAnimationSpec   Animation spec for the overlay background color.
  * @param contentAnimationSpec Animation spec for the animated alpha value of the overlay content.
  */
+@Immutable
 public class DimRevealOverlayEffect(
 	private val color: Color = Color.Black.copy(alpha = 0.8f),
 	private val colorAnimationSpec: AnimationSpec<Color> = tween(durationMillis = 500),
