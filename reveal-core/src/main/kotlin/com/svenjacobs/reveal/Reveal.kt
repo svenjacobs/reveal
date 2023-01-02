@@ -1,5 +1,8 @@
 package com.svenjacobs.reveal
 
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
@@ -9,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.LayoutCoordinates
@@ -16,7 +20,10 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
-import com.svenjacobs.reveal.internal.rect.toIntRect
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
+import com.svenjacobs.reveal.effect.RevealOverlayEffect
+import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
 
 /**
  * Container composable for the reveal effect.
@@ -34,22 +41,24 @@ import com.svenjacobs.reveal.internal.rect.toIntRect
  * images) next to the reveal area. This content is placed above the greyed out backdrop. Elements
  * in this scope can be aligned relative to the reveal area via [RevealOverlayScope.align].
  *
- * @param onRevealableClick Called when the revealable area was clicked, where the parameter `key`
- *                          is the key of the current revealable item.
- * @param onOverlayClick    Called when the overlay is clicked somewhere outside of the current
- *                          revealable, where the parameter `key` is the key of the current
- *                          revealable.
- * @param modifier          Modifier applied to this composable.
- * @param revealState       State which controls the visibility of the reveal effect.
- * @param overlayEffect     The effect which is used for the background and reveal of items.
- *                          Currently only [DimRevealOverlayEffect] is supported.
- * @param overlayContent    Optional content which is placed above the overlay and where its
- *                          elements can be aligned relative to the reveal area via modifiers
- *                          available in the scope of this composable. The `key` parameter is the
- *                          key of the current visible revealable item.
- * @param content           Actual content which is visible when the Reveal composable is not
- *                          active. Elements are registered as revealables via modifiers provided
- *                          in the scope of this composable.
+ * @param onRevealableClick          Called when the revealable area was clicked, where the
+ *                                   parameter `key` is the key of the current revealable item.
+ * @param onOverlayClick             Called when the overlay is clicked somewhere outside of the
+ *                                   current revealable, where the parameter `key` is the key of the
+ *                                   current revealable.
+ * @param modifier                   Modifier applied to this composable.
+ * @param revealState                State which controls the visibility of the reveal effect.
+ * @param overlayEffect              The effect which is used for the background and reveal of
+ *                                   items. Currently only [DimRevealOverlayEffect] is supported.
+ * @param overlayEffectAnimationSpec Animation spec for the animated alpha value of the overlay
+ *                                   effect when showing or hiding.
+ * @param overlayContent             Optional content which is placed above the overlay and where
+ *                                   its elements can be aligned relative to the reveal area via
+ *                                   modifiers available in the scope of this composable. The `key`
+ *                                   parameter is the key of the current visible revealable item.
+ * @param content                    Actual content which is visible when the Reveal composable is
+ *                                   not active. Elements are registered as revealables via
+ *                                   modifiers provided in the scope of this composable.
  *
  * @see RevealState
  * @see RevealScope
@@ -63,6 +72,7 @@ public fun Reveal(
 	modifier: Modifier = Modifier,
 	revealState: RevealState = rememberRevealState(),
 	overlayEffect: RevealOverlayEffect = DimRevealOverlayEffect(),
+	overlayEffectAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
 	overlayContent: @Composable RevealOverlayScope.(key: Key) -> Unit = {},
 	content: @Composable RevealScope.() -> Unit,
 ) {
@@ -70,6 +80,15 @@ public fun Reveal(
 	val positionInRoot by remember {
 		derivedStateOf { layoutCoordinates?.positionInRoot() ?: Offset.Zero }
 	}
+	val animatedOverlayAlpha by animateFloatAsState(
+		targetValue = if (revealState.isVisible) 1.0f else 0.0f,
+		animationSpec = overlayEffectAnimationSpec,
+		finishedListener = { alpha ->
+			if (alpha == 0.0f) {
+				revealState.onHideAnimationFinished()
+			}
+		},
+	)
 	val layoutDirection = LocalLayoutDirection.current
 	val density = LocalDensity.current
 
@@ -78,24 +97,27 @@ public fun Reveal(
 	) {
 		content(RevealScopeInstance(revealState))
 
-		val revealable = remember {
+		val currentRevealable = remember {
 			derivedStateOf {
-				revealState.currentRevealable?.let {
-					CurrentRevealable(
-						key = it.key,
-						shape = it.shape,
-						padding = it.padding,
-						revealArea = it.getRevealArea(
-							containerPositionInRoot = positionInRoot,
-							density = density,
-							layoutDirection = layoutDirection,
-						),
-					)
-				}
+				revealState.currentRevealable?.toActual(
+					containerPositionInRoot = positionInRoot,
+					density = density,
+					layoutDirection = layoutDirection,
+				)
 			}
 		}
 
-		val clickModifier = revealable.value.let { rev ->
+		val previousRevealable = remember {
+			derivedStateOf {
+				revealState.previousRevealable?.toActual(
+					containerPositionInRoot = positionInRoot,
+					density = density,
+					layoutDirection = layoutDirection,
+				)
+			}
+		}
+
+		val clickModifier = currentRevealable.value.let { rev ->
 			when {
 				revealState.isVisible && rev != null -> Modifier.pointerInput(Unit) {
 					detectTapGestures(
@@ -116,14 +138,27 @@ public fun Reveal(
 
 		overlayEffect.Overlay(
 			revealState = revealState,
-			revealable = revealable,
-			modifier = clickModifier.matchParentSize(),
-		) {
-			revealable.value?.let {
-				RevealOverlayScopeInstance(
-					revealableRect = it.revealArea.toIntRect(),
-				).overlayContent(it.key)
-			}
-		}
+			currentRevealable = currentRevealable,
+			previousRevealable = previousRevealable,
+			modifier = clickModifier
+				.matchParentSize()
+				.alpha(animatedOverlayAlpha),
+			content = overlayContent,
+		)
 	}
 }
+
+private fun InternalRevealable.toActual(
+	containerPositionInRoot: Offset,
+	density: Density,
+	layoutDirection: LayoutDirection,
+): ActualRevealable = ActualRevealable(
+	key = key,
+	shape = shape,
+	padding = padding,
+	revealArea = getRevealArea(
+		containerPositionInRoot = containerPositionInRoot,
+		density = density,
+		layoutDirection = layoutDirection,
+	),
+)

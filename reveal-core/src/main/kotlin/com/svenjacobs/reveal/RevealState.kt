@@ -26,6 +26,8 @@ public class RevealState internal constructor(
 	private val revealables: MutableMap<Key, InternalRevealable> = mutableMapOf()
 	internal var currentRevealable by mutableStateOf<InternalRevealable?>(null)
 		private set
+	internal var previousRevealable by mutableStateOf<InternalRevealable?>(null)
+		private set
 
 	public val isVisible: Boolean
 		get() = visible
@@ -33,9 +35,13 @@ public class RevealState internal constructor(
 	public val currentRevealableKey: Key?
 		get() = currentRevealable?.key
 
+	public val previousRevealableKey: Key?
+		get() = previousRevealable?.key
+
 	public suspend fun reveal(key: Key) {
 		require(revealables.containsKey(key)) { "Revealable with key \"$key\" not found" }
 		mutex.withLock {
+			previousRevealable = currentRevealable
 			currentRevealable = revealables[key]
 			visible = true
 		}
@@ -49,6 +55,7 @@ public class RevealState internal constructor(
 
 	internal fun onHideAnimationFinished() {
 		currentRevealable = null
+		previousRevealable = null
 	}
 
 	internal fun putRevealable(

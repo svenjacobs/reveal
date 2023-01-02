@@ -19,11 +19,13 @@ public interface RevealScope {
 	 * Internally [Modifier.onGloballyPositioned] is used. Hence elements are only registered after
 	 * they have been laid out.
 	 *
-	 * @param key     Unique key to identify the revealable content.
+	 * @param key     Unique key to identify the revealable content. Also see documentation of [Key].
 	 * @param padding Additional padding around the reveal area. Positive values increase area while
 	 *                negative values decrease it. Defaults to 8 dp on all sides.
 	 * @param shape   Shape of the reveal effect around the element. Defaults to a rounded rect
 	 *                with a corner size of 4 dp.
+	 *
+	 * @see Key
 	 */
 	public fun Modifier.revealable(
 		key: Key,

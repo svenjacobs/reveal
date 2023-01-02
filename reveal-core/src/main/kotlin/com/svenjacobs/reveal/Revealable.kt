@@ -16,7 +16,7 @@ public interface Revealable {
 }
 
 @Immutable
-public class CurrentRevealable(
+public class ActualRevealable(
 	override val key: Key,
 	override val shape: RevealShape,
 	override val padding: PaddingValues,
