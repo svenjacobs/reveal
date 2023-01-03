@@ -1,4 +1,4 @@
-Reveal is a lightweight, simple reveal effect (also known as coach mark, onboarding, tutorial, etc.)
+Reveal effect (also known as coach mark, onboarding, tutorial, walkthrough, etc.)
 with a beautiful API for [Jetpack Compose](https://developer.android.com/jetpack/compose).
 
 ![Demonstration](./assets/demo.gif)
@@ -22,6 +22,13 @@ dependencies {
     implementation("com.svenjacobs.reveal:reveal-core:$REVEAL_VERSION")
 }
 ```
+
+#### Artifacts
+
+| Name            | Description |
+|-----------------|-----------------------------------------|
+| `reveal-core`   | Contains core classes. You need this 🙂 |
+| `reveal-shapes` | Additional shapes for explanatory items |
 
 ### Compose
 
