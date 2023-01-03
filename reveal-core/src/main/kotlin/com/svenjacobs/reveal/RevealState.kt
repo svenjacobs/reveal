@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.autoSaver
@@ -15,6 +16,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 @Stable
+@Suppress("MemberVisibilityCanBePrivate")
 public class RevealState internal constructor(
 	visible: Boolean = false,
 	private val restoreRevealableKey: Key? = null,
@@ -23,21 +25,48 @@ public class RevealState internal constructor(
 	private val mutex = Mutex()
 	private var didRestoreCurrentRevealable = false
 	private var visible by mutableStateOf(visible)
-	private val revealables: MutableMap<Key, InternalRevealable> = mutableMapOf()
+	private val revealables = mutableStateMapOf<Key, InternalRevealable>()
 	internal var currentRevealable by mutableStateOf<InternalRevealable?>(null)
 		private set
 	internal var previousRevealable by mutableStateOf<InternalRevealable?>(null)
 		private set
 
+	/**
+	 * Returns `true` if reveal effect is visible, else `false`
+	 */
 	public val isVisible: Boolean
 		get() = visible
 
+	/**
+	 * Observable key of current revealable or `null` if no revealable is currently visible
+	 *
+	 * @see previousRevealableKey
+	 */
 	public val currentRevealableKey: Key?
 		get() = currentRevealable?.key
 
+	/**
+	 * Observable key of previous revealable which was displayed before [currentRevealableKey]
+	 *
+	 * @see currentRevealableKey
+	 */
 	public val previousRevealableKey: Key?
 		get() = previousRevealable?.key
 
+	/**
+	 * Observable set of keys known to this state instance
+	 *
+	 * Can be used to query when a revealable was registered via [RevealScope.revealable].
+	 */
+	public val revealableKeys: Set<Key>
+		get() = revealables.keys.toSet()
+
+	/**
+	 * Reveals revealable with given [key]
+	 *
+	 * @see containsRevealable
+	 * @throws IllegalArgumentException if revealable with given key was not found
+	 */
 	public suspend fun reveal(key: Key) {
 		require(revealables.containsKey(key)) { "Revealable with key \"$key\" not found" }
 		mutex.withLock {
@@ -47,11 +76,19 @@ public class RevealState internal constructor(
 		}
 	}
 
+	/**
+	 * Hides reveal effect
+	 */
 	public suspend fun hide() {
 		mutex.withLock {
 			visible = false
 		}
 	}
+
+	/**
+	 * Returns `true` if this state instance contains revealable with given [key]
+	 */
+	public fun containsRevealable(key: Key): Boolean = revealableKeys.contains(key)
 
 	internal fun onHideAnimationFinished() {
 		currentRevealable = null
