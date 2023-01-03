@@ -10,6 +10,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -117,23 +118,23 @@ public fun Reveal(
 			}
 		}
 
-		val clickModifier = currentRevealable.value.let { rev ->
-			when {
-				revealState.isVisible && rev != null -> Modifier.pointerInput(Unit) {
-					detectTapGestures(
-						onPress = { offset ->
-							rev.key.let(
-								if (rev.revealArea.contains(offset)) {
-									onRevealableClick
-								} else {
-									onOverlayClick
-								},
-							)
-						},
-					)
-				}
-				else -> Modifier
+		val rev by rememberUpdatedState(currentRevealable.value)
+
+		val clickModifier = when {
+			revealState.isVisible && rev != null -> Modifier.pointerInput(Unit) {
+				detectTapGestures(
+					onPress = { offset ->
+						rev?.key?.let(
+							if (rev?.revealArea?.contains(offset) == true) {
+								onRevealableClick
+							} else {
+								onOverlayClick
+							},
+						)
+					},
+				)
 			}
+			else -> Modifier
 		}
 
 		overlayEffect.Overlay(
