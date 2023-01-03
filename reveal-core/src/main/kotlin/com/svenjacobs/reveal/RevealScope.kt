@@ -1,8 +1,10 @@
 package com.svenjacobs.reveal
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 
@@ -18,6 +20,9 @@ public interface RevealScope {
 	 * [key] must be unique in the current scope and should be used for [RevealState.reveal].
 	 * Internally [Modifier.onGloballyPositioned] is used. Hence elements are only registered after
 	 * they have been laid out.
+	 *
+	 * If the element that this modifier is applied to leaves the composition while the reveal
+	 * effect is shown for the element, the effect is finished.
 	 *
 	 * @param key     Unique key to identify the revealable content. Also see documentation of [Key].
 	 * @param padding Additional padding around the reveal area. Positive values increase area while
@@ -40,13 +45,22 @@ internal class RevealScopeInstance(
 
 	override fun Modifier.revealable(key: Key, padding: PaddingValues, shape: RevealShape): Modifier =
 		this.then(
-			Modifier.onGloballyPositioned { layoutCoordinates ->
-				revealState.putRevealable(
-					key = key,
-					shape = shape,
-					padding = padding,
-					layoutCoordinates = layoutCoordinates,
-				)
-			},
+			Modifier
+				.onGloballyPositioned { layoutCoordinates ->
+					revealState.putRevealable(
+						key = key,
+						shape = shape,
+						padding = padding,
+						layoutCoordinates = layoutCoordinates,
+					)
+				}
+				.composed {
+					DisposableEffect(Unit) {
+						onDispose {
+							revealState.removeRevealable(key)
+						}
+					}
+					this
+				},
 		)
 }

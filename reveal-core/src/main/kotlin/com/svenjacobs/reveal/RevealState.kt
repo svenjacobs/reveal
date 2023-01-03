@@ -116,6 +116,23 @@ public class RevealState internal constructor(
 		}
 	}
 
+	/**
+	 * Is called from [RevealScope.revealable] when the composable is disposed.
+	 */
+	internal fun removeRevealable(key: Key) {
+		revealables.remove(key)
+
+		// Hide effect if the current revealable left the composition.
+		// currentRevealable and previousRevealable are reset via onHideAnimationFinished().
+		if (currentRevealableKey == key) {
+			visible = false
+		}
+
+		if (previousRevealableKey == key) {
+			previousRevealable = null
+		}
+	}
+
 	internal companion object {
 
 		internal fun newSaver(keySaver: Saver<Key, Any>): Saver<RevealState, *> = listSaver(
