@@ -6,7 +6,9 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 
 /**
  * Scope inside [Reveal]'s contents which provides [revealable] modifier.
@@ -48,10 +50,15 @@ internal class RevealScopeInstance(
 			Modifier
 				.onGloballyPositioned { layoutCoordinates ->
 					revealState.putRevealable(
-						key = key,
-						shape = shape,
-						padding = padding,
-						layoutCoordinates = layoutCoordinates,
+						Revealable(
+							key = key,
+							shape = shape,
+							padding = padding,
+							layout = Revealable.Layout(
+								offset = layoutCoordinates.positionInRoot(),
+								size = layoutCoordinates.size.toSize(),
+							),
+						),
 					)
 				}
 				.composed {

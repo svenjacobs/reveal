@@ -125,7 +125,7 @@ public fun Reveal(
 				detectTapGestures(
 					onPress = { offset ->
 						rev?.key?.let(
-							if (rev?.revealArea?.contains(offset) == true) {
+							if (rev?.area?.contains(offset) == true) {
 								onRevealableClick
 							} else {
 								onOverlayClick
@@ -149,7 +149,7 @@ public fun Reveal(
 	}
 }
 
-private fun InternalRevealable.toActual(
+private fun Revealable.toActual(
 	containerPositionInRoot: Offset,
 	density: Density,
 	layoutDirection: LayoutDirection,
@@ -157,7 +157,7 @@ private fun InternalRevealable.toActual(
 	key = key,
 	shape = shape,
 	padding = padding,
-	revealArea = getRevealArea(
+	area = computeArea(
 		containerPositionInRoot = containerPositionInRoot,
 		density = density,
 		layoutDirection = layoutDirection,

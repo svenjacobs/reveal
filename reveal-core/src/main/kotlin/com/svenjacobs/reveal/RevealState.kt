@@ -1,6 +1,5 @@
 package com.svenjacobs.reveal
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -11,7 +10,6 @@ import androidx.compose.runtime.saveable.autoSaver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.layout.LayoutCoordinates
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -19,16 +17,16 @@ import kotlinx.coroutines.sync.withLock
 @Suppress("MemberVisibilityCanBePrivate")
 public class RevealState internal constructor(
 	visible: Boolean = false,
-	private val restoreRevealableKey: Key? = null,
+	private val restoreCurrentRevealableKey: Key? = null,
 ) {
 
 	private val mutex = Mutex()
 	private var didRestoreCurrentRevealable = false
 	private var visible by mutableStateOf(visible)
-	private val revealables = mutableStateMapOf<Key, InternalRevealable>()
-	internal var currentRevealable by mutableStateOf<InternalRevealable?>(null)
+	private val revealables = mutableStateMapOf<Key, Revealable>()
+	internal var currentRevealable by mutableStateOf<Revealable?>(null)
 		private set
-	internal var previousRevealable by mutableStateOf<InternalRevealable?>(null)
+	internal var previousRevealable by mutableStateOf<Revealable?>(null)
 		private set
 
 	/**
@@ -95,31 +93,31 @@ public class RevealState internal constructor(
 		previousRevealable = null
 	}
 
-	internal fun putRevealable(
-		key: Key,
-		shape: RevealShape,
-		padding: PaddingValues,
-		layoutCoordinates: LayoutCoordinates,
-	) {
-		val revealable = InternalRevealableInstance(
-			key = key,
-			shape = shape,
-			padding = padding,
-			layoutCoordinates = layoutCoordinates,
-		)
+	/**
+	 * Adds a [Revealable] to this state.
+	 *
+	 * Usually this should not be called manually but revealables registered via the
+	 * [RevealScope.revealable] modifier. Only use this function when for instance you want to
+	 * reveal legacy Android views.
+	 *
+	 * @see RevealScope.revealable
+	 */
+	public fun putRevealable(revealable: Revealable) {
+		revealables[revealable.key] = revealable
 
-		revealables[key] = revealable
-
-		if (!didRestoreCurrentRevealable && restoreRevealableKey == key) {
+		if (!didRestoreCurrentRevealable && restoreCurrentRevealableKey == revealable.key) {
 			currentRevealable = revealable
 			didRestoreCurrentRevealable = true
 		}
 	}
 
 	/**
-	 * Is called from [RevealScope.revealable] when the composable is disposed.
+	 * Removes a [Revealable] from this state.
+	 *
+	 * Usually this must not be called manually. The [RevealScope.revealable] modifier takes care
+	 * of removing revealables when the composable is disposed.
 	 */
-	internal fun removeRevealable(key: Key) {
+	public fun removeRevealable(key: Key) {
 		revealables.remove(key)
 
 		// Hide effect if the current revealable left the composition.
@@ -145,7 +143,9 @@ public class RevealState internal constructor(
 			restore = {
 				RevealState(
 					visible = it[0] as Boolean,
-					restoreRevealableKey = it[1]?.let { keySaveable -> keySaver.restore(keySaveable) },
+					restoreCurrentRevealableKey = it[1]?.let { keySaveable ->
+						keySaver.restore(keySaveable)
+					},
 				)
 			},
 		)
