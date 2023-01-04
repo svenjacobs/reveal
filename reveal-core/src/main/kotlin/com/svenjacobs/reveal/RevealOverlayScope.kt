@@ -6,7 +6,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.LayoutDirection
 
 /**
  * Scope for overlay content which provides Modifiers to align an element relative to the
@@ -86,7 +85,7 @@ internal class RevealOverlayScopeInstance(
 				constraints.copy(maxWidth = layoutSize.width),
 			)
 
-			layout(layoutSize.width, layoutSize.height) {
+			layout(constraints.maxWidth, constraints.maxHeight) {
 				placeable.placeRelative(
 					x = horizontalArrangement.align(
 						size = placeable.width,
@@ -121,12 +120,14 @@ internal class RevealOverlayScopeInstance(
 				constraints.copy(maxHeight = layoutSize.height),
 			)
 
-			layout(layoutSize.width, layoutSize.height) {
-				placeable.placeRelative(
+			layout(constraints.maxWidth, constraints.maxHeight) {
+				// Using place() instead of placeRelative() because layoutSize and the value
+				// returned by horizontalAlignment.align() are RTL-aware
+				placeable.place(
 					x = layoutSize.left + horizontalAlignment.align(
 						size = placeable.width,
 						space = layoutSize.width,
-						layoutDirection = LayoutDirection.Ltr, // Ltr because we use placeRelative()
+						layoutDirection = layoutDirection,
 					),
 					y = verticalArrangement.align(
 						size = placeable.height,
