@@ -25,17 +25,17 @@ public interface RevealScope {
 	 * effect is shown for the element, the effect is finished.
 	 *
 	 * @param key     Unique key to identify the revealable content. Also see documentation of [Key].
-	 * @param padding Additional padding around the reveal area. Positive values increase area while
-	 *                negative values decrease it. Defaults to 8 dp on all sides.
 	 * @param shape   Shape of the reveal effect around the element. Defaults to a rounded rect
 	 *                with a corner size of 4 dp.
+	 * @param padding Additional padding around the reveal area. Positive values increase area while
+	 *                negative values decrease it. Defaults to 8 dp on all sides.
 	 *
 	 * @see Key
 	 */
 	public fun Modifier.revealable(
 		key: Key,
-		padding: PaddingValues = PaddingValues(8.dp),
 		shape: RevealShape = RevealShape.RoundRect(4.dp),
+		padding: PaddingValues = PaddingValues(8.dp),
 	): Modifier
 }
 
@@ -43,7 +43,7 @@ internal class RevealScopeInstance(
 	private val revealState: RevealState,
 ) : RevealScope {
 
-	override fun Modifier.revealable(key: Key, padding: PaddingValues, shape: RevealShape): Modifier =
+	override fun Modifier.revealable(key: Key, shape: RevealShape, padding: PaddingValues): Modifier =
 		this.then(
 			Modifier
 				.onGloballyPositioned { layoutCoordinates ->
