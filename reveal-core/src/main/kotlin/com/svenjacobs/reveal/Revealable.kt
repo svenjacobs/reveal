@@ -4,40 +4,31 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.layout.LayoutCoordinates
-import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 
-public interface Revealable {
-	public val key: Key
-	public val shape: RevealShape
-	public val padding: PaddingValues
-}
-
 @Immutable
-public class ActualRevealable(
-	override val key: Key,
-	override val shape: RevealShape,
-	override val padding: PaddingValues,
-	public val revealArea: Rect,
-) : Revealable
+public data class Revealable(
+	val key: Key,
+	val shape: RevealShape,
+	val padding: PaddingValues,
+	val layout: Layout,
+) {
 
-internal interface InternalRevealable : Revealable {
-	val layoutCoordinates: LayoutCoordinates
-}
-
-@Immutable
-internal class InternalRevealableInstance(
-	override val key: Key,
-	override val shape: RevealShape,
-	override val padding: PaddingValues,
-	override val layoutCoordinates: LayoutCoordinates,
-) : InternalRevealable {
+	/**
+	 * @param offset Offset in pixels of revealable to root composable
+	 * @param size Size in pixels of revealable
+	 */
+	@Immutable
+	public data class Layout(
+		val offset: Offset,
+		val size: Size,
+	)
 
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true
-		if (other !is InternalRevealableInstance) return false
+		if (other !is Revealable) return false
 
 		if (key != other.key) return false
 
@@ -47,23 +38,31 @@ internal class InternalRevealableInstance(
 	override fun hashCode(): Int = key.hashCode()
 }
 
+@Immutable
+public data class ActualRevealable(
+	val key: Key,
+	val shape: RevealShape,
+	val padding: PaddingValues,
+	val area: Rect,
+)
+
 /**
  * Returns [Rect] in pixels of the reveal area including padding for this [Revealable].
  */
-internal fun InternalRevealable.getRevealArea(
+internal fun Revealable.computeArea(
 	containerPositionInRoot: Offset,
 	density: Density,
 	layoutDirection: LayoutDirection,
 ): Rect {
-	val pos = layoutCoordinates.positionInRoot() - containerPositionInRoot
+	val pos = layout.offset - containerPositionInRoot
 	return with(density) {
 		val rect = Rect(
 			left = pos.x - padding.calculateLeftPadding(layoutDirection).toPx(),
 			top = pos.y - padding.calculateTopPadding().toPx(),
-			right = pos.x + padding.calculateRightPadding(layoutDirection)
-				.toPx() + layoutCoordinates.size.width.toFloat(),
-			bottom = pos.y + padding.calculateBottomPadding()
-				.toPx() + layoutCoordinates.size.height.toFloat(),
+			right = pos.x + padding.calculateRightPadding(layoutDirection).toPx() +
+				layout.size.width,
+			bottom = pos.y + padding.calculateBottomPadding().toPx() +
+				layout.size.height,
 		)
 
 		if (shape == RevealShape.Circle) {

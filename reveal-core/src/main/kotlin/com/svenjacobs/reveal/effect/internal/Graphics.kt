@@ -13,8 +13,8 @@ internal fun ActualRevealable.createShapePath(
 ): Path = shape
 	.clip(
 		size = Size(
-			width = revealArea.width,
-			height = revealArea.height,
+			width = area.width,
+			height = area.height,
 		),
 		density = density,
 		layoutDirection = layoutDirection,
@@ -22,8 +22,8 @@ internal fun ActualRevealable.createShapePath(
 	.apply {
 		translate(
 			Offset(
-				x = revealArea.left,
-				y = revealArea.top,
+				x = area.left,
+				y = area.top,
 			),
 		)
 	}

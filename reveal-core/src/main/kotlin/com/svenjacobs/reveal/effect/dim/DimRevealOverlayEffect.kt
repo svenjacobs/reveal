@@ -105,7 +105,7 @@ private class DimItemHolder(
 				.alpha(contentAlpha.value),
 			content = {
 				RevealOverlayScopeInstance(
-					revealableRect = revealable.revealArea.toIntRect(),
+					revealableRect = revealable.area.toIntRect(),
 				).content(revealable.key)
 			},
 		)
