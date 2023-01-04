@@ -6,6 +6,66 @@ import androidx.compose.ui.unit.LayoutDirection
 
 public object RevealOverlayArrangement {
 
+	public object Start : Horizontal {
+
+		override fun arrange(
+			revealable: IntRect,
+			space: IntSize,
+			confineHeight: Boolean,
+			layoutDirection: LayoutDirection,
+		): IntRect = IntRect(
+			left = if (layoutDirection == LayoutDirection.Ltr) 0 else revealable.right,
+			top = if (confineHeight) revealable.top else 0,
+			right = if (layoutDirection == LayoutDirection.Ltr) revealable.left else space.width,
+			bottom = if (confineHeight) revealable.bottom else space.height,
+		)
+
+		override fun align(size: Int, layout: Int, space: Int): Int = layout - size
+	}
+
+	public object End : Horizontal {
+
+		override fun arrange(
+			revealable: IntRect,
+			space: IntSize,
+			confineHeight: Boolean,
+			layoutDirection: LayoutDirection,
+		): IntRect = IntRect(
+			left = if (layoutDirection == LayoutDirection.Ltr) revealable.right else 0,
+			top = if (confineHeight) revealable.top else 0,
+			right = if (layoutDirection == LayoutDirection.Ltr) space.width else revealable.left,
+			bottom = if (confineHeight) revealable.bottom else space.height,
+		)
+
+		override fun align(size: Int, layout: Int, space: Int): Int = space - layout
+	}
+
+	public object Top : Vertical {
+
+		override fun arrange(revealable: IntRect, space: IntSize, confineWidth: Boolean): IntRect =
+			IntRect(
+				left = if (confineWidth) revealable.left else 0,
+				top = 0,
+				right = if (confineWidth) revealable.right else space.width,
+				bottom = revealable.top,
+			)
+
+		override fun align(size: Int, layout: Int, space: Int): Int = layout - size
+	}
+
+	public object Bottom : Vertical {
+
+		override fun arrange(revealable: IntRect, space: IntSize, confineWidth: Boolean): IntRect =
+			IntRect(
+				left = if (confineWidth) revealable.left else 0,
+				top = revealable.bottom,
+				right = if (confineWidth) revealable.right else space.width,
+				bottom = space.height,
+			)
+
+		override fun align(size: Int, layout: Int, space: Int): Int = space - layout
+	}
+
 	public sealed interface Horizontal {
 
 		/**
@@ -24,40 +84,6 @@ public object RevealOverlayArrangement {
 		 * width and total [space] width.
 		 */
 		public fun align(size: Int, layout: Int, space: Int): Int
-
-		public object Start : Horizontal {
-
-			override fun arrange(
-				revealable: IntRect,
-				space: IntSize,
-				confineHeight: Boolean,
-				layoutDirection: LayoutDirection,
-			): IntRect = IntRect(
-				left = if (layoutDirection == LayoutDirection.Ltr) 0 else revealable.right,
-				top = if (confineHeight) revealable.top else 0,
-				right = if (layoutDirection == LayoutDirection.Ltr) revealable.left else space.width,
-				bottom = if (confineHeight) revealable.bottom else space.height,
-			)
-
-			override fun align(size: Int, layout: Int, space: Int): Int = layout - size
-		}
-
-		public object End : Horizontal {
-
-			override fun arrange(
-				revealable: IntRect,
-				space: IntSize,
-				confineHeight: Boolean,
-				layoutDirection: LayoutDirection,
-			): IntRect = IntRect(
-				left = if (layoutDirection == LayoutDirection.Ltr) revealable.right else 0,
-				top = if (confineHeight) revealable.top else 0,
-				right = if (layoutDirection == LayoutDirection.Ltr) space.width else revealable.left,
-				bottom = if (confineHeight) revealable.bottom else space.height,
-			)
-
-			override fun align(size: Int, layout: Int, space: Int): Int = space - layout
-		}
 	}
 
 	public sealed interface Vertical {
@@ -73,31 +99,5 @@ public object RevealOverlayArrangement {
 		 * height and total [space] height.
 		 */
 		public fun align(size: Int, layout: Int, space: Int): Int
-
-		public object Top : Vertical {
-
-			override fun arrange(revealable: IntRect, space: IntSize, confineWidth: Boolean): IntRect =
-				IntRect(
-					left = if (confineWidth) revealable.left else 0,
-					top = 0,
-					right = if (confineWidth) revealable.right else space.width,
-					bottom = revealable.top,
-				)
-
-			override fun align(size: Int, layout: Int, space: Int): Int = layout - size
-		}
-
-		public object Bottom : Vertical {
-
-			override fun arrange(revealable: IntRect, space: IntSize, confineWidth: Boolean): IntRect =
-				IntRect(
-					left = if (confineWidth) revealable.left else 0,
-					top = revealable.bottom,
-					right = if (confineWidth) revealable.right else space.width,
-					bottom = space.height,
-				)
-
-			override fun align(size: Int, layout: Int, space: Int): Int = space - layout
-		}
 	}
 }

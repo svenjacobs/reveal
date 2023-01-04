@@ -117,14 +117,14 @@ private fun RevealOverlayScope.RevealOverlayContent(key: Key) {
 	when (key) {
 		Keys.Fab -> OverlayText(
 			modifier = Modifier.align(
-				horizontalArrangement = RevealOverlayArrangement.Horizontal.Start,
+				horizontalArrangement = RevealOverlayArrangement.Start,
 			),
 			text = "Click button to get started",
 			arrow = Arrow.end(),
 		)
 		Keys.Explanation -> OverlayText(
 			modifier = Modifier.align(
-				verticalArrangement = RevealOverlayArrangement.Vertical.Bottom,
+				verticalArrangement = RevealOverlayArrangement.Bottom,
 			),
 			text = "Actually we already started. This was an example of the reveal effect.",
 			arrow = Arrow.top(),
