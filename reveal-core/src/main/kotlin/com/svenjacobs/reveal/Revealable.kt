@@ -49,19 +49,14 @@ public data class ActualRevealable(
 /**
  * Returns [Rect] in pixels of the reveal area including padding for this [Revealable].
  */
-internal fun Revealable.computeArea(
-	containerPositionInRoot: Offset,
-	density: Density,
-	layoutDirection: LayoutDirection,
-): Rect {
-	val pos = layout.offset - containerPositionInRoot
-	return with(density) {
+internal fun Revealable.computeArea(density: Density, layoutDirection: LayoutDirection): Rect =
+	with(density) {
 		val rect = Rect(
-			left = pos.x - padding.calculateLeftPadding(layoutDirection).toPx(),
-			top = pos.y - padding.calculateTopPadding().toPx(),
-			right = pos.x + padding.calculateRightPadding(layoutDirection).toPx() +
+			left = layout.offset.x - padding.calculateLeftPadding(layoutDirection).toPx(),
+			top = layout.offset.y - padding.calculateTopPadding().toPx(),
+			right = layout.offset.x + padding.calculateRightPadding(layoutDirection).toPx() +
 				layout.size.width,
-			bottom = pos.y + padding.calculateBottomPadding().toPx() +
+			bottom = layout.offset.y + padding.calculateBottomPadding().toPx() +
 				layout.size.height,
 		)
 
@@ -71,4 +66,3 @@ internal fun Revealable.computeArea(
 			rect
 		}
 	}
-}
