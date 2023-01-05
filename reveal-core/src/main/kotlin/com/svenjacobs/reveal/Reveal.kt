@@ -5,33 +5,31 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.LayoutCoordinates
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import com.svenjacobs.reveal.effect.RevealOverlayEffect
 import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
+import com.svenjacobs.reveal.internal.fullscreen.Fullscreen
 
 /**
  * Container composable for the reveal effect.
  *
- * When active, greys out its contents and only reveals current revealable element.
- * Since the grey out effect should probably cover the whole screen, this composable should be one
- * of the top most composables in the hierarchy, filling out all available space (`Modifier.fillMaxSize()`).
+ * When active, applies the [overlayEffect] and only reveals current revealable element.
+ *
+ * Adds a new `ComposeView` to the root content view (`android.R.id.content`) for the fullscreen
+ * effect. Therefore it does not matter where in the component hierarchy this composable is added.
+ * The effect is always rendered fullscreen.
  *
  * Elements inside the contents of this composable are registered as "revealables" via the
  * [RevealScope.revealable] modifier in the scope of the [content] composable.
@@ -77,10 +75,6 @@ public fun Reveal(
 	overlayContent: @Composable RevealOverlayScope.(key: Key) -> Unit = {},
 	content: @Composable RevealScope.() -> Unit,
 ) {
-	var layoutCoordinates by remember { mutableStateOf<LayoutCoordinates?>(null) }
-	val positionInRoot by remember {
-		derivedStateOf { layoutCoordinates?.positionInRoot() ?: Offset.Zero }
-	}
 	val animatedOverlayAlpha by animateFloatAsState(
 		targetValue = if (revealState.isVisible) 1.0f else 0.0f,
 		animationSpec = overlayEffectAnimationSpec,
@@ -94,14 +88,13 @@ public fun Reveal(
 	val density = LocalDensity.current
 
 	Box(
-		modifier = modifier.onGloballyPositioned { layoutCoordinates = it },
+		modifier = modifier,
 	) {
 		content(RevealScopeInstance(revealState))
 
 		val currentRevealable = remember {
 			derivedStateOf {
 				revealState.currentRevealable?.toActual(
-					containerPositionInRoot = positionInRoot,
 					density = density,
 					layoutDirection = layoutDirection,
 				)
@@ -111,7 +104,6 @@ public fun Reveal(
 		val previousRevealable = remember {
 			derivedStateOf {
 				revealState.previousRevealable?.toActual(
-					containerPositionInRoot = positionInRoot,
 					density = density,
 					layoutDirection = layoutDirection,
 				)
@@ -137,20 +129,21 @@ public fun Reveal(
 			else -> Modifier
 		}
 
-		overlayEffect.Overlay(
-			revealState = revealState,
-			currentRevealable = currentRevealable,
-			previousRevealable = previousRevealable,
-			modifier = clickModifier
-				.matchParentSize()
-				.alpha(animatedOverlayAlpha),
-			content = overlayContent,
-		)
+		Fullscreen {
+			overlayEffect.Overlay(
+				revealState = revealState,
+				currentRevealable = currentRevealable,
+				previousRevealable = previousRevealable,
+				modifier = clickModifier
+					.fillMaxSize()
+					.alpha(animatedOverlayAlpha),
+				content = overlayContent,
+			)
+		}
 	}
 }
 
 private fun Revealable.toActual(
-	containerPositionInRoot: Offset,
 	density: Density,
 	layoutDirection: LayoutDirection,
 ): ActualRevealable = ActualRevealable(
@@ -158,7 +151,6 @@ private fun Revealable.toActual(
 	shape = shape,
 	padding = padding,
 	area = computeArea(
-		containerPositionInRoot = containerPositionInRoot,
 		density = density,
 		layoutDirection = layoutDirection,
 	),
