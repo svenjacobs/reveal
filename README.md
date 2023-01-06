@@ -33,7 +33,7 @@ dependencies {
 ### Compose
 
 The `Reveal` composable should be one of the top most composables in the hierarchy of your
-screen-level composable in order to access it's scope. However it doesn't matter where in the
+screen-level composable in order to access its scope. However it doesn't matter where in the
 component hierarchy the composable is added. The effect is always rendered fullscreen.
 
 ```kotlin
