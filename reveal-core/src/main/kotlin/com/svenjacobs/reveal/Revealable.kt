@@ -25,17 +25,6 @@ public data class Revealable(
 		val offset: Offset,
 		val size: Size,
 	)
-
-	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (other !is Revealable) return false
-
-		if (key != other.key) return false
-
-		return true
-	}
-
-	override fun hashCode(): Int = key.hashCode()
 }
 
 @Immutable
