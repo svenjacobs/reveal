@@ -65,7 +65,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
 			overlayContent = { key -> RevealOverlayContent(key) },
 		) {
 			Scaffold(
-				modifier = modifier.fillMaxSize(),
+				modifier = Modifier.fillMaxSize(),
 				topBar = {
 					CenterAlignedTopAppBar(
 						title = { Text("Reveal Demo") },
