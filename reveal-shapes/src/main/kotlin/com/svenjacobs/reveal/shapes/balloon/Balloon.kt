@@ -78,11 +78,11 @@ public fun Balloon(
 @Composable
 private fun Balloon(
 	arrow: Arrow,
-	modifier: Modifier,
-	backgroundModifier: Modifier,
 	cornerRadius: Dp,
 	elevation: Dp,
 	contentAlignment: Alignment,
+	modifier: Modifier = Modifier,
+	backgroundModifier: Modifier = Modifier,
 	content: @Composable BoxScope.() -> Unit,
 ) {
 	Box(

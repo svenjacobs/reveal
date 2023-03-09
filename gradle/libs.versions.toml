@@ -22,7 +22,7 @@ androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling
 androidx-core-ktx = "androidx.core:core-ktx:1.9.0"
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
 jakewharton-timber = "com.jakewharton.timber:timber:5.0.1"
-twitter-compose-ktlint-rules = "com.twitter.compose.rules:ktlint:0.0.24"
+slack-compose-lint-checks = "com.slack.lint.compose:compose-lint-checks:1.1.1"
 
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-test-espresso-core = "androidx.test.espresso:espresso-core:3.5.1"

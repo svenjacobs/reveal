@@ -95,12 +95,15 @@ private class DimItemHolder(
 ) {
 
 	@Composable
-	fun BoxScope.Container(content: @Composable RevealOverlayScope.(key: Key) -> Unit) {
+	fun BoxScope.Container(
+		modifier: Modifier = Modifier,
+		content: @Composable RevealOverlayScope.(key: Key) -> Unit,
+	) {
 		// Optimization: don't place element into composition if it isn't visible at all
 		if (contentAlpha.value == 0.0f) return
 
 		Box(
-			modifier = Modifier
+			modifier = modifier
 				.matchParentSize()
 				.alpha(contentAlpha.value),
 			content = {
