@@ -25,7 +25,7 @@ dependencies {
 
 #### Artifacts
 
-| Name            | Description |
+| Name            | Description                             |
 |-----------------|-----------------------------------------|
 | `reveal-core`   | Contains core classes. You need this 🙂 |
 | `reveal-shapes` | Additional shapes for explanatory items |
@@ -35,6 +35,8 @@ dependencies {
 The `Reveal` composable should be one of the top most composables in the hierarchy of your
 screen-level composable in order to access its scope. However it doesn't matter where in the
 component hierarchy the composable is added. The effect is always rendered fullscreen.
+You can have multiple `Reveal` instances in your UI hierarchy, for example per module or per
+screen. However it is recommended to only have one `Reveal` instance per screen.
 
 ```kotlin
 @Composable
