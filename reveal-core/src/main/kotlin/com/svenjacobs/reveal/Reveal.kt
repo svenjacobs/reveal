@@ -16,6 +16,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import com.svenjacobs.reveal.effect.RevealOverlayEffect
@@ -129,16 +131,19 @@ public fun Reveal(
 			else -> Modifier
 		}
 
-		Fullscreen {
-			overlayEffect.Overlay(
-				revealState = revealState,
-				currentRevealable = currentRevealable,
-				previousRevealable = previousRevealable,
-				modifier = clickModifier
-					.fillMaxSize()
-					.alpha(animatedOverlayAlpha),
-				content = overlayContent,
-			)
+		if (animatedOverlayAlpha > 0.0f) {
+			Fullscreen {
+				overlayEffect.Overlay(
+					revealState = revealState,
+					currentRevealable = currentRevealable,
+					previousRevealable = previousRevealable,
+					modifier = clickModifier
+						.semantics { testTag = "overlay" }
+						.fillMaxSize()
+						.alpha(animatedOverlayAlpha),
+					content = overlayContent,
+				)
+			}
 		}
 	}
 }
