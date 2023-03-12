@@ -15,6 +15,7 @@ with a beautiful API for [Jetpack Compose](https://developer.android.com/jetpack
 
 ### Installation
 
+The minimum supported Android SDK is 21 (Android 5.0), which is a requirement of Jetpack Compose.
 Add Reveal as a dependency to your project. It's available on Maven Central.
 
 ```kotlin
