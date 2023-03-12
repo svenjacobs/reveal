@@ -22,6 +22,9 @@ jobs:
   test:
     timeout-minutes: 30
     runs-on: macos-latest
+    strategy:
+      matrix:
+        api-level: [ 21, 29 ]
     steps:
       - uses: actions/checkout@v3
 
@@ -42,10 +45,10 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-29
+          key: avd-${{ matrix.api-level }}
 
       - name: Run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: ${{ matrix.api-level }}
           script: ./gradlew connectedAndroidTest
