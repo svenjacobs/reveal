@@ -11,7 +11,9 @@ indent_style = tab
 indent_size = 4
 # ktlint configuration
 ktlint_code_style = android
-#ktlint_disabled_rules =
+ktlint_experimental = enabled
+ktlint_experimental_function-naming = disabled
+ktlint_experimental_property-naming = disabled
 ij_kotlin_allow_trailing_comma = true
 ij_kotlin_allow_trailing_comma_on_call_site = true
 

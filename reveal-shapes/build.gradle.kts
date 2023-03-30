@@ -87,7 +87,7 @@ publishing {
 				from(components["release"])
 			}
 
-			pomAttributes()
+			pomAttributes(name = "Reveal (Shapes)")
 		}
 	}
 }

@@ -5,16 +5,16 @@ object Publication {
 	val version = (System.getenv("RELEASE_TAG_NAME") ?: "SNAPSHOT").let { it.replace("v", "") }
 }
 
-fun MavenPublication.pomAttributes() {
+fun MavenPublication.pomAttributes(name: String) {
 	pom {
-		name.set("Reveal")
+		this.name.set(name)
 		description.set("Lightweight, simple reveal effect for Jetpack Compose")
 		url.set("https://github.com/svenjacobs/reveal")
 
 		developers {
 			developer {
 				id.set("svenjacobs")
-				name.set("Sven Jacobs")
+				this.name.set("Sven Jacobs")
 				email.set("github@svenjacobs.com")
 				url.set("https://svenjacobs.com/")
 				timezone.set("GMT+1")
@@ -23,7 +23,7 @@ fun MavenPublication.pomAttributes() {
 
 		licenses {
 			license {
-				name.set("MIT License")
+				this.name.set("MIT License")
 				url.set("https://opensource.org/licenses/MIT")
 			}
 		}
