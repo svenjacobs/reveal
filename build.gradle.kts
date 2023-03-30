@@ -14,10 +14,6 @@ version = Publication.version
 
 subprojects {
 	apply(plugin = "org.jmailen.kotlinter")
-
-	kotlinter {
-		experimentalRules = true
-	}
 }
 
 nexusPublishing {
@@ -30,7 +26,7 @@ tasks.withType<DependencyUpdatesTask> {
 
 	fun isNonStable(version: String) =
 		listOf("alpha", "beta", "rc", "eap", "-m", ".m", "-a", "dev").any {
-			version.toLowerCase().contains(it)
+			version.lowercase().contains(it)
 		}
 
 	rejectVersionIf {
