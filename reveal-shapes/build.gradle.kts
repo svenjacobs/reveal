@@ -11,7 +11,6 @@ android {
 
 	defaultConfig {
 		minSdk = Android.minSdk
-		targetSdk = Android.targetSdk
 
 		aarMetadata {
 			minCompileSdk = Android.minSdk
