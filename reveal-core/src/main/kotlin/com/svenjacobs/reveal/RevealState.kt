@@ -114,7 +114,7 @@ public class RevealState internal constructor(
 	/**
 	 * Removes a [Revealable] from this state.
 	 *
-	 * Usually this must not be called manually. The [RevealScope.revealable] modifier takes care
+	 * Usually this should not be called manually. The [RevealScope.revealable] modifier takes care
 	 * of removing revealables when the composable is disposed.
 	 */
 	public fun removeRevealable(key: Key) {
