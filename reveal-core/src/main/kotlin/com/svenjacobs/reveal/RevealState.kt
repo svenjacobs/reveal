@@ -57,7 +57,7 @@ public class RevealState internal constructor(
 	 * Can be used to query when a revealable was registered via [RevealScope.revealable].
 	 */
 	public val revealableKeys: Set<Key>
-		get() = revealables.keys.toSet()
+		get() = revealables.keys
 
 	/**
 	 * Reveals revealable with given [key]
