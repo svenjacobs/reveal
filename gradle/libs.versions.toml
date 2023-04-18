@@ -1,5 +1,5 @@
 [versions]
-android-gradle-plugin = "7.4.2"
+android-gradle-plugin = "8.0.0"
 androidx-activity = "1.7.0"
 androidx-compose-bom = "2023.03.00" # https://developer.android.com/jetpack/compose/setup#bom-version-mapping
 androidx-compose-compiler = "1.4.4"
