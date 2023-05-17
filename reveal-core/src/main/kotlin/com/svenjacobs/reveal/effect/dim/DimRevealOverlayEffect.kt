@@ -122,8 +122,9 @@ private class DimItemHolder(
 
 		drawPath(
 			path,
-			Color.Transparent.copy(alpha = 1.0f - contentAlpha.value),
-			blendMode = BlendMode.DstIn,
+			Color.Black,
+			alpha = contentAlpha.value,
+			blendMode = BlendMode.DstOut,
 		)
 	}
 }
