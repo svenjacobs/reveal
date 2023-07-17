@@ -62,11 +62,35 @@ public class RevealState internal constructor(
 	/**
 	 * Reveals revealable with given [key]
 	 *
+	 * Might throw [IllegalArgumentException] if the revealable item is not known to Reveal. This
+	 * might happen if for example the item is in a lazy container and is currently not part of the
+	 * visible area. It is the duty of the developer to ensure that a revealable item is currently
+	 * visible (known to Reveal) before calling this function. Additionally [containsRevealable] or
+	 * [revealableKeys] can be used to ensure this.
+	 *
+	 * @see tryReveal
 	 * @see containsRevealable
+	 * @see revealableKeys
 	 * @throws IllegalArgumentException if revealable with given key was not found
 	 */
 	public suspend fun reveal(key: Key) {
-		require(revealables.containsKey(key)) { "Revealable with key \"$key\" not found" }
+		require(containsRevealable(key)) { "Revealable with key \"$key\" not found" }
+		internalReveal(key)
+	}
+
+	/**
+	 * Like [reveal] but doesn't throw exception if revealable was not found.
+	 * Instead returns `false`.
+	 *
+	 * @see reveal
+	 */
+	public suspend fun tryReveal(key: Key): Boolean {
+		if (!containsRevealable(key)) return false
+		internalReveal(key)
+		return true
+	}
+
+	private suspend fun internalReveal(key: Key) {
 		mutex.withLock {
 			previousRevealable = currentRevealable
 			currentRevealable = revealables[key]
