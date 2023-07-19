@@ -54,6 +54,10 @@ android {
 			withJavadocJar()
 		}
 	}
+
+	lint {
+		baseline = file("lint-baseline.xml")
+	}
 }
 
 dependencies {
