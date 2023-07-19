@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues name="AGP (8.0.2)" by="lint 8.0.2" client="gradle" dependencies="false" format="6"
+    type="baseline" variant="all" version="8.0.2">
+
+    <issue errorLine1=" val composeView = remember {" errorLine2="                   ~~~~~~~~"
+        id="RememberReturnType" message="`remember` calls must not return `Unit`">
+        <location column="20"
+            file="src/main/kotlin/com/svenjacobs/reveal/internal/fullscreen/Fullscreen.kt"
+            line="23" />
+    </issue>
+
+</issues>

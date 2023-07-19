@@ -94,20 +94,24 @@ internal class RevealScopeInstance(
 ) : RevealScope {
 
 	override fun Modifier.revealable(key: Key, shape: RevealShape, padding: PaddingValues): Modifier =
-		revealable(
-			keys = listOf(key),
-			shape = shape,
-			padding = padding,
+		this.then(
+			Modifier.revealable(
+				keys = listOf(key),
+				shape = shape,
+				padding = padding,
+			),
 		)
 
 	override fun Modifier.revealable(
 		vararg keys: Key,
 		shape: RevealShape,
 		padding: PaddingValues,
-	): Modifier = revealable(
-		keys = keys.toList(),
-		shape = shape,
-		padding = padding,
+	): Modifier = this.then(
+		Modifier.revealable(
+			keys = keys.toList(),
+			shape = shape,
+			padding = padding,
+		),
 	)
 
 	override fun Modifier.revealable(
