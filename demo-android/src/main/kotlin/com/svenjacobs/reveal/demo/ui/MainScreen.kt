@@ -122,6 +122,7 @@ private fun RevealOverlayScope.RevealOverlayContent(key: Key) {
 			text = "Click button to get started",
 			arrow = Arrow.end(),
 		)
+
 		Keys.Explanation -> OverlayText(
 			modifier = Modifier.align(
 				verticalArrangement = RevealOverlayArrangement.Bottom,

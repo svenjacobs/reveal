@@ -6,6 +6,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.LayoutDirection
 
 @Immutable
@@ -38,20 +39,31 @@ public data class ActualRevealable(
 /**
  * Returns [Rect] in pixels of the reveal area including padding for this [Revealable].
  */
-internal fun Revealable.computeArea(density: Density, layoutDirection: LayoutDirection): Rect =
-	with(density) {
-		val rect = Rect(
-			left = layout.offset.x - padding.calculateLeftPadding(layoutDirection).toPx(),
-			top = layout.offset.y - padding.calculateTopPadding().toPx(),
-			right = layout.offset.x + padding.calculateRightPadding(layoutDirection).toPx() +
-				layout.size.width,
-			bottom = layout.offset.y + padding.calculateBottomPadding().toPx() +
-				layout.size.height,
-		)
+internal fun Revealable.computeArea(
+	density: Density,
+	layoutDirection: LayoutDirection,
+	additionalOffset: DpOffset,
+): Rect = with(density) {
+	val rect = Rect(
+		left = layout.offset.x +
+			additionalOffset.x.toPx() -
+			padding.calculateLeftPadding(layoutDirection).toPx(),
+		top = layout.offset.y +
+			additionalOffset.y.toPx() -
+			padding.calculateTopPadding().toPx(),
+		right = layout.offset.x +
+			additionalOffset.x.toPx() +
+			padding.calculateRightPadding(layoutDirection).toPx() +
+			layout.size.width,
+		bottom = layout.offset.y +
+			additionalOffset.y.toPx() +
+			padding.calculateBottomPadding().toPx() +
+			layout.size.height,
+	)
 
-		if (shape == RevealShape.Circle) {
-			Rect(rect.center, rect.maxDimension / 2.0f)
-		} else {
-			rect
-		}
+	if (shape == RevealShape.Circle) {
+		Rect(rect.center, rect.maxDimension / 2.0f)
+	} else {
+		rect
 	}
+}
