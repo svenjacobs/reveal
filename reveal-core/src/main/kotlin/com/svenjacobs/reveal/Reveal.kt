@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.LayoutDirection
 import com.svenjacobs.reveal.effect.RevealOverlayEffect
 import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
@@ -53,6 +54,12 @@ import com.svenjacobs.reveal.internal.fullscreen.Fullscreen
  *                                   items. Currently only [DimRevealOverlayEffect] is supported.
  * @param overlayEffectAnimationSpec Animation spec for the animated alpha value of the overlay
  *                                   effect when showing or hiding.
+ * @param revealableOffset           Additional offset which is applied to all revealables of this
+ *                                   Reveal instance. Should be used to correct misplaced reveal
+ *                                   effects where the root composables and root content view do
+ *                                   not match, e.g. in applications that use `ComposeView` in
+ *                                   legacy Android views. Use negative values to offset towards
+ *                                   [0,0] of the coordinate system.
  * @param overlayContent             Optional content which is placed above the overlay and where
  *                                   its elements can be aligned relative to the reveal area via
  *                                   modifiers available in the scope of this composable. The `key`
@@ -74,6 +81,7 @@ public fun Reveal(
 	revealState: RevealState = rememberRevealState(),
 	overlayEffect: RevealOverlayEffect = DimRevealOverlayEffect(),
 	overlayEffectAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
+	revealableOffset: DpOffset = DpOffset.Zero,
 	overlayContent: @Composable RevealOverlayScope.(key: Key) -> Unit = {},
 	content: @Composable RevealScope.() -> Unit,
 ) {
@@ -99,6 +107,7 @@ public fun Reveal(
 				revealState.currentRevealable?.toActual(
 					density = density,
 					layoutDirection = layoutDirection,
+					additionalOffset = revealableOffset,
 				)
 			}
 		}
@@ -108,6 +117,7 @@ public fun Reveal(
 				revealState.previousRevealable?.toActual(
 					density = density,
 					layoutDirection = layoutDirection,
+					additionalOffset = revealableOffset,
 				)
 			}
 		}
@@ -128,6 +138,7 @@ public fun Reveal(
 					},
 				)
 			}
+
 			else -> Modifier
 		}
 
@@ -151,6 +162,7 @@ public fun Reveal(
 private fun Revealable.toActual(
 	density: Density,
 	layoutDirection: LayoutDirection,
+	additionalOffset: DpOffset,
 ): ActualRevealable = ActualRevealable(
 	key = key,
 	shape = shape,
@@ -158,5 +170,6 @@ private fun Revealable.toActual(
 	area = computeArea(
 		density = density,
 		layoutDirection = layoutDirection,
+		additionalOffset = additionalOffset,
 	),
 )

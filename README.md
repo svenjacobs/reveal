@@ -110,3 +110,7 @@ the next item, for example for some kind of tutorial, or to hide the effect via
 
 That's it for now. For more details have a look at the [demo application](./demo-android) and the
 JavaDoc. The library is well documented 😉
+
+## Frequently Asked Questions
+
+See [FAQ.md](FAQ.md)
