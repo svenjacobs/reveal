@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-	namespace = "com.svenjacobs.reveal.shapes"
+	namespace = "com.svenjacobs.reveal.compat.android"
 	compileSdk = Android.compileSdk
 
 	defaultConfig {
@@ -53,9 +53,15 @@ android {
 			withJavadocJar()
 		}
 	}
+
+	lint {
+		baseline = file("lint-baseline.xml")
+	}
 }
 
 dependencies {
+	api(project(":reveal-common"))
+
 	val composeBom = platform(libs.androidx.compose.bom)
 
 	implementation(composeBom)
@@ -79,13 +85,13 @@ publishing {
 		register<MavenPublication>("release") {
 			groupId = Publication.group
 			version = Publication.version
-			artifactId = "reveal-shapes"
+			artifactId = "reveal-compat-android"
 
 			afterEvaluate {
 				from(components["release"])
 			}
 
-			pomAttributes(name = "Reveal (Shapes)")
+			pomAttributes(name = "Reveal (Compat Android)")
 		}
 	}
 }

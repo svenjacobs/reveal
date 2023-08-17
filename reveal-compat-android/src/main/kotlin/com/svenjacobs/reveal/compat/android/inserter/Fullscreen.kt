@@ -1,4 +1,4 @@
-package com.svenjacobs.reveal.internal.fullscreen
+package com.svenjacobs.reveal.compat.android.inserter
 
 import android.app.Activity
 import android.content.Context

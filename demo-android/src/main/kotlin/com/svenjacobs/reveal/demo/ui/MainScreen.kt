@@ -25,6 +25,7 @@ import com.svenjacobs.reveal.Reveal
 import com.svenjacobs.reveal.RevealOverlayArrangement
 import com.svenjacobs.reveal.RevealOverlayScope
 import com.svenjacobs.reveal.RevealShape
+import com.svenjacobs.reveal.common.inserter.InPlaceRevealOverlayInserter
 import com.svenjacobs.reveal.demo.ui.theme.DemoTheme
 import com.svenjacobs.reveal.rememberRevealState
 import com.svenjacobs.reveal.shapes.balloon.Arrow
@@ -62,6 +63,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
 				}
 			},
 			onOverlayClick = { scope.launch { revealState.hide() } },
+			overlayInserter = InPlaceRevealOverlayInserter(),
 			overlayContent = { key -> RevealOverlayContent(key) },
 		) {
 			Scaffold(

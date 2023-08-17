@@ -6,7 +6,7 @@ import androidx.compose.ui.unit.LayoutDirection
 
 public object RevealOverlayArrangement {
 
-	public object Start : Horizontal {
+	public data object Start : Horizontal {
 
 		override fun arrange(
 			revealable: IntRect,
@@ -23,7 +23,7 @@ public object RevealOverlayArrangement {
 		override fun align(size: Int, layout: Int, space: Int): Int = layout - size
 	}
 
-	public object End : Horizontal {
+	public data object End : Horizontal {
 
 		override fun arrange(
 			revealable: IntRect,
@@ -40,7 +40,7 @@ public object RevealOverlayArrangement {
 		override fun align(size: Int, layout: Int, space: Int): Int = space - layout
 	}
 
-	public object Top : Vertical {
+	public data object Top : Vertical {
 
 		override fun arrange(revealable: IntRect, space: IntSize, confineWidth: Boolean): IntRect =
 			IntRect(
@@ -53,7 +53,7 @@ public object RevealOverlayArrangement {
 		override fun align(size: Int, layout: Int, space: Int): Int = layout - size
 	}
 
-	public object Bottom : Vertical {
+	public data object Bottom : Vertical {
 
 		override fun arrange(revealable: IntRect, space: IntSize, confineWidth: Boolean): IntRect =
 			IntRect(

@@ -54,13 +54,12 @@ android {
 			withJavadocJar()
 		}
 	}
-
-	lint {
-		baseline = file("lint-baseline.xml")
-	}
 }
 
 dependencies {
+	api(project(":reveal-common"))
+	api(project(":reveal-compat-android"))
+
 	val composeBom = platform(libs.androidx.compose.bom)
 
 	implementation(composeBom)

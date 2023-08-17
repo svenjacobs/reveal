@@ -1,14 +1,10 @@
 package com.svenjacobs.reveal
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.toSize
 
 /**
  * Scope inside [Reveal]'s contents which provides [revealable] modifier.
@@ -96,7 +92,8 @@ internal class RevealScopeInstance(
 	override fun Modifier.revealable(key: Key, shape: RevealShape, padding: PaddingValues): Modifier =
 		this.then(
 			Modifier.revealable(
-				keys = listOf(key),
+				key = key,
+				state = revealState,
 				shape = shape,
 				padding = padding,
 			),
@@ -108,7 +105,8 @@ internal class RevealScopeInstance(
 		padding: PaddingValues,
 	): Modifier = this.then(
 		Modifier.revealable(
-			keys = keys.toList(),
+			keys = keys,
+			state = revealState,
 			shape = shape,
 			padding = padding,
 		),
@@ -119,31 +117,11 @@ internal class RevealScopeInstance(
 		shape: RevealShape,
 		padding: PaddingValues,
 	): Modifier = this.then(
-		Modifier
-			.onGloballyPositioned { layoutCoordinates ->
-				for (key in keys) {
-					revealState.putRevealable(
-						Revealable(
-							key = key,
-							shape = shape,
-							padding = padding,
-							layout = Revealable.Layout(
-								offset = layoutCoordinates.positionInRoot(),
-								size = layoutCoordinates.size.toSize(),
-							),
-						),
-					)
-				}
-			}
-			.composed {
-				DisposableEffect(Unit) {
-					onDispose {
-						for (key in keys) {
-							revealState.removeRevealable(key)
-						}
-					}
-				}
-				this
-			},
+		Modifier.revealable(
+			keys = keys,
+			state = revealState,
+			shape = shape,
+			padding = padding,
+		),
 	)
 }

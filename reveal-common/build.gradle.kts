@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-	namespace = "com.svenjacobs.reveal.shapes"
+	namespace = "com.svenjacobs.reveal.common"
 	compileSdk = Android.compileSdk
 
 	defaultConfig {
@@ -79,13 +79,13 @@ publishing {
 		register<MavenPublication>("release") {
 			groupId = Publication.group
 			version = Publication.version
-			artifactId = "reveal-shapes"
+			artifactId = "reveal-common"
 
 			afterEvaluate {
 				from(components["release"])
 			}
 
-			pomAttributes(name = "Reveal (Shapes)")
+			pomAttributes(name = "Reveal (Common)")
 		}
 	}
 }
