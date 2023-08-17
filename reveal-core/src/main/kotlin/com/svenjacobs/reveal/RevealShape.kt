@@ -20,7 +20,7 @@ public sealed interface RevealShape {
 	 */
 	public fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path
 
-	public object Rect : RevealShape {
+	public data object Rect : RevealShape {
 
 		override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
 			Path().apply {
@@ -28,7 +28,7 @@ public sealed interface RevealShape {
 			}
 	}
 
-	public object Circle : RevealShape {
+	public data object Circle : RevealShape {
 
 		override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
 			Path().apply {
