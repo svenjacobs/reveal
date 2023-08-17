@@ -21,9 +21,10 @@ import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.LayoutDirection
+import com.svenjacobs.reveal.common.inserter.RevealOverlayInserter
+import com.svenjacobs.reveal.compat.android.inserter.FullscreenRevealOverlayInserter
 import com.svenjacobs.reveal.effect.RevealOverlayEffect
 import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
-import com.svenjacobs.reveal.internal.fullscreen.Fullscreen
 
 /**
  * Container composable for the reveal effect.
@@ -54,12 +55,7 @@ import com.svenjacobs.reveal.internal.fullscreen.Fullscreen
  *                                   items. Currently only [DimRevealOverlayEffect] is supported.
  * @param overlayEffectAnimationSpec Animation spec for the animated alpha value of the overlay
  *                                   effect when showing or hiding.
- * @param revealableOffset           Additional offset which is applied to all revealables of this
- *                                   Reveal instance. Should be used to correct misplaced reveal
- *                                   effects where the root composables and root content view do
- *                                   not match, e.g. in applications that use `ComposeView` in
- *                                   legacy Android views. Use negative values to offset towards
- *                                   [0,0] of the coordinate system.
+ * @param overlayInserter            Strategy of how to insert the overlay into the composition.
  * @param overlayContent             Optional content which is placed above the overlay and where
  *                                   its elements can be aligned relative to the reveal area via
  *                                   modifiers available in the scope of this composable. The `key`
@@ -81,7 +77,7 @@ public fun Reveal(
 	revealState: RevealState = rememberRevealState(),
 	overlayEffect: RevealOverlayEffect = DimRevealOverlayEffect(),
 	overlayEffectAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
-	revealableOffset: DpOffset = DpOffset.Zero,
+	overlayInserter: RevealOverlayInserter = FullscreenRevealOverlayInserter(),
 	overlayContent: @Composable RevealOverlayScope.(key: Key) -> Unit = {},
 	content: @Composable RevealScope.() -> Unit,
 ) {
@@ -93,6 +89,7 @@ public fun Reveal(
 				revealState.onHideAnimationFinished()
 			}
 		},
+		label = "animatedOverlayAlpha",
 	)
 	val layoutDirection = LocalLayoutDirection.current
 	val density = LocalDensity.current
@@ -107,7 +104,7 @@ public fun Reveal(
 				revealState.currentRevealable?.toActual(
 					density = density,
 					layoutDirection = layoutDirection,
-					additionalOffset = revealableOffset,
+					additionalOffset = overlayInserter.revealableOffset,
 				)
 			}
 		}
@@ -117,7 +114,7 @@ public fun Reveal(
 				revealState.previousRevealable?.toActual(
 					density = density,
 					layoutDirection = layoutDirection,
-					additionalOffset = revealableOffset,
+					additionalOffset = overlayInserter.revealableOffset,
 				)
 			}
 		}
@@ -143,7 +140,7 @@ public fun Reveal(
 		}
 
 		if (animatedOverlayAlpha > 0.0f) {
-			Fullscreen {
+			overlayInserter.Container {
 				overlayEffect.Overlay(
 					revealState = revealState,
 					currentRevealable = currentRevealable,
@@ -158,6 +155,43 @@ public fun Reveal(
 		}
 	}
 }
+
+@Suppress("ktlint:standard:max-line-length", "ktlint:standard:function-signature")
+@Deprecated(
+	message = "Specify revealableOffset via overlayInserter = FullscreenRevealOverlayInserter(revealableOffset)",
+	replaceWith = ReplaceWith(""),
+)
+@Composable
+/**
+ * @param revealableOffset **DEPRECATED!** Please use [Reveal] composable with `overlayInserter` and
+ *                         specify padding as `FullscreenRevealOverlayInserter(revealableOffset)`.
+ *                         Additional offset which is applied to all revealables of this Reveal
+ *                         instance. Should be used to correct misplaced reveal effects where the
+ *                         root composables and root content view do not match, e.g. in applications
+ *                         that use `ComposeView` in legacy Android views. Use negative values to
+ *                         offset towards [0,0] of the coordinate system.
+ */
+public fun Reveal(
+	onRevealableClick: (key: Key) -> Unit,
+	onOverlayClick: (key: Key) -> Unit,
+	revealableOffset: DpOffset,
+	modifier: Modifier = Modifier,
+	revealState: RevealState = rememberRevealState(),
+	overlayEffect: RevealOverlayEffect = DimRevealOverlayEffect(),
+	overlayEffectAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
+	overlayContent: @Composable RevealOverlayScope.(key: Key) -> Unit = {},
+	content: @Composable RevealScope.() -> Unit,
+): Unit = Reveal(
+	onRevealableClick = onRevealableClick,
+	onOverlayClick = onOverlayClick,
+	modifier = modifier,
+	revealState = revealState,
+	overlayEffect = overlayEffect,
+	overlayEffectAnimationSpec = overlayEffectAnimationSpec,
+	overlayInserter = FullscreenRevealOverlayInserter(revealableOffset),
+	overlayContent = overlayContent,
+	content = content,
+)
 
 private fun Revealable.toActual(
 	density: Density,

@@ -18,7 +18,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "Reveal"
 include(
+	":reveal-common",
 	":reveal-core",
 	":reveal-shapes",
+	":reveal-compat-android",
 	":demo-android",
 )
