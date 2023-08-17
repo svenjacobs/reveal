@@ -164,7 +164,7 @@ public fun Reveal(
 @Composable
 /**
  * @param revealableOffset **DEPRECATED!** Please use [Reveal] composable with `overlayInserter` and
- *                         specify padding as `FullscreenRevealOverlayInserter(revealableOffset)`.
+ *                         specify offset via `FullscreenRevealOverlayInserter(revealableOffset)`.
  *                         Additional offset which is applied to all revealables of this Reveal
  *                         instance. Should be used to correct misplaced reveal effects where the
  *                         root composables and root content view do not match, e.g. in applications
