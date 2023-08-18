@@ -1,8 +1,6 @@
 package com.svenjacobs.reveal
 
-import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,9 +29,9 @@ import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
  *
  * When active, applies the [overlayEffect] and only reveals current revealable element.
  *
- * Adds a new `ComposeView` to the root content view (`android.R.id.content`) for the fullscreen
- * effect. Therefore it does not matter where in the component hierarchy this composable is added.
- * The effect is always rendered fullscreen.
+ * When [FullscreenRevealOverlayInserter] is used, adds a new `ComposeView` to the root content
+ * view (`android.R.id.content`) for the fullscreen effect. Therefore it does not matter where in
+ * the component hierarchy this composable is added. The effect is always rendered fullscreen.
  *
  * Elements inside the contents of this composable are registered as "revealables" via the
  * [RevealScope.revealable] modifier in the scope of the [content] composable.
@@ -44,30 +42,29 @@ import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
  * images) next to the reveal area. This content is placed above the greyed out backdrop. Elements
  * in this scope can be aligned relative to the reveal area via [RevealOverlayScope.align].
  *
- * @param onRevealableClick          Called when the revealable area was clicked, where the
- *                                   parameter `key` is the key of the current revealable item.
- * @param onOverlayClick             Called when the overlay is clicked somewhere outside of the
- *                                   current revealable, where the parameter `key` is the key of the
- *                                   current revealable.
- * @param modifier                   Modifier applied to this composable.
- * @param revealState                State which controls the visibility of the reveal effect.
- * @param overlayEffect              The effect which is used for the background and reveal of
- *                                   items. Currently only [DimRevealOverlayEffect] is supported.
- * @param overlayEffectAnimationSpec Animation spec for the animated alpha value of the overlay
- *                                   effect when showing or hiding.
- * @param overlayInserter            Strategy of how to insert the overlay into the composition.
- * @param overlayContent             Optional content which is placed above the overlay and where
- *                                   its elements can be aligned relative to the reveal area via
- *                                   modifiers available in the scope of this composable. The `key`
- *                                   parameter is the key of the current visible revealable item.
- * @param content                    Actual content which is visible when the Reveal composable is
- *                                   not active. Elements are registered as revealables via
- *                                   modifiers provided in the scope of this composable.
+ * @param onRevealableClick  Called when the revealable area was clicked, where the parameter `key`
+ *                           is the key of the current revealable item.
+ * @param onOverlayClick     Called when the overlay is clicked somewhere outside of the current
+ *                           revealable, where the parameter `key` is the key of the current
+ *                           revealable.
+ * @param modifier           Modifier applied to this composable.
+ * @param revealState        State which controls the visibility of the reveal effect.
+ * @param overlayEffect      The effect which is used for the background and reveal of items.
+ *                           Currently only [DimRevealOverlayEffect] is supported.
+ * @param overlayInserter    Strategy of how to insert the overlay into the composition.
+ * @param overlayContent     Optional content which is placed above the overlay and where its
+ *                           elements can be aligned relative to the reveal area via modifiers
+ *                           available in the scope of this composable. The `key` parameter is the
+ *                           key of the current visible revealable item.
+ * @param content            Actual content which is visible when the Reveal composable is not
+ *                           active. Elements are registered as revealables via modifiers provided
+ *                           in the scope of this composable.
  *
  * @see RevealState
  * @see RevealScope
  * @see RevealOverlayScope
  * @see DimRevealOverlayEffect
+ * @see RevealOverlayInserter
  */
 @Composable
 public fun Reveal(
@@ -76,14 +73,13 @@ public fun Reveal(
 	modifier: Modifier = Modifier,
 	revealState: RevealState = rememberRevealState(),
 	overlayEffect: RevealOverlayEffect = DimRevealOverlayEffect(),
-	overlayEffectAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
 	overlayInserter: RevealOverlayInserter = FullscreenRevealOverlayInserter(),
-	overlayContent: @Composable RevealOverlayScope.(key: Key) -> Unit = {},
-	content: @Composable RevealScope.() -> Unit,
+	overlayContent: @Composable (RevealOverlayScope.(key: Key) -> Unit) = {},
+	content: @Composable (RevealScope.() -> Unit),
 ) {
 	val animatedOverlayAlpha by animateFloatAsState(
 		targetValue = if (revealState.isVisible) 1.0f else 0.0f,
-		animationSpec = overlayEffectAnimationSpec,
+		animationSpec = overlayEffect.alphaAnimationSpec,
 		finishedListener = { alpha ->
 			if (alpha == 0.0f) {
 				revealState.onHideAnimationFinished()
@@ -178,7 +174,6 @@ public fun Reveal(
 	modifier: Modifier = Modifier,
 	revealState: RevealState = rememberRevealState(),
 	overlayEffect: RevealOverlayEffect = DimRevealOverlayEffect(),
-	overlayEffectAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
 	overlayContent: @Composable RevealOverlayScope.(key: Key) -> Unit = {},
 	content: @Composable RevealScope.() -> Unit,
 ): Unit = Reveal(
@@ -187,7 +182,6 @@ public fun Reveal(
 	modifier = modifier,
 	revealState = revealState,
 	overlayEffect = overlayEffect,
-	overlayEffectAnimationSpec = overlayEffectAnimationSpec,
 	overlayInserter = FullscreenRevealOverlayInserter(revealableOffset),
 	overlayContent = overlayContent,
 	content = content,

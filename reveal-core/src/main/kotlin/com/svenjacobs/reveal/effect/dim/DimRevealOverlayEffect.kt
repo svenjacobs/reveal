@@ -36,13 +36,17 @@ import com.svenjacobs.reveal.internal.rect.toIntRect
 /**
  * An overlay effect which dims the background as specified via [color].
  *
- * @param color                Background color of the overlay.
- * @param contentAnimationSpec Animation spec for the animated alpha value of the overlay content.
+ * @param alphaAnimationSpec        Animation spec for the animated alpha of the overlay when this
+ *                                  effect is shown or hidden.
+ * @param color                     Background color of the overlay.
+ * @param contentAlphaAnimationSpec Animation spec for the animated alpha value of the overlay
+ *                                  content.
  */
 @Immutable
 public class DimRevealOverlayEffect(
+	override val alphaAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
 	private val color: Color = Color.Black.copy(alpha = 0.8f),
-	private val contentAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
+	private val contentAlphaAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
 ) : RevealOverlayEffect {
 
 	@Composable
@@ -58,7 +62,7 @@ public class DimRevealOverlayEffect(
 				revealable = it,
 				fromState = Gone,
 				toState = Visible,
-				contentAnimationSpec = contentAnimationSpec,
+				contentAlphaAnimationSpec = contentAlphaAnimationSpec,
 			)
 		}
 
@@ -67,7 +71,7 @@ public class DimRevealOverlayEffect(
 				revealable = it,
 				fromState = Visible,
 				toState = Gone,
-				contentAnimationSpec = contentAnimationSpec,
+				contentAlphaAnimationSpec = contentAlphaAnimationSpec,
 			)
 		}
 
@@ -136,12 +140,13 @@ private fun rememberDimItemHolder(
 	revealable: ActualRevealable,
 	fromState: DimItemState,
 	toState: DimItemState,
-	contentAnimationSpec: AnimationSpec<Float>,
+	contentAlphaAnimationSpec: AnimationSpec<Float>,
 ): DimItemHolder = key(revealable.key) {
 	val targetState = remember { mutableStateOf(fromState) }
 	val contentAlpha = animateFloatAsState(
 		targetValue = if (targetState.value == Visible) 1.0f else 0.0f,
-		animationSpec = contentAnimationSpec,
+		animationSpec = contentAlphaAnimationSpec,
+		label = "contentAlpha",
 	)
 
 	LaunchedEffect(Unit) {
