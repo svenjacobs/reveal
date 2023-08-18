@@ -11,5 +11,6 @@ uses [positionInRoot](https://developer.android.com/reference/kotlin/androidx/co
 to determine the position of revealable items. "Root" in this case is the root composables. If the
 root composable is also the root view like in full-compose apps, this is not a problem. However
 if the `ComposeView` is somewhere else in the view hierarchy, that might cause this problem. To
-work around it specify the additional offset to be applied to all revealables with the
-`revealableOffset` parameter of the `Reveal` composable.
+work around it, specify the additional offset to be applied to all revealables with the
+`revealableOffset` parameter of the `FullscreenRevealOverlayInserter` which is passed to the
+`overlayInserter` argument of the `Reveal` composable.
