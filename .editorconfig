@@ -10,7 +10,7 @@ charset = utf-8
 indent_style = tab
 indent_size = 4
 # ktlint configuration
-ktlint_code_style = android
+ktlint_code_style = android_studio
 ktlint_experimental = enabled
 ktlint_standard_function-naming = disabled
 ktlint_standard_property-naming = disabled
