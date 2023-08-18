@@ -32,9 +32,9 @@ public abstract class BaseRevealTest {
 			revealState = rememberRevealState()
 
 			Reveal(
-				revealState = revealState,
 				onRevealableClick = onRevealableClick,
 				onOverlayClick = onOverlayClick,
+				revealState = revealState,
 				overlayContent = { key ->
 					when (key) {
 						Keys.Key1 -> Text("Overlay1")

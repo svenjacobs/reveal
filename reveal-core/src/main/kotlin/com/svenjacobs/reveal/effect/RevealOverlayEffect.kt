@@ -1,5 +1,6 @@
 package com.svenjacobs.reveal.effect
 
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
@@ -21,4 +22,9 @@ public interface RevealOverlayEffect {
 		modifier: Modifier,
 		content: @Composable RevealOverlayScope.(key: Key) -> Unit,
 	)
+
+	/**
+	 * Animation spec for the animated alpha of the overlay when this effect is shown or hidden.
+	 */
+	public val alphaAnimationSpec: AnimationSpec<Float>
 }

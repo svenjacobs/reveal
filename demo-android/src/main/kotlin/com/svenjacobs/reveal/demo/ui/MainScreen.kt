@@ -51,8 +51,6 @@ fun MainScreen(modifier: Modifier = Modifier) {
 		val scope = rememberCoroutineScope()
 
 		Reveal(
-			modifier = modifier,
-			revealState = revealState,
 			onRevealableClick = { key ->
 				scope.launch {
 					if (key == Keys.Fab) {
@@ -63,6 +61,8 @@ fun MainScreen(modifier: Modifier = Modifier) {
 				}
 			},
 			onOverlayClick = { scope.launch { revealState.hide() } },
+			modifier = modifier,
+			revealState = revealState,
 			overlayInserter = InPlaceRevealOverlayInserter(),
 			overlayContent = { key -> RevealOverlayContent(key) },
 		) {
