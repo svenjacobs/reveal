@@ -13,4 +13,4 @@ root composable is also the root view like in full-compose apps, this is not a p
 if the `ComposeView` is somewhere else in the view hierarchy, that might cause this problem. To
 work around it, specify the additional offset to be applied to all revealables with the
 `revealableOffset` parameter of the `FullscreenRevealOverlayInserter` which is passed to the
-`overlayInserter` argument of the `Reveal` composable.
+`overlayInserter` argument of the `RevealCanvas` composable.

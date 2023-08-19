@@ -26,33 +26,48 @@ dependencies {
 
 #### Artifacts
 
-| Name            | Description                             |
-|-----------------|-----------------------------------------|
-| `reveal-core`   | Contains core classes. You need this 🙂 |
-| `reveal-shapes` | Additional shapes for explanatory items |
+| Name                    | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| `reveal-core`           | Contains core classes. You need this 🙂                                     |
+| `reveal-shapes`         | Additional shapes for explanatory items                                     |
+| `reveal-compat-android` | Compatibility utilities for Android targets with a mixed View/Compose setup |
 
 ### Compose
 
-The `Reveal` composable should be one of the top most composables in the hierarchy of your
-screen-level composable in order to access its scope. However it doesn't matter where in the
-component hierarchy the composable is added. The effect is always rendered fullscreen.
-You can have multiple `Reveal` instances in your UI hierarchy, for example per module or per
-screen. However it is recommended to only have one `Reveal` instance per screen.
+There are two significant composables:
+
+First there is `RevealCanvas`, which is responsible for rendering the effect. There should only be
+one `RevealCanvas` instance in the Compose hierarchy and it should be at a top or the topmost
+position of the tree in order to ensure that the effect is rendered "full screen" above all other
+elements.
+
+Second the `Reveal` composable is responsible for registration of and interaction with revealable
+items. There can be many `Reveal` instance and they have a direct relation to the `RevealCanvas`
+instance. Usually there should be at most one `Reveal` per "screen" of an application.
 
 ```kotlin
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
 ) {
-    val revealState = rememberRevealState()
+    val revealCanvasState = rememberRevealCanvasState()
 
-    Reveal(
+    // Single instance that should be at the top of the Compose hierarchy
+    RevealCanvas(
         modifier = modifier.fillMaxSize(),
-        revealState = revealState,
-        onRevealableClick = {},
-        onOverlayClick = {},
+        revealCanvasState = revealCanvasState,
     ) {
-        // Contents
+        val revealState = rememberRevealState()
+
+        // Usually once instance per screen
+        Reveal(
+            revealCanvasState = revealCanvasState,
+            revealState = revealState,
+            onRevealableClick = {},
+            onOverlayClick = {},
+        ) {
+            // Contents
+        }
     }
 }
 ```

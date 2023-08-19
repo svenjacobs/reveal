@@ -13,6 +13,9 @@ import androidx.compose.runtime.setValue
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
+/**
+ * @see rememberRevealState
+ */
 @Stable
 @Suppress("MemberVisibilityCanBePrivate")
 public class RevealState internal constructor(

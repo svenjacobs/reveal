@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.LayoutDirection
 import com.svenjacobs.reveal.common.inserter.RevealOverlayInserter
-import com.svenjacobs.reveal.compat.android.inserter.FullscreenRevealOverlayInserter
 import com.svenjacobs.reveal.effect.RevealOverlayEffect
 import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
 
@@ -28,10 +27,6 @@ import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
  * Container composable for the reveal effect.
  *
  * When active, applies the [overlayEffect] and only reveals current revealable element.
- *
- * When [FullscreenRevealOverlayInserter] is used, adds a new `ComposeView` to the root content
- * view (`android.R.id.content`) for the fullscreen effect. Therefore it does not matter where in
- * the component hierarchy this composable is added. The effect is always rendered fullscreen.
  *
  * Elements inside the contents of this composable are registered as "revealables" via the
  * [RevealScope.revealable] modifier in the scope of the [content] composable.
@@ -42,16 +37,21 @@ import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
  * images) next to the reveal area. This content is placed above the greyed out backdrop. Elements
  * in this scope can be aligned relative to the reveal area via [RevealOverlayScope.align].
  *
+ * This composable requires a higher level [RevealCanvas] and its associated [RevealCanvasState].
+ * While there should be only one [RevealCanvas] per application at a top position in the Compose
+ * hierarchy, there can be many [Reveal] instances. The recommendation is one instance per "screen".
+ * However only one [Reveal] should be active/visible at a time.
+ *
  * @param onRevealableClick  Called when the revealable area was clicked, where the parameter `key`
  *                           is the key of the current revealable item.
  * @param onOverlayClick     Called when the overlay is clicked somewhere outside of the current
  *                           revealable, where the parameter `key` is the key of the current
  *                           revealable.
+ * @param revealCanvasState  State of higher level [RevealCanvas]
  * @param modifier           Modifier applied to this composable.
  * @param revealState        State which controls the visibility of the reveal effect.
  * @param overlayEffect      The effect which is used for the background and reveal of items.
  *                           Currently only [DimRevealOverlayEffect] is supported.
- * @param overlayInserter    Strategy of how to insert the overlay into the composition.
  * @param overlayContent     Optional content which is placed above the overlay and where its
  *                           elements can be aligned relative to the reveal area via modifiers
  *                           available in the scope of this composable. The `key` parameter is the
@@ -60,6 +60,7 @@ import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
  *                           active. Elements are registered as revealables via modifiers provided
  *                           in the scope of this composable.
  *
+ * @see RevealCanvas
  * @see RevealState
  * @see RevealScope
  * @see RevealOverlayScope
@@ -70,10 +71,10 @@ import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
 public fun Reveal(
 	onRevealableClick: (key: Key) -> Unit,
 	onOverlayClick: (key: Key) -> Unit,
+	revealCanvasState: RevealCanvasState,
 	modifier: Modifier = Modifier,
 	revealState: RevealState = rememberRevealState(),
 	overlayEffect: RevealOverlayEffect = DimRevealOverlayEffect(),
-	overlayInserter: RevealOverlayInserter = FullscreenRevealOverlayInserter(),
 	overlayContent: @Composable (RevealOverlayScope.(key: Key) -> Unit) = {},
 	content: @Composable (RevealScope.() -> Unit),
 ) {
@@ -100,7 +101,7 @@ public fun Reveal(
 				revealState.currentRevealable?.toActual(
 					density = density,
 					layoutDirection = layoutDirection,
-					additionalOffset = overlayInserter.revealableOffset,
+					additionalOffset = revealCanvasState.revealableOffset,
 				)
 			}
 		}
@@ -110,7 +111,7 @@ public fun Reveal(
 				revealState.previousRevealable?.toActual(
 					density = density,
 					layoutDirection = layoutDirection,
-					additionalOffset = overlayInserter.revealableOffset,
+					additionalOffset = revealCanvasState.revealableOffset,
 				)
 			}
 		}
@@ -135,8 +136,9 @@ public fun Reveal(
 			else -> Modifier
 		}
 
-		if (animatedOverlayAlpha > 0.0f) {
-			overlayInserter.Container {
+		@Suppress("ktlint:standard:wrapping")
+		revealCanvasState.overlayContent = when {
+			animatedOverlayAlpha > 0.0f -> ({
 				overlayEffect.Overlay(
 					revealState = revealState,
 					currentRevealable = currentRevealable,
@@ -147,45 +149,12 @@ public fun Reveal(
 						.alpha(animatedOverlayAlpha),
 					content = overlayContent,
 				)
-			}
+			})
+
+			else -> null
 		}
 	}
 }
-
-@Suppress("ktlint:standard:max-line-length", "ktlint:standard:function-signature")
-@Deprecated(
-	message = "Specify revealableOffset via overlayInserter = FullscreenRevealOverlayInserter(revealableOffset)",
-	replaceWith = ReplaceWith(""),
-)
-@Composable
-/**
- * @param revealableOffset **DEPRECATED!** Please use [Reveal] composable with `overlayInserter` and
- *                         specify offset via `FullscreenRevealOverlayInserter(revealableOffset)`.
- *                         Additional offset which is applied to all revealables of this Reveal
- *                         instance. Should be used to correct misplaced reveal effects where the
- *                         root composables and root content view do not match, e.g. in applications
- *                         that use `ComposeView` in legacy Android views. Use negative values to
- *                         offset towards [0,0] of the coordinate system.
- */
-public fun Reveal(
-	onRevealableClick: (key: Key) -> Unit,
-	onOverlayClick: (key: Key) -> Unit,
-	revealableOffset: DpOffset,
-	modifier: Modifier = Modifier,
-	revealState: RevealState = rememberRevealState(),
-	overlayEffect: RevealOverlayEffect = DimRevealOverlayEffect(),
-	overlayContent: @Composable RevealOverlayScope.(key: Key) -> Unit = {},
-	content: @Composable RevealScope.() -> Unit,
-): Unit = Reveal(
-	onRevealableClick = onRevealableClick,
-	onOverlayClick = onOverlayClick,
-	modifier = modifier,
-	revealState = revealState,
-	overlayEffect = overlayEffect,
-	overlayInserter = FullscreenRevealOverlayInserter(revealableOffset),
-	overlayContent = overlayContent,
-	content = content,
-)
 
 private fun Revealable.toActual(
 	density: Density,

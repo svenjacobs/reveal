@@ -31,26 +31,31 @@ public abstract class BaseRevealTest {
 			scope = rememberCoroutineScope()
 			revealState = rememberRevealState()
 
-			Reveal(
-				onRevealableClick = onRevealableClick,
-				onOverlayClick = onOverlayClick,
-				revealState = revealState,
-				overlayContent = { key ->
-					when (key) {
-						Keys.Key1 -> Text("Overlay1")
-						Keys.Key2 -> Text("Overlay2")
-					}
-				},
-			) {
-				Text(
-					modifier = Modifier.revealable(key = Keys.Key1),
-					text = "Element1",
-				)
+			val revealCanvasState = rememberRevealCanvasState()
 
-				Text(
-					modifier = Modifier.revealable(key = Keys.Key2),
-					text = "Element2",
-				)
+			RevealCanvas(revealCanvasState = revealCanvasState) {
+				Reveal(
+					onRevealableClick = onRevealableClick,
+					onOverlayClick = onOverlayClick,
+					revealCanvasState = revealCanvasState,
+					revealState = revealState,
+					overlayContent = { key ->
+						when (key) {
+							Keys.Key1 -> Text("Overlay1")
+							Keys.Key2 -> Text("Overlay2")
+						}
+					},
+				) {
+					Text(
+						modifier = Modifier.revealable(key = Keys.Key1),
+						text = "Element1",
+					)
+
+					Text(
+						modifier = Modifier.revealable(key = Keys.Key2),
+						text = "Element2",
+					)
+				}
 			}
 		}
 
