@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
-import com.svenjacobs.reveal.demo.ui.MainScreen
+import com.svenjacobs.reveal.demo.ui.App
 
 class MainActivity : ComponentActivity() {
 
@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
 		WindowCompat.setDecorFitsSystemWindows(window, false)
 
 		setContent {
-			MainScreen()
+			App()
 		}
 	}
 }

@@ -63,6 +63,7 @@ dependencies {
 
 	implementation(project(":reveal-core"))
 	implementation(project(":reveal-shapes"))
+	implementation(project(":reveal-compat-android"))
 	implementation(composeBom)
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.lifecycle.runtime.ktx)

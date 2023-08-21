@@ -22,11 +22,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.svenjacobs.reveal.Key
 import com.svenjacobs.reveal.Reveal
+import com.svenjacobs.reveal.RevealCanvasState
 import com.svenjacobs.reveal.RevealOverlayArrangement
 import com.svenjacobs.reveal.RevealOverlayScope
 import com.svenjacobs.reveal.RevealShape
-import com.svenjacobs.reveal.common.inserter.InPlaceRevealOverlayInserter
 import com.svenjacobs.reveal.demo.ui.theme.DemoTheme
+import com.svenjacobs.reveal.rememberRevealCanvasState
 import com.svenjacobs.reveal.rememberRevealState
 import com.svenjacobs.reveal.shapes.balloon.Arrow
 import com.svenjacobs.reveal.shapes.balloon.Balloon
@@ -38,7 +39,8 @@ private enum class Keys { Fab, Explanation }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifier) {
+	val scope = rememberCoroutineScope()
 	val revealState = rememberRevealState()
 
 	LaunchedEffect(Unit) {
@@ -47,68 +49,61 @@ fun MainScreen(modifier: Modifier = Modifier) {
 		revealState.reveal(Keys.Fab)
 	}
 
-	DemoTheme {
-		val scope = rememberCoroutineScope()
-
-		Reveal(
-			onRevealableClick = { key ->
-				scope.launch {
-					if (key == Keys.Fab) {
-						revealState.reveal(Keys.Explanation)
-					} else {
-						revealState.hide()
-					}
-				}
+	Reveal(
+		onOverlayClick = { scope.launch { revealState.hide() } },
+		modifier = modifier,
+		revealCanvasState = revealCanvasState,
+		revealState = revealState,
+		overlayContent = { key -> RevealOverlayContent(key) },
+	) {
+		Scaffold(
+			modifier = Modifier.fillMaxSize(),
+			topBar = {
+				CenterAlignedTopAppBar(
+					title = { Text("Reveal Demo") },
+				)
 			},
-			onOverlayClick = { scope.launch { revealState.hide() } },
-			modifier = modifier,
-			revealState = revealState,
-			overlayInserter = InPlaceRevealOverlayInserter(),
-			overlayContent = { key -> RevealOverlayContent(key) },
-		) {
-			Scaffold(
-				modifier = Modifier.fillMaxSize(),
-				topBar = {
-					CenterAlignedTopAppBar(
-						title = { Text("Reveal Demo") },
-					)
-				},
-				floatingActionButton = {
-					FloatingActionButton(
-						modifier = Modifier.revealable(
-							key = Keys.Fab,
-							shape = RevealShape.RoundRect(16.dp),
-						),
+			floatingActionButton = {
+				FloatingActionButton(
+					modifier = Modifier.revealable(
+						key = Keys.Fab,
+						shape = RevealShape.RoundRect(16.dp),
 						onClick = {
 							scope.launch { revealState.reveal(Keys.Explanation) }
 						},
-					) {
-						Icon(
-							Icons.Filled.Add,
-							contentDescription = null,
-						)
-					}
-				},
-			) { contentPadding ->
-				Column(
-					modifier = Modifier
-						.fillMaxSize()
-						.padding(contentPadding)
-						.padding(horizontal = 16.dp),
-					horizontalAlignment = Alignment.CenterHorizontally,
+					),
+					onClick = {
+						scope.launch { revealState.reveal(Keys.Explanation) }
+					},
 				) {
-					Text(
-						modifier = Modifier
-							.padding(top = 16.dp)
-							.revealable(
-								key = Keys.Explanation,
-							),
-						text = "Reveal is a lightweight, simple reveal effect (also known as " +
-							"coach mark or onboarding) library for Jetpack Compose.",
-						style = MaterialTheme.typography.bodyLarge,
-						textAlign = TextAlign.Justify,
+					Icon(
+						Icons.Filled.Add,
+						contentDescription = null,
 					)
 				}
+			},
+		) { contentPadding ->
+			Column(
+				modifier = Modifier
+					.fillMaxSize()
+					.padding(contentPadding)
+					.padding(horizontal = 16.dp),
+				horizontalAlignment = Alignment.CenterHorizontally,
+			) {
+				Text(
+					modifier = Modifier
+						.padding(top = 16.dp)
+						.revealable(
+							key = Keys.Explanation,
+							onClick = {
+								scope.launch { revealState.hide() }
+							},
+						),
+					text = "Reveal is a lightweight, simple reveal effect (also known as " +
+						"coach mark or onboarding) library for Jetpack Compose.",
+					style = MaterialTheme.typography.bodyLarge,
+					textAlign = TextAlign.Justify,
+				)
 			}
 		}
 	}
@@ -156,6 +151,8 @@ private fun OverlayText(text: String, arrow: Arrow, modifier: Modifier = Modifie
 @Preview(showBackground = true)
 private fun MainScreenPreview() {
 	DemoTheme {
-		MainScreen()
+		MainScreen(
+			revealCanvasState = rememberRevealCanvasState(),
+		)
 	}
 }
