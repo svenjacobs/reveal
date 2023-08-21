@@ -5,6 +5,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -137,22 +138,24 @@ public fun Reveal(
 			else -> Modifier
 		}
 
-		@Suppress("ktlint:standard:wrapping")
-		revealCanvasState.overlayContent = when {
-			animatedOverlayAlpha > 0.0f -> ({
-				overlayEffect.Overlay(
-					revealState = revealState,
-					currentRevealable = currentRevealable,
-					previousRevealable = previousRevealable,
-					modifier = clickModifier
-						.semantics { testTag = "overlay" }
-						.fillMaxSize()
-						.alpha(animatedOverlayAlpha),
-					content = overlayContent,
-				)
-			})
+		LaunchedEffect(animatedOverlayAlpha) {
+			@Suppress("ktlint:standard:wrapping")
+			revealCanvasState.overlayContent = when {
+				animatedOverlayAlpha > 0.0f -> ({
+					overlayEffect.Overlay(
+						revealState = revealState,
+						currentRevealable = currentRevealable,
+						previousRevealable = previousRevealable,
+						modifier = clickModifier
+							.semantics { testTag = "overlay" }
+							.fillMaxSize()
+							.alpha(animatedOverlayAlpha),
+						content = overlayContent,
+					)
+				})
 
-			else -> null
+				else -> null
+			}
 		}
 	}
 }
