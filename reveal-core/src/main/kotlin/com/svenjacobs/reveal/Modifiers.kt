@@ -25,6 +25,9 @@ import androidx.compose.ui.unit.toSize
  *                with a corner size of 4 dp.
  * @param padding Additional padding around the reveal area. Positive values increase area while
  *                negative values decrease it. Defaults to 8 dp on all sides.
+ * @param onClick Called when item is clicked while revealed. `key` is the key of this, the clicked
+ *                element. If click listener is defined here, clicks for this element will not be
+ *                handled by `onRevealableClick` of `Reveal`
  *
  * @see Key
  */
@@ -33,12 +36,14 @@ public fun Modifier.revealable(
 	state: RevealState,
 	shape: RevealShape = RevealShape.RoundRect(4.dp),
 	padding: PaddingValues = PaddingValues(8.dp),
+	onClick: OnClickListener? = null,
 ): Modifier = this.then(
 	Modifier.revealable(
 		state = state,
 		keys = listOf(key),
 		shape = shape,
 		padding = padding,
+		onClick = onClick,
 	),
 )
 
@@ -58,6 +63,9 @@ public fun Modifier.revealable(
  *                with a corner size of 4 dp.
  * @param padding Additional padding around the reveal area. Positive values increase area while
  *                negative values decrease it. Defaults to 8 dp on all sides.
+ * @param onClick Called when item is clicked while revealed. `key` is the key of this, the clicked
+ *                element. If click listener is defined here, clicks for this element will not be
+ *                handled by `onRevealableClick` of `Reveal`
  *
  * @see Key
  */
@@ -66,12 +74,14 @@ public fun Modifier.revealable(
 	state: RevealState,
 	shape: RevealShape = RevealShape.RoundRect(4.dp),
 	padding: PaddingValues = PaddingValues(8.dp),
+	onClick: OnClickListener? = null,
 ): Modifier = this.then(
 	Modifier.revealable(
 		state = state,
 		keys = keys.toList(),
 		shape = shape,
 		padding = padding,
+		onClick = onClick,
 	),
 )
 
@@ -91,6 +101,9 @@ public fun Modifier.revealable(
  *                with a corner size of 4 dp.
  * @param padding Additional padding around the reveal area. Positive values increase area while
  *                negative values decrease it. Defaults to 8 dp on all sides.
+ * @param onClick Called when item is clicked while revealed. `key` is the key of this, the clicked
+ *                element. If click listener is defined here, clicks for this element will not be
+ *                handled by `onRevealableClick` of `Reveal`
  *
  * @see Key
  */
@@ -99,6 +112,7 @@ public fun Modifier.revealable(
 	state: RevealState,
 	shape: RevealShape = RevealShape.RoundRect(4.dp),
 	padding: PaddingValues = PaddingValues(8.dp),
+	onClick: OnClickListener? = null,
 ): Modifier = this.then(
 	Modifier
 		.onGloballyPositioned { layoutCoordinates ->
@@ -112,6 +126,7 @@ public fun Modifier.revealable(
 							offset = layoutCoordinates.positionInRoot(),
 							size = layoutCoordinates.size.toSize(),
 						),
+						onClick = onClick,
 					),
 				)
 			}

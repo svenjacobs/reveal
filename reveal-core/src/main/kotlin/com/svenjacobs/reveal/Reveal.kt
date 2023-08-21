@@ -42,13 +42,14 @@ import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
  * hierarchy, there can be many [Reveal] instances. The recommendation is one instance per "screen".
  * However only one [Reveal] should be active/visible at a time.
  *
+ * @param revealCanvasState  State of higher level [RevealCanvas]
+ * @param modifier           Modifier applied to this composable.
  * @param onRevealableClick  Called when the revealable area was clicked, where the parameter `key`
- *                           is the key of the current revealable item.
+ *                           is the key of the current revealable item. Is not called for an item
+ *                           when the clicked revealable item declares `onClick` via its modifier.
  * @param onOverlayClick     Called when the overlay is clicked somewhere outside of the current
  *                           revealable, where the parameter `key` is the key of the current
  *                           revealable.
- * @param revealCanvasState  State of higher level [RevealCanvas]
- * @param modifier           Modifier applied to this composable.
  * @param revealState        State which controls the visibility of the reveal effect.
  * @param overlayEffect      The effect which is used for the background and reveal of items.
  *                           Currently only [DimRevealOverlayEffect] is supported.
@@ -69,10 +70,10 @@ import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
  */
 @Composable
 public fun Reveal(
-	onRevealableClick: (key: Key) -> Unit,
-	onOverlayClick: (key: Key) -> Unit,
 	revealCanvasState: RevealCanvasState,
 	modifier: Modifier = Modifier,
+	onRevealableClick: OnClickListener = {},
+	onOverlayClick: OnClickListener = {},
 	revealState: RevealState = rememberRevealState(),
 	overlayEffect: RevealOverlayEffect = DimRevealOverlayEffect(),
 	overlayContent: @Composable (RevealOverlayScope.(key: Key) -> Unit) = {},
@@ -124,7 +125,7 @@ public fun Reveal(
 					onPress = { offset ->
 						rev?.key?.let(
 							if (rev?.area?.contains(offset) == true) {
-								onRevealableClick
+								rev?.onClick ?: onRevealableClick
 							} else {
 								onOverlayClick
 							},
@@ -156,6 +157,8 @@ public fun Reveal(
 	}
 }
 
+public typealias OnClickListener = (key: Key) -> Unit
+
 private fun Revealable.toActual(
 	density: Density,
 	layoutDirection: LayoutDirection,
@@ -169,4 +172,5 @@ private fun Revealable.toActual(
 		layoutDirection = layoutDirection,
 		additionalOffset = additionalOffset,
 	),
+	onClick = onClick,
 )

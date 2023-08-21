@@ -15,6 +15,7 @@ public data class Revealable(
 	val shape: RevealShape,
 	val padding: PaddingValues,
 	val layout: Layout,
+	val onClick: OnClickListener?,
 ) {
 
 	/**
@@ -34,6 +35,7 @@ public data class ActualRevealable(
 	val shape: RevealShape,
 	val padding: PaddingValues,
 	val area: Rect,
+	val onClick: OnClickListener?,
 )
 
 /**

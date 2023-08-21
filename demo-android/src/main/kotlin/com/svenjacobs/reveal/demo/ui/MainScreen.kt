@@ -50,15 +50,6 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
 	}
 
 	Reveal(
-		onRevealableClick = { key ->
-			scope.launch {
-				if (key == Keys.Fab) {
-					revealState.reveal(Keys.Explanation)
-				} else {
-					revealState.hide()
-				}
-			}
-		},
 		onOverlayClick = { scope.launch { revealState.hide() } },
 		modifier = modifier,
 		revealCanvasState = revealCanvasState,
@@ -77,6 +68,9 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
 					modifier = Modifier.revealable(
 						key = Keys.Fab,
 						shape = RevealShape.RoundRect(16.dp),
+						onClick = {
+							scope.launch { revealState.reveal(Keys.Explanation) }
+						},
 					),
 					onClick = {
 						scope.launch { revealState.reveal(Keys.Explanation) }
@@ -101,6 +95,9 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
 						.padding(top = 16.dp)
 						.revealable(
 							key = Keys.Explanation,
+							onClick = {
+								scope.launch { revealState.hide() }
+							},
 						),
 					text = "Reveal is a lightweight, simple reveal effect (also known as " +
 						"coach mark or onboarding) library for Jetpack Compose.",

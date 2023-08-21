@@ -16,8 +16,8 @@ public abstract class BaseRevealTest {
 	public val composeTestRule: ComposeContentTestRule = createComposeRule()
 
 	internal fun test(
-		onRevealableClick: (key: Key) -> Unit = {},
-		onOverlayClick: (key: Key) -> Unit = {},
+		onRevealableClick: OnClickListener = {},
+		onOverlayClick: OnClickListener = {},
 		body: (
 			testRule: ComposeContentTestRule,
 			revealState: RevealState,

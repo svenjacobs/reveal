@@ -27,6 +27,9 @@ public interface RevealScope {
 	 *                with a corner size of 4 dp.
 	 * @param padding Additional padding around the reveal area. Positive values increase area while
 	 *                negative values decrease it. Defaults to 8 dp on all sides.
+	 * @param onClick Called when item is clicked while revealed. `key` is the key of this, the
+	 *                clicked element. If click listener is defined here, clicks for this element
+	 *                will not be handled by `onRevealableClick` of `Reveal`
 	 *
 	 * @see Key
 	 */
@@ -34,6 +37,7 @@ public interface RevealScope {
 		key: Key,
 		shape: RevealShape = RevealShape.RoundRect(4.dp),
 		padding: PaddingValues = PaddingValues(8.dp),
+		onClick: OnClickListener? = null,
 	): Modifier
 
 	/**
@@ -51,6 +55,9 @@ public interface RevealScope {
 	 *                with a corner size of 4 dp.
 	 * @param padding Additional padding around the reveal area. Positive values increase area while
 	 *                negative values decrease it. Defaults to 8 dp on all sides.
+	 * @param onClick Called when item is clicked while revealed. `key` is the key of this, the
+	 *                clicked element. If click listener is defined here, clicks for this element
+	 *                will not be handled by `onRevealableClick` of `Reveal`
 	 *
 	 * @see Key
 	 */
@@ -58,6 +65,7 @@ public interface RevealScope {
 		vararg keys: Key,
 		shape: RevealShape = RevealShape.RoundRect(4.dp),
 		padding: PaddingValues = PaddingValues(8.dp),
+		onClick: OnClickListener? = null,
 	): Modifier
 
 	/**
@@ -75,6 +83,9 @@ public interface RevealScope {
 	 *                with a corner size of 4 dp.
 	 * @param padding Additional padding around the reveal area. Positive values increase area while
 	 *                negative values decrease it. Defaults to 8 dp on all sides.
+	 * @param onClick Called when item is clicked while revealed. `key` is the key of this, the
+	 *                clicked element. If click listener is defined here, clicks for this element
+	 *                will not be handled by `onRevealableClick` of `Reveal`
 	 *
 	 * @see Key
 	 */
@@ -82,6 +93,7 @@ public interface RevealScope {
 		keys: Iterable<Key>,
 		shape: RevealShape = RevealShape.RoundRect(4.dp),
 		padding: PaddingValues = PaddingValues(8.dp),
+		onClick: OnClickListener? = null,
 	): Modifier
 }
 
@@ -89,26 +101,33 @@ internal class RevealScopeInstance(
 	private val revealState: RevealState,
 ) : RevealScope {
 
-	override fun Modifier.revealable(key: Key, shape: RevealShape, padding: PaddingValues): Modifier =
-		this.then(
-			Modifier.revealable(
-				key = key,
-				state = revealState,
-				shape = shape,
-				padding = padding,
-			),
-		)
+	override fun Modifier.revealable(
+		key: Key,
+		shape: RevealShape,
+		padding: PaddingValues,
+		onClick: OnClickListener?,
+	): Modifier = this.then(
+		Modifier.revealable(
+			key = key,
+			state = revealState,
+			shape = shape,
+			padding = padding,
+			onClick = onClick,
+		),
+	)
 
 	override fun Modifier.revealable(
 		vararg keys: Key,
 		shape: RevealShape,
 		padding: PaddingValues,
+		onClick: OnClickListener?,
 	): Modifier = this.then(
 		Modifier.revealable(
 			keys = keys,
 			state = revealState,
 			shape = shape,
 			padding = padding,
+			onClick = onClick,
 		),
 	)
 
@@ -116,12 +135,14 @@ internal class RevealScopeInstance(
 		keys: Iterable<Key>,
 		shape: RevealShape,
 		padding: PaddingValues,
+		onClick: OnClickListener?,
 	): Modifier = this.then(
 		Modifier.revealable(
 			keys = keys,
 			state = revealState,
 			shape = shape,
 			padding = padding,
+			onClick = onClick,
 		),
 	)
 }
