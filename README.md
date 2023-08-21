@@ -59,7 +59,7 @@ fun MainScreen(
     ) {
         val revealState = rememberRevealState()
 
-        // Usually once instance per screen
+        // Usually one instance per screen
         Reveal(
             revealCanvasState = revealCanvasState,
             revealState = revealState,
