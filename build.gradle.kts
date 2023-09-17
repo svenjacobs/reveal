@@ -17,9 +17,6 @@ plugins {
 	alias(libs.plugins.kotlinter)
 }
 
-group = Publication.group
-version = Publication.version
-
 subprojects {
 	apply(plugin = "org.jmailen.kotlinter")
 	// https://stackoverflow.com/a/76536068/416029
@@ -43,3 +40,7 @@ tasks.withType<DependencyUpdatesTask> {
 		isNonStable(candidate.version) && !isNonStable(currentVersion)
 	}
 }
+
+val androidMinSdk by extra { 21 }
+val androidTargetSdk by extra { 34 }
+val androidCompileSdk by extra { 34 }

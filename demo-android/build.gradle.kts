@@ -3,14 +3,18 @@ plugins {
 	alias(libs.plugins.jetbrains.kotlin.android)
 }
 
+val androidMinSdk: Int by rootProject.extra
+val androidTargetSdk: Int by rootProject.extra
+val androidCompileSdk: Int by rootProject.extra
+
 android {
 	namespace = "com.svenjacobs.reveal.demo"
-	compileSdk = Android.compileSdk
+	compileSdk = androidCompileSdk
 
 	defaultConfig {
 		applicationId = "com.svenjacobs.reveal.demo"
-		minSdk = Android.minSdk
-		targetSdk = Android.targetSdk
+		minSdk = androidMinSdk
+		targetSdk = androidTargetSdk
 		versionCode = 1
 		versionName = "1.0"
 
@@ -63,7 +67,7 @@ dependencies {
 
 	implementation(project(":reveal-core"))
 	implementation(project(":reveal-shapes"))
-	implementation(project(":reveal-compat-android"))
+//	implementation(project(":reveal-compat-android"))
 	implementation(composeBom)
 	implementation(libs.androidx.core.ktx)
 	implementation(libs.androidx.lifecycle.runtime.ktx)

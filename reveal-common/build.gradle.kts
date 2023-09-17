@@ -4,9 +4,10 @@ plugins {
 	alias(libs.plugins.jetbrains.kotlin.multiplatform)
 	alias(libs.plugins.jetbrains.compose)
 	alias(libs.plugins.android.library)
-	`maven-publish`
-	signing
+	id("convention.publication")
 }
+
+val publicationName by extra { "Reveal (Common)" }
 
 @OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
@@ -18,6 +19,7 @@ kotlin {
 				jvmTarget = "11"
 			}
 		}
+		publishLibraryVariants("release")
 	}
 
 	listOf(
@@ -47,15 +49,18 @@ kotlin {
 	explicitApi()
 }
 
+val androidMinSdk: Int by rootProject.extra
+val androidCompileSdk: Int by rootProject.extra
+
 android {
 	namespace = "com.svenjacobs.reveal.common"
-	compileSdk = Android.compileSdk
+	compileSdk = androidCompileSdk
 
 	defaultConfig {
-		minSdk = Android.minSdk
+		minSdk = androidMinSdk
 
 		aarMetadata {
-			minCompileSdk = Android.minSdk
+			minCompileSdk = androidMinSdk
 		}
 
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -94,30 +99,4 @@ android {
 
 dependencies {
 	lintChecks(libs.slack.compose.lint.checks)
-}
-
-publishing {
-	publications {
-		register<MavenPublication>("release") {
-			groupId = Publication.group
-			version = Publication.version
-			artifactId = "reveal-common"
-
-			afterEvaluate {
-				from(components["release"])
-			}
-
-			pomAttributes(name = "Reveal (Common)")
-		}
-	}
-}
-
-signing {
-	// Store key and password in environment variables
-	// ORG_GRADLE_PROJECT_signingKey and ORG_GRADLE_PROJECT_signingPassword
-	val signingKey: String? by project
-	val signingPassword: String? by project
-	useInMemoryPgpKeys(signingKey, signingPassword)
-
-	sign(publishing.publications["release"])
 }

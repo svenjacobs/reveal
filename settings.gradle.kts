@@ -17,6 +17,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Reveal"
+includeBuild("convention-plugins")
 include(
 	":reveal-common",
 	":reveal-core",
