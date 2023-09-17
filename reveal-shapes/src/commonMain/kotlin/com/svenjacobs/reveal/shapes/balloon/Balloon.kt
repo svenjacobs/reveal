@@ -1,6 +1,5 @@
 package com.svenjacobs.reveal.shapes.balloon
 
-import androidx.annotation.FloatRange
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -55,7 +54,7 @@ public fun Balloon(
 	arrow: Arrow,
 	backgroundBrush: Brush,
 	modifier: Modifier = Modifier,
-	@FloatRange(from = 0.0, to = 1.0) backgroundAlpha: Float = 1.0f,
+	backgroundAlpha: Float = 1.0f,
 	cornerRadius: Dp = 8.dp,
 	elevation: Dp = 0.dp,
 	contentAlignment: Alignment = Alignment.TopStart,
