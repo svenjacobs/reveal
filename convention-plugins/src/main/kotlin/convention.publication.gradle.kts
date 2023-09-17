@@ -3,11 +3,18 @@ plugins {
 	signing
 }
 
+val javadocJar by tasks.registering(Jar::class) {
+	archiveClassifier.set("javadoc")
+}
+
 publishing {
 	publications {
 		withType<MavenPublication> {
 			groupId = "com.svenjacobs.reveal"
 			version = (System.getenv("RELEASE_TAG_NAME") ?: "SNAPSHOT").replace("v", "")
+
+			// Stub javadoc.jar artifact
+			artifact(javadocJar.get())
 
 			pom {
 				afterEvaluate {

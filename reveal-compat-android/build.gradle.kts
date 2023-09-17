@@ -51,13 +51,6 @@ android {
 		kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
 	}
 
-	publishing {
-		singleVariant("release") {
-			withSourcesJar()
-			withJavadocJar()
-		}
-	}
-
 	lint {
 		baseline = file("lint-baseline.xml")
 	}
