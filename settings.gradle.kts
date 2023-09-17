@@ -23,5 +23,4 @@ include(
 	":reveal-core",
 	":reveal-shapes",
 	":reveal-compat-android",
-	":demo-android",
 )
