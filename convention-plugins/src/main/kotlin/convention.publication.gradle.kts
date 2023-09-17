@@ -14,7 +14,7 @@ publishing {
 					val publicationName: String by extra
 					this@pom.name.set(publicationName)
 				}
-				description.set("Lightweight, simple reveal effect for Jetpack Compose")
+				description.set("Lightweight, simple reveal effect for Compose Multiplatform")
 				url.set("https://github.com/svenjacobs/reveal")
 
 				developers {

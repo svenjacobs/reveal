@@ -1,5 +1,5 @@
-Reveal effect (also known as coach mark, onboarding, tutorial, walkthrough, etc.)
-with a beautiful API for [Jetpack Compose](https://developer.android.com/jetpack/compose).
+Reveal effect (also known as coach mark, onboarding, tutorial, walkthrough, etc.) with a beautiful
+API for [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/).
 
 ![Demonstration](./assets/demo.gif)
 

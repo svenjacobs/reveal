@@ -100,7 +100,7 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
 							},
 						),
 					text = "Reveal is a lightweight, simple reveal effect (also known as " +
-						"coach mark or onboarding) library for Jetpack Compose.",
+						"coach mark or onboarding) library for Compose Multiplatform.",
 					style = MaterialTheme.typography.bodyLarge,
 					textAlign = TextAlign.Justify,
 				)
