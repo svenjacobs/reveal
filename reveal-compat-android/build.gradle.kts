@@ -1,6 +1,7 @@
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
+	`maven-publish`
 	id("convention.publication")
 }
 
@@ -51,8 +52,24 @@ android {
 		kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
 	}
 
+	publishing {
+		singleVariant("release") {
+			withSourcesJar()
+		}
+	}
+
 	lint {
 		baseline = file("lint-baseline.xml")
+	}
+}
+
+publishing {
+	publications {
+		register<MavenPublication>("release") {
+			afterEvaluate {
+				from(components["release"])
+			}
+		}
 	}
 }
 
