@@ -1,8 +1,50 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
+	alias(libs.plugins.jetbrains.kotlin.multiplatform)
+	alias(libs.plugins.jetbrains.compose)
 	alias(libs.plugins.android.library)
-	alias(libs.plugins.jetbrains.kotlin.android)
 	`maven-publish`
 	signing
+}
+
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
+kotlin {
+	targetHierarchy.default()
+
+	androidTarget {
+		compilations.all {
+			kotlinOptions {
+				jvmTarget = "11"
+			}
+		}
+	}
+
+	listOf(
+		iosX64(),
+		iosArm64(),
+		iosSimulatorArm64(),
+	).forEach {
+		it.binaries.framework {
+			baseName = "reveal-shapes"
+		}
+	}
+
+	sourceSets {
+		val commonMain by getting {
+			dependencies {
+				implementation(compose.runtime)
+				implementation(compose.foundation)
+			}
+		}
+		val commonTest by getting {
+			dependencies {
+				implementation(kotlin("test"))
+			}
+		}
+	}
+
+	explicitApi()
 }
 
 android {
@@ -34,11 +76,6 @@ android {
 		targetCompatibility = JavaVersion.VERSION_11
 	}
 
-	kotlinOptions {
-		jvmTarget = "11"
-		freeCompilerArgs += "-Xexplicit-api=strict"
-	}
-
 	buildFeatures {
 		compose = true
 	}
@@ -56,21 +93,6 @@ android {
 }
 
 dependencies {
-	val composeBom = platform(libs.androidx.compose.bom)
-
-	implementation(composeBom)
-	api(libs.androidx.compose.foundation)
-	api(libs.androidx.compose.ui)
-
-	debugApi(libs.androidx.compose.ui.tooling)
-	debugApi(libs.androidx.compose.ui.test.manifest)
-
-	testImplementation(libs.junit)
-	androidTestImplementation(composeBom)
-	androidTestImplementation(libs.androidx.test.ext.junit)
-	androidTestImplementation(libs.androidx.test.espresso.core)
-	androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-
 	lintChecks(libs.slack.compose.lint.checks)
 }
 
