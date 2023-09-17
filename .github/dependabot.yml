@@ -9,3 +9,12 @@ updates:
       timezone: "Europe/Berlin"
     reviewers:
       - "svenjacobs"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "09:00"
+      timezone: "Europe/Berlin"
+    reviewers:
+      - "svenjacobs"
