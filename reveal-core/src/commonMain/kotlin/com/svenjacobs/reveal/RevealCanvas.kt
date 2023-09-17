@@ -6,7 +6,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import com.svenjacobs.reveal.common.inserter.DefaultRevealOverlayInserter
 import com.svenjacobs.reveal.common.inserter.RevealOverlayInserter
-import com.svenjacobs.reveal.compat.android.inserter.FullscreenRevealOverlayInserter
 
 /**
  * Composable that handles the rendering of the overlay effect.
@@ -15,7 +14,7 @@ import com.svenjacobs.reveal.compat.android.inserter.FullscreenRevealOverlayInse
  * hierarchy. The default behaviour is to insert the overlay into the composition at the same
  * position as this composables. If for some reason [RevealCanvas] cannot be the topmost composable,
  * the effect will likely not cover the whole screen and/or reveal effects might be misplaced.
- * In this case pass [FullscreenRevealOverlayInserter] from the `reveal-compat-android` artifact to
+ * In this case pass `FullscreenRevealOverlayInserter` from the `reveal-compat-android` artifact to
  * the [overlayInserter] argument, which however only works for Android targets.
  *
  * @param revealCanvasState State associated with this composable which must also be passed to all
