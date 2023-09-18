@@ -2,7 +2,6 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 buildscript {
 	dependencies {
-		classpath(libs.jetbrains.atomicfu.gradle.plugin)
 	}
 }
 
@@ -18,8 +17,6 @@ plugins {
 
 subprojects {
 	apply(plugin = "org.jmailen.kotlinter")
-	// https://stackoverflow.com/a/76536068/416029
-	apply(plugin = "kotlinx-atomicfu")
 }
 
 nexusPublishing {

@@ -123,7 +123,7 @@ overlay is clicked somewhere, also with the key argument. Use any of these click
 the next item, for example for some kind of tutorial, or to hide the effect via
 `revealState.hide()`.
 
-That's it for now. For more details have a look at the [demo application](./demo-android) and the
+That's it for now. For more details have a look at the [demo application](./demo-app) and the
 JavaDoc. The library is well documented 😉
 
 ## Frequently Asked Questions

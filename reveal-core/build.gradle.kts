@@ -13,6 +13,8 @@ val publicationName by extra { "Reveal (Core)" }
 kotlin {
 	targetHierarchy.default()
 
+	jvm("desktop")
+
 	androidTarget {
 		compilations.all {
 			kotlinOptions {
@@ -30,6 +32,10 @@ kotlin {
 		it.binaries.framework {
 			baseName = "reveal-core"
 		}
+	}
+
+	js(IR) {
+		browser()
 	}
 
 	sourceSets {

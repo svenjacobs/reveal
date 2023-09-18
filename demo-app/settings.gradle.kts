@@ -15,5 +15,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Reveal Demo"
-include(":androidApp")
-include(":shared")
+include(
+	":shared",
+	":androidApp",
+	":desktopApp",
+)

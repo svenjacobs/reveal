@@ -1,14 +1,18 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
 	kotlin("multiplatform")
 	id("com.android.library")
 	id("org.jetbrains.compose")
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
 	jvmToolchain(17)
 
 	targetHierarchy.default()
+
+	jvm("desktop")
 
 	androidTarget {
 		compilations.all {
