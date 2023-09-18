@@ -27,4 +27,5 @@ include(
 	":reveal-core",
 	":reveal-shapes",
 	":reveal-compat-android",
+	":android-tests",
 )

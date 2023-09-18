@@ -6,6 +6,9 @@ jetbrains-compose = "1.5.1"
 kotlin = "1.9.10"
 
 [libraries]
+androidx-activity = "androidx.activity:activity:1.7.2"
+androidx-activity-compose = "androidx.activity:activity-compose:1.7.2"
+androidx-compose-animation = { module = "androidx.compose.animation:animation" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
@@ -24,6 +27,7 @@ androidx-test-ext-junit = "androidx.test.ext:junit:1.1.5"
 junit = "junit:junit:4.13.2"
 
 [plugins]
+android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
 android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
