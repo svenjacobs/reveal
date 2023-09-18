@@ -16,6 +16,9 @@ plugins {
 	alias(libs.plugins.kotlinter)
 }
 
+group = "com.svenjacobs.reveal"
+version = (System.getenv("RELEASE_TAG_NAME") ?: "SNAPSHOT").replace("v", "")
+
 subprojects {
 	apply(plugin = "org.jmailen.kotlinter")
 }

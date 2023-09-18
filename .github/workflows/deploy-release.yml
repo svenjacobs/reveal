@@ -7,7 +7,7 @@ on:
 jobs:
   deploy:
     timeout-minutes: 30
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
 
