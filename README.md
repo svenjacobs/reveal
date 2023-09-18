@@ -1,5 +1,6 @@
-Reveal effect (also known as coach mark, onboarding, tutorial, walkthrough, etc.)
-with a beautiful API for [Jetpack Compose](https://developer.android.com/jetpack/compose).
+Reveal effect (also known as coach mark, onboarding, tutorial, walkthrough, etc.) with a beautiful
+API for [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) targeting
+Android, iOS, desktop and Web.
 
 ![Demonstration](./assets/demo.gif)
 
@@ -12,6 +13,16 @@ with a beautiful API for [Jetpack Compose](https://developer.android.com/jetpack
 | Overlay     | The overlay which greys out all contents except revealable. Can contain explanatory items. |
 
 ## Getting started
+
+### Compose Multiplatform
+
+As of version `3.0` Reveal is based on Compose Multiplatform targeting Android, iOS, desktop and
+Web. However please not that except Android the other platforms are currently not well tested and
+some of the targets are still alpha or experimental.
+
+When using Reveal on Android, please make sure that the version of Google's Jetpack Compose is
+compatible with the version of Compose Multiplatform that Reveal uses, which you can
+find [here](./gradle/libs.versions.toml#L5).
 
 ### Installation
 
@@ -123,7 +134,7 @@ overlay is clicked somewhere, also with the key argument. Use any of these click
 the next item, for example for some kind of tutorial, or to hide the effect via
 `revealState.hide()`.
 
-That's it for now. For more details have a look at the [demo application](./demo-android) and the
+That's it for now. For more details have a look at the [demo application](./demo-app) and the
 JavaDoc. The library is well documented 😉
 
 ## Frequently Asked Questions

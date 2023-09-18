@@ -2,18 +2,23 @@ plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
 	`maven-publish`
-	signing
+	id("convention.publication")
 }
+
+val publicationName by extra { "Reveal (Compat Android)" }
+
+val androidMinSdk: Int by rootProject.extra
+val androidCompileSdk: Int by rootProject.extra
 
 android {
 	namespace = "com.svenjacobs.reveal.compat.android"
-	compileSdk = Android.compileSdk
+	compileSdk = androidCompileSdk
 
 	defaultConfig {
-		minSdk = Android.minSdk
+		minSdk = androidMinSdk
 
 		aarMetadata {
-			minCompileSdk = Android.minSdk
+			minCompileSdk = androidMinSdk
 		}
 
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -50,12 +55,21 @@ android {
 	publishing {
 		singleVariant("release") {
 			withSourcesJar()
-			withJavadocJar()
 		}
 	}
 
 	lint {
 		baseline = file("lint-baseline.xml")
+	}
+}
+
+publishing {
+	publications {
+		register<MavenPublication>("release") {
+			afterEvaluate {
+				from(components["release"])
+			}
+		}
 	}
 }
 
@@ -78,30 +92,4 @@ dependencies {
 	androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 
 	lintChecks(libs.slack.compose.lint.checks)
-}
-
-publishing {
-	publications {
-		register<MavenPublication>("release") {
-			groupId = Publication.group
-			version = Publication.version
-			artifactId = "reveal-compat-android"
-
-			afterEvaluate {
-				from(components["release"])
-			}
-
-			pomAttributes(name = "Reveal (Compat Android)")
-		}
-	}
-}
-
-signing {
-	// Store key and password in environment variables
-	// ORG_GRADLE_PROJECT_signingKey and ORG_GRADLE_PROJECT_signingPassword
-	val signingKey: String? by project
-	val signingPassword: String? by project
-	useInMemoryPgpKeys(signingKey, signingPassword)
-
-	sign(publishing.publications["release"])
 }

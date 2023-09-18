@@ -1,19 +1,72 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
+	alias(libs.plugins.jetbrains.kotlin.multiplatform)
+	alias(libs.plugins.jetbrains.compose)
 	alias(libs.plugins.android.library)
-	alias(libs.plugins.jetbrains.kotlin.android)
-	`maven-publish`
-	signing
+	id("convention.publication")
 }
+
+val publicationName by extra { "Reveal (Common)" }
+
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
+kotlin {
+	targetHierarchy.default()
+
+	jvm("desktop")
+
+	androidTarget {
+		compilations.all {
+			kotlinOptions {
+				jvmTarget = "11"
+			}
+		}
+		publishLibraryVariants("release")
+	}
+
+	listOf(
+		iosX64(),
+		iosArm64(),
+		iosSimulatorArm64(),
+	).forEach {
+		it.binaries.framework {
+			baseName = "reveal-common"
+		}
+	}
+
+	js(IR) {
+		browser()
+	}
+
+	sourceSets {
+		val commonMain by getting {
+			dependencies {
+				implementation(compose.runtime)
+				implementation(compose.foundation)
+			}
+		}
+		val commonTest by getting {
+			dependencies {
+				implementation(kotlin("test"))
+			}
+		}
+	}
+
+	explicitApi()
+}
+
+val androidMinSdk: Int by rootProject.extra
+val androidCompileSdk: Int by rootProject.extra
 
 android {
 	namespace = "com.svenjacobs.reveal.common"
-	compileSdk = Android.compileSdk
+	compileSdk = androidCompileSdk
 
 	defaultConfig {
-		minSdk = Android.minSdk
+		minSdk = androidMinSdk
 
 		aarMetadata {
-			minCompileSdk = Android.minSdk
+			minCompileSdk = androidMinSdk
 		}
 
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -34,11 +87,6 @@ android {
 		targetCompatibility = JavaVersion.VERSION_11
 	}
 
-	kotlinOptions {
-		jvmTarget = "11"
-		freeCompilerArgs += "-Xexplicit-api=strict"
-	}
-
 	buildFeatures {
 		compose = true
 	}
@@ -46,56 +94,8 @@ android {
 	composeOptions {
 		kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
 	}
-
-	publishing {
-		singleVariant("release") {
-			withSourcesJar()
-			withJavadocJar()
-		}
-	}
 }
 
 dependencies {
-	val composeBom = platform(libs.androidx.compose.bom)
-
-	implementation(composeBom)
-	api(libs.androidx.compose.foundation)
-	api(libs.androidx.compose.ui)
-
-	debugApi(libs.androidx.compose.ui.tooling)
-	debugApi(libs.androidx.compose.ui.test.manifest)
-
-	testImplementation(libs.junit)
-	androidTestImplementation(composeBom)
-	androidTestImplementation(libs.androidx.test.ext.junit)
-	androidTestImplementation(libs.androidx.test.espresso.core)
-	androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-
 	lintChecks(libs.slack.compose.lint.checks)
-}
-
-publishing {
-	publications {
-		register<MavenPublication>("release") {
-			groupId = Publication.group
-			version = Publication.version
-			artifactId = "reveal-common"
-
-			afterEvaluate {
-				from(components["release"])
-			}
-
-			pomAttributes(name = "Reveal (Common)")
-		}
-	}
-}
-
-signing {
-	// Store key and password in environment variables
-	// ORG_GRADLE_PROJECT_signingKey and ORG_GRADLE_PROJECT_signingPassword
-	val signingKey: String? by project
-	val signingPassword: String? by project
-	useInMemoryPgpKeys(signingKey, signingPassword)
-
-	sign(publishing.publications["release"])
 }

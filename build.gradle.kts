@@ -1,6 +1,13 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
+buildscript {
+	dependencies {
+	}
+}
+
 plugins {
+	alias(libs.plugins.jetbrains.kotlin.multiplatform) apply false
+	alias(libs.plugins.jetbrains.compose) apply false
 	alias(libs.plugins.android.application) apply false
 	alias(libs.plugins.android.library) apply false
 	alias(libs.plugins.jetbrains.kotlin.android) apply false
@@ -8,9 +15,6 @@ plugins {
 	alias(libs.plugins.ben.manes.versions)
 	alias(libs.plugins.kotlinter)
 }
-
-group = Publication.group
-version = Publication.version
 
 subprojects {
 	apply(plugin = "org.jmailen.kotlinter")
@@ -33,3 +37,7 @@ tasks.withType<DependencyUpdatesTask> {
 		isNonStable(candidate.version) && !isNonStable(currentVersion)
 	}
 }
+
+val androidMinSdk by extra { 21 }
+val androidTargetSdk by extra { 34 }
+val androidCompileSdk by extra { 34 }
