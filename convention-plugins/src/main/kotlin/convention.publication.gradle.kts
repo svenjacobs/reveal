@@ -54,6 +54,10 @@ publishing {
 signing {
 	// Store key and password in environment variables
 	// ORG_GRADLE_PROJECT_signingKey and ORG_GRADLE_PROJECT_signingPassword
+	//
+	// Set locally for testing:
+	//   export ORG_GRADLE_PROJECT_signingKey="$(gpg --export-secret-keys --armor mail@address)"
+	//   export ORG_GRADLE_PROJECT_signingPassword="password"
 	val signingKey: String? by project
 	val signingPassword: String? by project
 
@@ -61,4 +65,11 @@ signing {
 		useInMemoryPgpKeys(signingKey, signingPassword)
 		sign(publishing.publications)
 	}
+}
+
+// Fix for KMP signing issue
+// https://github.com/gradle/gradle/issues/26091#issuecomment-1722947958
+tasks.withType<AbstractPublishToMaven>().configureEach {
+	val signingTasks = tasks.withType<Sign>()
+	mustRunAfter(signingTasks)
 }
