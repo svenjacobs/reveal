@@ -1,43 +1,13 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-
 plugins {
-	alias(libs.plugins.jetbrains.kotlin.multiplatform)
-	alias(libs.plugins.jetbrains.compose)
-	alias(libs.plugins.android.library)
+	id("convention.multiplatform")
 	id("convention.publication")
+	alias(libs.plugins.android.library)
 }
 
+val baseName by extra { "reveal-common" }
 val publicationName by extra { "Reveal (Common)" }
 
-@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-	targetHierarchy.default()
-
-	jvm("desktop")
-
-	androidTarget {
-		compilations.all {
-			kotlinOptions {
-				jvmTarget = "11"
-			}
-		}
-		publishLibraryVariants("release")
-	}
-
-	listOf(
-		iosX64(),
-		iosArm64(),
-		iosSimulatorArm64(),
-	).forEach {
-		it.binaries.framework {
-			baseName = "reveal-common"
-		}
-	}
-
-	js(IR) {
-		browser()
-	}
-
 	sourceSets {
 		val commonMain by getting {
 			dependencies {
