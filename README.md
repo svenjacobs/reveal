@@ -58,27 +58,30 @@ instance. Usually there should be at most one `Reveal` per "screen" of an applic
 
 ```kotlin
 @Composable
-fun MainScreen(
-    modifier: Modifier = Modifier,
-) {
+fun App() {
     val revealCanvasState = rememberRevealCanvasState()
 
     // Single instance that should be at the top of the Compose hierarchy
     RevealCanvas(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         revealCanvasState = revealCanvasState,
     ) {
-        val revealState = rememberRevealState()
+        MainScreen(revealCanvasState = revealCanvasState)
+    }
+}
 
-        // Usually one instance per screen
-        Reveal(
-            revealCanvasState = revealCanvasState,
-            revealState = revealState,
-            onRevealableClick = {},
-            onOverlayClick = {},
-        ) {
-            // Contents
-        }
+@Composable
+fun MainScreen(revealCanvasState: RevealCanvasState) {
+    val revealState = rememberRevealState()
+
+    // Usually one instance per screen
+    Reveal(
+        revealCanvasState = revealCanvasState,
+        revealState = revealState,
+        onRevealableClick = {},
+        onOverlayClick = {},
+    ) {
+        // Contents
     }
 }
 ```
