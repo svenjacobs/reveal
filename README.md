@@ -1,3 +1,10 @@
+![Deploy Release](https://img.shields.io/github/actions/workflow/status/svenjacobs/reveal/deploy-release.yml?label=Deploy%20Release)
+![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.5.1-blue)
+![Android](https://img.shields.io/badge/Android-green)
+![iOS](https://img.shields.io/badge/iOS-slategray)
+![Desktop](https://img.shields.io/badge/Desktop-tomato)
+![Web](https://img.shields.io/badge/Web-gold)
+
 Reveal effect (also known as coach mark, onboarding, tutorial, walkthrough, etc.) with a beautiful
 API for [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) targeting
 Android, iOS, desktop and Web.
