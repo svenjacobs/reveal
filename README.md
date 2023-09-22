@@ -23,9 +23,9 @@ Android, iOS, desktop and Web.
 
 ### Compose Multiplatform
 
-As of version `3.0` Reveal is based on Compose Multiplatform targeting Android, iOS, desktop and
-Web. However please not that except Android the other platforms are currently not well tested and
-some of the targets are still alpha or experimental.
+As of version `3.0` Reveal is based on Compose Multiplatform, which targets Android, iOS, Desktop and
+Web. Please note, however, that except for Android, the other platforms are not well tested at this time, and
+some of the targets are even in alpha or experimental state.
 
 When using Reveal on Android, please make sure that the version of Google's Jetpack Compose is
 compatible with the version of Compose Multiplatform that Reveal uses, which you can
@@ -34,11 +34,19 @@ find [here](./gradle/libs.versions.toml#L6).
 ### Installation
 
 The minimum supported Android SDK is 21 (Android 5.0), which is a requirement of Jetpack Compose.
-Add Reveal as a dependency to your project. It's available on Maven Central.
+Add Reveal as a dependency to your project. It's available on [Maven Central](https://mvnrepository.com/artifact/com.svenjacobs.reveal).
 
 ```kotlin
 dependencies {
     implementation("com.svenjacobs.reveal:reveal-core:$REVEAL_VERSION")
+}
+```
+
+If you only want to use the Android version in your non Kotlin Multiplatform project, add the following dependency:
+
+```kotlin
+dependencies {
+    implementation("com.svenjacobs.reveal:reveal-core-android:$REVEAL_VERSION")
 }
 ```
 
