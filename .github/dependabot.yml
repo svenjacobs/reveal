@@ -9,6 +9,8 @@ updates:
       timezone: "Europe/Berlin"
     reviewers:
       - "svenjacobs"
+    assignees:
+      - "svenjacobs"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -17,4 +19,6 @@ updates:
       time: "09:00"
       timezone: "Europe/Berlin"
     reviewers:
+      - "svenjacobs"
+    assignees:
       - "svenjacobs"
