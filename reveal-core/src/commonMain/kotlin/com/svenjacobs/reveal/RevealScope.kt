@@ -97,9 +97,7 @@ public interface RevealScope {
 	): Modifier
 }
 
-internal class RevealScopeInstance(
-	private val revealState: RevealState,
-) : RevealScope {
+internal class RevealScopeInstance(private val revealState: RevealState) : RevealScope {
 
 	override fun Modifier.revealable(
 		key: Key,

@@ -61,9 +61,8 @@ public interface RevealOverlayScope {
 	): Modifier
 }
 
-internal class RevealOverlayScopeInstance(
-	private val revealableRect: IntRect,
-) : RevealOverlayScope {
+internal class RevealOverlayScopeInstance(private val revealableRect: IntRect) :
+	RevealOverlayScope {
 
 	override fun Modifier.align(
 		horizontalArrangement: RevealOverlayArrangement.Horizontal,

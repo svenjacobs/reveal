@@ -23,10 +23,7 @@ public data class Revealable(
 	 * @param size Size in pixels of revealable
 	 */
 	@Immutable
-	public data class Layout(
-		val offset: Offset,
-		val size: Size,
-	)
+	public data class Layout(val offset: Offset, val size: Size)
 }
 
 @Immutable

@@ -36,9 +36,7 @@ public sealed interface RevealShape {
 			}
 	}
 
-	public class RoundRect(
-		private val cornerSize: Dp,
-	) : RevealShape {
+	public class RoundRect(private val cornerSize: Dp) : RevealShape {
 
 		override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
 			Path().apply {
