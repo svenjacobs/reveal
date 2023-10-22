@@ -93,10 +93,7 @@ public class DimRevealOverlayEffect(
 }
 
 @Stable
-private class DimItemHolder(
-	val revealable: ActualRevealable,
-	val contentAlpha: State<Float>,
-) {
+private class DimItemHolder(val revealable: ActualRevealable, val contentAlpha: State<Float>) {
 
 	@Composable
 	fun BoxScope.Container(
