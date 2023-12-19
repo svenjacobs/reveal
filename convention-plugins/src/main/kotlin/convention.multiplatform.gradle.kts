@@ -9,8 +9,6 @@ val baseName: String by extra
 
 @OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-	targetHierarchy.default()
-
 	jvm("desktop")
 
 	androidTarget {
