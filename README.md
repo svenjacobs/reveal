@@ -7,7 +7,7 @@
 
 Reveal effect (also known as coach mark, onboarding, tutorial, walkthrough, etc.) with a beautiful
 API for [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) targeting
-Android, iOS, desktop and Web.
+Android, iOS, Desktop and Web.
 
 ![Demonstration](./assets/demo.gif)
 
@@ -23,7 +23,7 @@ Android, iOS, desktop and Web.
 
 ### Compose Multiplatform
 
-As of version `3.0` Reveal is based on Compose Multiplatform targeting Android, iOS, desktop and
+As of version `3.0` Reveal is based on Compose Multiplatform targeting Android, iOS, Desktop and
 Web. However please not that except Android the other platforms are currently not well tested and
 some of the targets are still alpha or experimental.
 
