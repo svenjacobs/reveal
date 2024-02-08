@@ -1,16 +1,13 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-
 plugins {
 	kotlin("multiplatform")
 	id("com.android.library")
 	id("org.jetbrains.compose")
 }
 
-@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
 	jvmToolchain(17)
 
-	targetHierarchy.default()
+	applyDefaultHierarchyTemplate()
 
 	jvm("desktop")
 
@@ -35,7 +32,7 @@ kotlin {
 	sourceSets {
 		val commonMain by getting {
 			dependencies {
-				val revealVersion = "3.0.0"
+				val revealVersion = "3.0.2"
 
 				implementation(compose.runtime)
 				implementation(compose.foundation)
