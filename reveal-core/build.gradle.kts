@@ -1,44 +1,13 @@
 plugins {
-//	id("convention.multiplatform")
-	kotlin("multiplatform")
-	id("org.jetbrains.compose")
-	id("convention.publication")
 	alias(libs.plugins.android.library)
+	id("convention.multiplatform")
+	id("convention.publication")
 }
 
 val baseName by extra { "reveal-core" }
 val publicationName by extra { "Reveal (Core)" }
 
-// TODO: Use convention plugin when 1.6 was released
-// https://github.com/JetBrains/compose-multiplatform/issues/3933
 kotlin {
-	applyDefaultHierarchyTemplate()
-
-	jvm("desktop")
-
-	androidTarget {
-		compilations.all {
-			kotlinOptions {
-				jvmTarget = "11"
-			}
-		}
-		publishLibraryVariants("release")
-	}
-
-	listOf(
-		iosX64(),
-		iosArm64(),
-		iosSimulatorArm64(),
-	).forEach {
-		it.binaries.framework {
-			this.baseName = baseName
-		}
-	}
-
-	js(IR) {
-		browser()
-	}
-
 	sourceSets {
 		val commonMain by getting {
 			dependencies {
