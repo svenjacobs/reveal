@@ -14,7 +14,7 @@ dependencyResolutionManagement {
 	}
 }
 
-rootProject.name = "Reveal Demo"
+rootProject.name = "RevealDemo"
 include(
 	":shared",
 	":androidApp",
