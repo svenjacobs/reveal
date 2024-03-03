@@ -17,7 +17,7 @@ android {
 		compose = true
 	}
 	composeOptions {
-		kotlinCompilerExtensionVersion = "1.5.7"
+		kotlinCompilerExtensionVersion = "1.5.10"
 	}
 	packaging {
 		resources {
@@ -40,7 +40,7 @@ android {
 
 dependencies {
 	implementation(project(":shared"))
-	implementation(platform("androidx.compose:compose-bom:2023.10.01"))
+	implementation(platform("androidx.compose:compose-bom:2024.02.01"))
 	implementation("androidx.compose.ui:ui")
 	implementation("androidx.compose.ui:ui-tooling")
 	implementation("androidx.compose.ui:ui-tooling-preview")

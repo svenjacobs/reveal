@@ -30,24 +30,21 @@ kotlin {
 	}
 
 	sourceSets {
-		val commonMain by getting {
-			dependencies {
-				val revealVersion = "3.0.2"
+		commonMain.dependencies {
+			val revealVersion = "3.0.3"
 
-				implementation(compose.runtime)
-				implementation(compose.foundation)
-				implementation(compose.material3)
-				@OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-				implementation(compose.components.resources)
+			implementation(compose.runtime)
+			implementation(compose.foundation)
+			implementation(compose.material3)
+			@OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+			implementation(compose.components.resources)
 
-				implementation("com.svenjacobs.reveal:reveal-core:$revealVersion")
-				implementation("com.svenjacobs.reveal:reveal-shapes:$revealVersion")
-			}
+			implementation("com.svenjacobs.reveal:reveal-core:$revealVersion")
+			implementation("com.svenjacobs.reveal:reveal-shapes:$revealVersion")
 		}
-		val commonTest by getting {
-			dependencies {
-				implementation(kotlin("test"))
-			}
+
+		commonTest.dependencies {
+			implementation(kotlin("test"))
 		}
 	}
 }

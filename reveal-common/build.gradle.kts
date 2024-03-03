@@ -9,20 +9,14 @@ val publicationName by extra { "Reveal (Common)" }
 
 kotlin {
 	sourceSets {
-		val commonMain by getting {
-			dependencies {
-				implementation(compose.runtime)
-				implementation(compose.foundation)
-			}
+		commonMain.dependencies {
+			implementation(compose.runtime)
+			implementation(compose.foundation)
 		}
-		val commonTest by getting {
-			dependencies {
-				implementation(kotlin("test"))
-			}
+		commonTest.dependencies {
+			implementation(kotlin("test"))
 		}
 	}
-
-	explicitApi()
 }
 
 val androidMinSdk: Int by rootProject.extra

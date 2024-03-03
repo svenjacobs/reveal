@@ -9,17 +9,13 @@ val publicationName by extra { "Reveal (Core)" }
 
 kotlin {
 	sourceSets {
-		val commonMain by getting {
-			dependencies {
-				api(project(":reveal-common"))
-				implementation(compose.runtime)
-				implementation(compose.foundation)
-			}
+		commonMain.dependencies {
+			api(project(":reveal-common"))
+			implementation(compose.runtime)
+			implementation(compose.foundation)
 		}
-		val commonTest by getting {
-			dependencies {
-				implementation(kotlin("test"))
-			}
+		commonTest.dependencies {
+			implementation(kotlin("test"))
 		}
 	}
 }
