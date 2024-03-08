@@ -51,9 +51,8 @@ jobs:
             ~/.android/adb*
           key: avd-${{ matrix.api-level }}
 
-# TODO: Fix tests
-#      - name: Run tests
-#        uses: reactivecircus/android-emulator-runner@v2
-#        with:
-#          api-level: ${{ matrix.api-level }}
-#          script: ./gradlew connectedAndroidTest
+      - name: Run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          script: ./gradlew connectedAndroidTest
