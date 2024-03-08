@@ -1,19 +1,25 @@
-package com.svenjacobs.reveal
+package com.svenjacobs.reveal.android.tests
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
+import com.svenjacobs.reveal.OnClickListener
+import com.svenjacobs.reveal.Reveal
+import com.svenjacobs.reveal.RevealCanvas
+import com.svenjacobs.reveal.RevealState
+import com.svenjacobs.reveal.rememberRevealCanvasState
+import com.svenjacobs.reveal.rememberRevealState
 import kotlinx.coroutines.CoroutineScope
 import org.junit.Rule
 
-public abstract class BaseRevealTest {
+abstract class BaseRevealTest {
 
 	internal enum class Keys { Key1, Key2, Key3 }
 
 	@get:Rule
-	public val composeTestRule: ComposeContentTestRule = createComposeRule()
+	val composeTestRule: ComposeContentTestRule = createComposeRule()
 
 	internal fun test(
 		onRevealableClick: OnClickListener = {},

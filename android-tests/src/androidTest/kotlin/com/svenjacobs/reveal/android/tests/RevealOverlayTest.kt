@@ -1,4 +1,4 @@
-package com.svenjacobs.reveal
+package com.svenjacobs.reveal.android.tests
 
 import androidx.compose.ui.test.onNodeWithText
 import junit.framework.TestCase.assertEquals
@@ -7,10 +7,10 @@ import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.launch
 import org.junit.Test
 
-public class RevealOverlayTest : BaseRevealTest() {
+class RevealOverlayTest : BaseRevealTest() {
 
 	@Test
-	public fun revealShowsOverlay() {
+	fun revealShowsOverlay() {
 		test { testRule, revealState, scope ->
 			scope.launch { revealState.reveal(Keys.Key1) }
 
@@ -33,7 +33,7 @@ public class RevealOverlayTest : BaseRevealTest() {
 	}
 
 	@Test
-	public fun hideHidesOverlay() {
+	fun hideHidesOverlay() {
 		test { testRule, revealState, scope ->
 			scope.launch { revealState.reveal(Keys.Key1) }
 

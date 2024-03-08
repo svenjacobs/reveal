@@ -1,13 +1,13 @@
-package com.svenjacobs.reveal
+package com.svenjacobs.reveal.android.tests
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-public class RevealStateTest : BaseRevealTest() {
+class RevealStateTest : BaseRevealTest() {
 
 	@Test
-	public fun stateContainsKeys() {
+	fun stateContainsKeys() {
 		test { _, revealState, _ ->
 			assertTrue(revealState.revealableKeys.contains(Keys.Key1))
 			assertTrue(revealState.revealableKeys.contains(Keys.Key2))

@@ -1,16 +1,17 @@
-package com.svenjacobs.reveal
+package com.svenjacobs.reveal.android.tests
 
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.svenjacobs.reveal.Key
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.launch
 import org.junit.Test
 
-public class RevealTest : BaseRevealTest() {
+class RevealTest : BaseRevealTest() {
 
 	@Test
-	public fun clickCallsOnRevealableClick() {
+	fun clickCallsOnRevealableClick() {
 		var onRevealableClickKey: Key? = null
 
 		test(
@@ -25,7 +26,7 @@ public class RevealTest : BaseRevealTest() {
 	}
 
 	@Test
-	public fun clickCallsOnOverlayClick() {
+	fun clickCallsOnOverlayClick() {
 		var onOverlayClickKey: Key? = null
 
 		test(

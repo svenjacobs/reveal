@@ -116,8 +116,8 @@ public fun Modifier.revealable(
 ): Modifier = this.then(
 	Modifier
 		.onGloballyPositioned { layoutCoordinates ->
-			for (key in keys) {
-				state.putRevealable(
+			keys.forEach { key ->
+				state.addRevealable(
 					Revealable(
 						key = key,
 						shape = shape,
@@ -134,9 +134,7 @@ public fun Modifier.revealable(
 		.composed {
 			DisposableEffect(Unit) {
 				onDispose {
-					for (key in keys) {
-						state.removeRevealable(key)
-					}
+					keys.forEach(state::removeRevealable)
 				}
 			}
 			this
