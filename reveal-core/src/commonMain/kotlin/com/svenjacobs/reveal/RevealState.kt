@@ -19,9 +19,14 @@ import kotlinx.coroutines.sync.withLock
 @Stable
 @Suppress("MemberVisibilityCanBePrivate")
 public class RevealState internal constructor(
-	visible: Boolean = false,
-	private val restoreCurrentRevealableKey: Key? = null,
+	visible: Boolean,
+	private val restoreCurrentRevealableKey: Key?,
 ) {
+
+	public constructor() : this(
+		visible = false,
+		restoreCurrentRevealableKey = null,
+	)
 
 	private val mutex = Mutex()
 	private var didRestoreCurrentRevealable = false
