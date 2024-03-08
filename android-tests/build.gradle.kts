@@ -60,6 +60,8 @@ dependencies {
 	implementation(libs.androidx.compose.ui)
 	implementation(libs.androidx.compose.material3)
 
+	debugImplementation(libs.androidx.compose.ui.test.manifest)
+
 	testImplementation(libs.junit)
 	androidTestImplementation(composeBom)
 	androidTestImplementation(libs.androidx.test.ext.junit)

@@ -83,7 +83,6 @@ dependencies {
 	api(libs.androidx.compose.ui)
 
 	debugApi(libs.androidx.compose.ui.tooling)
-	debugApi(libs.androidx.compose.ui.test.manifest)
 
 	testImplementation(libs.junit)
 	androidTestImplementation(composeBom)
