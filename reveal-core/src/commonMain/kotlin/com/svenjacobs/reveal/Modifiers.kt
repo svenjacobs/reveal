@@ -117,7 +117,7 @@ public fun Modifier.revealable(
 	Modifier
 		.onGloballyPositioned { layoutCoordinates ->
 			for (key in keys) {
-				state.putRevealable(
+				state.addRevealable(
 					Revealable(
 						key = key,
 						shape = shape,

@@ -134,7 +134,7 @@ public class RevealState internal constructor(
 	 *
 	 * @see RevealScope.revealable
 	 */
-	public fun putRevealable(revealable: Revealable) {
+	public fun addRevealable(revealable: Revealable) {
 		revealables[revealable.key] = revealable
 
 		if (!didRestoreCurrentRevealable && restoreCurrentRevealableKey == revealable.key) {
@@ -142,6 +142,15 @@ public class RevealState internal constructor(
 			didRestoreCurrentRevealable = true
 		}
 	}
+
+	/**
+	 * @see addRevealable
+	 */
+	@Deprecated(
+		message = "Use addRevealable()",
+		replaceWith = ReplaceWith("addRevealable(revealable)"),
+	)
+	public fun putRevealable(revealable: Revealable): Unit = addRevealable(revealable)
 
 	/**
 	 * Removes a [Revealable] from this state.
