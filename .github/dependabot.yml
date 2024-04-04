@@ -11,6 +11,11 @@ updates:
       - "svenjacobs"
     assignees:
       - "svenjacobs"
+    groups:
+      kotlin:
+        patterns:
+          - "org.jetbrains.kotlin*"
+          - "androidx.compose.compiler*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
