@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-
 plugins {
 	kotlin("multiplatform")
 	id("org.jetbrains.compose")
@@ -7,7 +5,6 @@ plugins {
 
 val baseName: String by extra
 
-@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
 	applyDefaultHierarchyTemplate()
 
@@ -33,6 +30,11 @@ kotlin {
 	}
 
 	js(IR) {
+		browser()
+	}
+
+	@OptIn(org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl::class)
+	wasmJs {
 		browser()
 	}
 
