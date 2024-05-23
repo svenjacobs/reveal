@@ -54,13 +54,13 @@ dependencies {
 
 There are two significant composables:
 
-First there is `RevealCanvas`, which is responsible for rendering the effect. There should only be
+First, there is `RevealCanvas`, which is responsible for rendering the effect. There should only be
 one `RevealCanvas` instance in the Compose hierarchy and it should be at a top or the topmost
 position of the tree in order to ensure that the effect is rendered "full screen" above all other
 elements.
 
-Second the `Reveal` composable is responsible for registration of and interaction with revealable
-items. There can be many `Reveal` instance and they have a direct relation to the `RevealCanvas`
+Second, the `Reveal` composable is responsible for registration of and interaction with revealable
+items. There can be many `Reveal` instances and they have a direct relation to the `RevealCanvas`
 instance. Usually there should be at most one `Reveal` per "screen" of an application.
 
 ```kotlin
