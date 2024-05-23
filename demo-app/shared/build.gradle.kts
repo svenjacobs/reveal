@@ -31,7 +31,7 @@ kotlin {
 
 	sourceSets {
 		commonMain.dependencies {
-			val revealVersion = "3.0.3"
+			val revealVersion = "3.0.5"
 
 			implementation(compose.runtime)
 			implementation(compose.foundation)
