@@ -121,7 +121,7 @@ public fun Reveal(
 		val rev by rememberUpdatedState(currentRevealable.value)
 
 		val clickModifier = when {
-			revealState.isVisible && rev != null -> Modifier.pointerInput(Unit) {
+			revealState.isVisible -> Modifier.pointerInput(Unit) {
 				detectTapGestures(
 					onPress = { offset ->
 						rev?.key?.let(
