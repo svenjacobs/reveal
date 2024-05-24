@@ -23,7 +23,7 @@ jobs:
 
   test:
     timeout-minutes: 30
-    runs-on: macos-latest
+    runs-on: macos-13
     strategy:
       matrix:
         api-level: [ 21, 29 ]
