@@ -53,14 +53,6 @@ android {
 		sourceCompatibility = JavaVersion.VERSION_11
 		targetCompatibility = JavaVersion.VERSION_11
 	}
-
-	buildFeatures {
-		compose = true
-	}
-
-	composeOptions {
-		kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-	}
 }
 
 dependencies {
