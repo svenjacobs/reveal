@@ -1,7 +1,13 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-	kotlin("multiplatform")
-	id("com.android.library")
-	id("org.jetbrains.compose")
+	alias(libs.plugins.jetbrains.kotlin.multiplatform)
+	alias(libs.plugins.android.library)
+	alias(libs.plugins.jetbrains.compose)
+	alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -12,10 +18,8 @@ kotlin {
 	jvm("desktop")
 
 	androidTarget {
-		compilations.all {
-			kotlinOptions {
-				jvmTarget = "17"
-			}
+		compilerOptions {
+			jvmTarget.set(JvmTarget.JVM_17)
 		}
 	}
 
@@ -31,16 +35,14 @@ kotlin {
 
 	sourceSets {
 		commonMain.dependencies {
-			val revealVersion = "3.0.5"
-
 			implementation(compose.runtime)
 			implementation(compose.foundation)
 			implementation(compose.material3)
 			@OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 			implementation(compose.components.resources)
 
-			implementation("com.svenjacobs.reveal:reveal-core:$revealVersion")
-			implementation("com.svenjacobs.reveal:reveal-shapes:$revealVersion")
+			implementation(libs.reveal.core)
+			implementation(libs.reveal.shapes)
 		}
 
 		commonTest.dependencies {
