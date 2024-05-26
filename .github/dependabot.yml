@@ -4,8 +4,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "saturday"
-      time: "09:00"
+      day: "monday"
+      time: "08:00"
       timezone: "Europe/Berlin"
     reviewers:
       - "svenjacobs"
@@ -16,12 +16,14 @@ updates:
         patterns:
           - "org.jetbrains.kotlin*"
           - "androidx.compose.compiler*"
+        exclude-patterns:
+          - "org.jetbrains.kotlinx*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "saturday"
-      time: "09:00"
+      day: "monday"
+      time: "08:00"
       timezone: "Europe/Berlin"
     reviewers:
       - "svenjacobs"
