@@ -1,12 +1,13 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
-	id("com.android.application").version("8.4.1").apply(false)
-	id("com.android.library").version("8.4.1").apply(false)
-	kotlin("android").version("1.9.24").apply(false)
-	kotlin("multiplatform").version("1.9.24").apply(false)
-	id("org.jetbrains.compose").version("1.6.10").apply(false)
-	id("com.github.ben-manes.versions").version("0.51.0")
+	alias(libs.plugins.android.application) apply false
+	alias(libs.plugins.android.library) apply false
+	alias(libs.plugins.jetbrains.kotlin.android) apply false
+	alias(libs.plugins.jetbrains.kotlin.multiplatform) apply false
+	alias(libs.plugins.jetbrains.compose) apply false
+	alias(libs.plugins.compose.compiler) apply false
+	alias(libs.plugins.ben.manes.versions)
 }
 
 tasks.register("clean", Delete::class) {
