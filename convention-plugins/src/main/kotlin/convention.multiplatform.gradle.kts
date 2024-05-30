@@ -8,9 +8,6 @@ plugins {
 	id("org.jetbrains.kotlin.plugin.compose")
 }
 
-val baseName: String by extra
-val outerBaseName = baseName
-
 kotlin {
 	applyDefaultHierarchyTemplate()
 
@@ -28,8 +25,12 @@ kotlin {
 		iosArm64(),
 		iosSimulatorArm64(),
 	).forEach {
-		it.binaries.framework {
-			baseName = outerBaseName
+		afterEvaluate {
+			val baseName: String by extra
+
+			it.binaries.framework {
+				this.baseName = baseName
+			}
 		}
 	}
 
