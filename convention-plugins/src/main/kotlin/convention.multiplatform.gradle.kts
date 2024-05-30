@@ -1,3 +1,7 @@
+@file:OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
+
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
 	kotlin("multiplatform")
 	id("org.jetbrains.compose")
@@ -5,6 +9,7 @@ plugins {
 }
 
 val baseName: String by extra
+val outerBaseName = baseName
 
 java {
 	toolchain {
@@ -18,10 +23,8 @@ kotlin {
 	jvm("desktop")
 
 	androidTarget {
-		compilations.all {
-			kotlinOptions {
-				jvmTarget = "11"
-			}
+		compilerOptions {
+			jvmTarget.set(JvmTarget.JVM_11)
 		}
 		publishLibraryVariants("release")
 	}
@@ -32,7 +35,7 @@ kotlin {
 		iosSimulatorArm64(),
 	).forEach {
 		it.binaries.framework {
-			this.baseName = baseName
+			baseName = outerBaseName
 		}
 	}
 
