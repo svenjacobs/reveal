@@ -8,6 +8,9 @@ pluginManagement {
 		maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 		maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
 	}
+
+	includeBuild("convention-plugins")
+	includeBuild("demo-app")
 }
 
 dependencyResolutionManagement {
@@ -20,7 +23,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Reveal"
-includeBuild("convention-plugins")
+
 include(
 	":reveal-common",
 	":reveal-core",
