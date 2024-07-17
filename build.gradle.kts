@@ -14,6 +14,7 @@ plugins {
 	alias(libs.plugins.nexus.publish)
 	alias(libs.plugins.ben.manes.versions)
 	alias(libs.plugins.kotlinter)
+	alias(libs.plugins.bcv)
 }
 
 group = "com.svenjacobs.reveal"
@@ -21,6 +22,12 @@ version = (System.getenv("RELEASE_TAG_NAME") ?: "SNAPSHOT").replace("v", "")
 
 subprojects {
 	apply(plugin = "org.jmailen.kotlinter")
+}
+
+apiValidation {
+	ignoredProjects += listOf(
+		"android-tests",
+	)
 }
 
 nexusPublishing {

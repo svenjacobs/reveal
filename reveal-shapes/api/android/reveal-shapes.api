@@ -1,0 +1,21 @@
+public abstract interface class com/svenjacobs/reveal/shapes/balloon/Arrow {
+	public static final field Companion Lcom/svenjacobs/reveal/shapes/balloon/Arrow$Companion;
+	public abstract fun getHeight-D9Ej5fM ()F
+	public abstract fun getPadding ()Landroidx/compose/foundation/layout/PaddingValues;
+	public abstract fun getWidth-D9Ej5fM ()F
+	public abstract fun offset-P0SO9DQ (Landroidx/compose/ui/unit/Density;JFLandroidx/compose/ui/unit/LayoutDirection;)J
+	public abstract fun path (Landroidx/compose/ui/unit/Density;)Landroidx/compose/ui/graphics/Path;
+}
+
+public final class com/svenjacobs/reveal/shapes/balloon/Arrow$Companion {
+	public final fun bottom-if577FI (FFLandroidx/compose/ui/Alignment$Horizontal;Landroidx/compose/runtime/Composer;II)Lcom/svenjacobs/reveal/shapes/balloon/Arrow;
+	public final fun end-if577FI (FFLandroidx/compose/ui/Alignment$Vertical;Landroidx/compose/runtime/Composer;II)Lcom/svenjacobs/reveal/shapes/balloon/Arrow;
+	public final fun start-if577FI (FFLandroidx/compose/ui/Alignment$Vertical;Landroidx/compose/runtime/Composer;II)Lcom/svenjacobs/reveal/shapes/balloon/Arrow;
+	public final fun top-if577FI (FFLandroidx/compose/ui/Alignment$Horizontal;Landroidx/compose/runtime/Composer;II)Lcom/svenjacobs/reveal/shapes/balloon/Arrow;
+}
+
+public final class com/svenjacobs/reveal/shapes/balloon/BalloonKt {
+	public static final fun Balloon-G1RUFBc (Lcom/svenjacobs/reveal/shapes/balloon/Arrow;JLandroidx/compose/ui/Modifier;FFLandroidx/compose/ui/Alignment;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+	public static final fun Balloon-tOXsyB8 (Lcom/svenjacobs/reveal/shapes/balloon/Arrow;Landroidx/compose/ui/graphics/Brush;Landroidx/compose/ui/Modifier;FFFLandroidx/compose/ui/Alignment;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
