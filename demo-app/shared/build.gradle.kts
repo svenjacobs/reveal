@@ -41,8 +41,10 @@ kotlin {
 			@OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 			implementation(compose.components.resources)
 
-			implementation(libs.reveal.core)
-			implementation(libs.reveal.shapes)
+			//noinspection UseTomlInstead
+			implementation("reveal:core")
+			//noinspection UseTomlInstead
+			implementation("reveal:shapes")
 		}
 
 		commonTest.dependencies {

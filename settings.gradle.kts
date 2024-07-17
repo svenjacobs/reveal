@@ -10,7 +10,6 @@ pluginManagement {
 	}
 
 	includeBuild("convention-plugins")
-	includeBuild("demo-app")
 }
 
 dependencyResolutionManagement {
