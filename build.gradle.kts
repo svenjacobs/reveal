@@ -14,7 +14,7 @@ plugins {
 	alias(libs.plugins.nexus.publish)
 	alias(libs.plugins.ben.manes.versions)
 	alias(libs.plugins.kotlinter)
-	alias(libs.plugins.bcv)
+	alias(libs.plugins.binary.compat.validator)
 }
 
 group = "com.svenjacobs.reveal"
