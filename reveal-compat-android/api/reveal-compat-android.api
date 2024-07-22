@@ -1,0 +1,8 @@
+public final class com/svenjacobs/reveal/compat/android/inserter/FullscreenRevealOverlayInserter : com/svenjacobs/reveal/common/inserter/RevealOverlayInserter {
+	public static final field $stable I
+	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun Container (Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+	public fun getRevealableOffset-RKDOV3M ()J
+}
+
