@@ -1,0 +1,29 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <Reveal:reveal-shapes>
+sealed interface com.svenjacobs.reveal.shapes.balloon/Arrow { // com.svenjacobs.reveal.shapes.balloon/Arrow|null[0]
+    abstract val height // com.svenjacobs.reveal.shapes.balloon/Arrow.height|{}height[0]
+        abstract fun <get-height>(): androidx.compose.ui.unit/Dp // com.svenjacobs.reveal.shapes.balloon/Arrow.height.<get-height>|<get-height>(){}[0]
+    abstract val padding // com.svenjacobs.reveal.shapes.balloon/Arrow.padding|{}padding[0]
+        abstract fun <get-padding>(): androidx.compose.foundation.layout/PaddingValues // com.svenjacobs.reveal.shapes.balloon/Arrow.padding.<get-padding>|<get-padding>(){}[0]
+    abstract val width // com.svenjacobs.reveal.shapes.balloon/Arrow.width|{}width[0]
+        abstract fun <get-width>(): androidx.compose.ui.unit/Dp // com.svenjacobs.reveal.shapes.balloon/Arrow.width.<get-width>|<get-width>(){}[0]
+
+    abstract fun offset(androidx.compose.ui.unit/Density, androidx.compose.ui.geometry/Size, kotlin/Float, androidx.compose.ui.unit/LayoutDirection): androidx.compose.ui.geometry/Offset // com.svenjacobs.reveal.shapes.balloon/Arrow.offset|offset(androidx.compose.ui.unit.Density;androidx.compose.ui.geometry.Size;kotlin.Float;androidx.compose.ui.unit.LayoutDirection){}[0]
+    abstract fun path(androidx.compose.ui.unit/Density): androidx.compose.ui.graphics/Path // com.svenjacobs.reveal.shapes.balloon/Arrow.path|path(androidx.compose.ui.unit.Density){}[0]
+
+    final object Companion { // com.svenjacobs.reveal.shapes.balloon/Arrow.Companion|null[0]
+        final fun bottom(androidx.compose.ui.unit/Dp, androidx.compose.ui.unit/Dp, androidx.compose.ui/Alignment.Horizontal?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): com.svenjacobs.reveal.shapes.balloon/Arrow // com.svenjacobs.reveal.shapes.balloon/Arrow.Companion.bottom|bottom(androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.Alignment.Horizontal?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+        final fun end(androidx.compose.ui.unit/Dp, androidx.compose.ui.unit/Dp, androidx.compose.ui/Alignment.Vertical?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): com.svenjacobs.reveal.shapes.balloon/Arrow // com.svenjacobs.reveal.shapes.balloon/Arrow.Companion.end|end(androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.Alignment.Vertical?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+        final fun start(androidx.compose.ui.unit/Dp, androidx.compose.ui.unit/Dp, androidx.compose.ui/Alignment.Vertical?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): com.svenjacobs.reveal.shapes.balloon/Arrow // com.svenjacobs.reveal.shapes.balloon/Arrow.Companion.start|start(androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.Alignment.Vertical?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+        final fun top(androidx.compose.ui.unit/Dp, androidx.compose.ui.unit/Dp, androidx.compose.ui/Alignment.Horizontal?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): com.svenjacobs.reveal.shapes.balloon/Arrow // com.svenjacobs.reveal.shapes.balloon/Arrow.Companion.top|top(androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.Alignment.Horizontal?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+    }
+}
+
+final fun com.svenjacobs.reveal.shapes.balloon/Balloon(com.svenjacobs.reveal.shapes.balloon/Arrow, androidx.compose.ui.graphics/Brush, androidx.compose.ui/Modifier?, kotlin/Float, androidx.compose.ui.unit/Dp, androidx.compose.ui.unit/Dp, androidx.compose.ui/Alignment?, kotlin/Function3<androidx.compose.foundation.layout/BoxScope, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.svenjacobs.reveal.shapes.balloon/Balloon|Balloon(com.svenjacobs.reveal.shapes.balloon.Arrow;androidx.compose.ui.graphics.Brush;androidx.compose.ui.Modifier?;kotlin.Float;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.Alignment?;kotlin.Function3<androidx.compose.foundation.layout.BoxScope,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.svenjacobs.reveal.shapes.balloon/Balloon(com.svenjacobs.reveal.shapes.balloon/Arrow, androidx.compose.ui.graphics/Color, androidx.compose.ui/Modifier?, androidx.compose.ui.unit/Dp, androidx.compose.ui.unit/Dp, androidx.compose.ui/Alignment?, kotlin/Function3<androidx.compose.foundation.layout/BoxScope, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.svenjacobs.reveal.shapes.balloon/Balloon|Balloon(com.svenjacobs.reveal.shapes.balloon.Arrow;androidx.compose.ui.graphics.Color;androidx.compose.ui.Modifier?;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;androidx.compose.ui.Alignment?;kotlin.Function3<androidx.compose.foundation.layout.BoxScope,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
