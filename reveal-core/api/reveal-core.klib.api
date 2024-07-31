@@ -1,0 +1,226 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <Reveal:reveal-core>
+abstract interface com.svenjacobs.reveal.effect/RevealOverlayEffect { // com.svenjacobs.reveal.effect/RevealOverlayEffect|null[0]
+    abstract val alphaAnimationSpec // com.svenjacobs.reveal.effect/RevealOverlayEffect.alphaAnimationSpec|{}alphaAnimationSpec[0]
+        abstract fun <get-alphaAnimationSpec>(): androidx.compose.animation.core/AnimationSpec<kotlin/Float> // com.svenjacobs.reveal.effect/RevealOverlayEffect.alphaAnimationSpec.<get-alphaAnimationSpec>|<get-alphaAnimationSpec>(){}[0]
+
+    abstract fun Overlay(com.svenjacobs.reveal/RevealState, androidx.compose.runtime/State<com.svenjacobs.reveal/ActualRevealable?>, androidx.compose.runtime/State<com.svenjacobs.reveal/ActualRevealable?>, androidx.compose.ui/Modifier, kotlin/Function4<com.svenjacobs.reveal/RevealOverlayScope, kotlin/Any, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.svenjacobs.reveal.effect/RevealOverlayEffect.Overlay|Overlay(com.svenjacobs.reveal.RevealState;androidx.compose.runtime.State<com.svenjacobs.reveal.ActualRevealable?>;androidx.compose.runtime.State<com.svenjacobs.reveal.ActualRevealable?>;androidx.compose.ui.Modifier;kotlin.Function4<com.svenjacobs.reveal.RevealOverlayScope,kotlin.Any,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+}
+
+abstract interface com.svenjacobs.reveal/RevealOverlayScope { // com.svenjacobs.reveal/RevealOverlayScope|null[0]
+    abstract fun (androidx.compose.ui/Modifier).align(com.svenjacobs.reveal/RevealOverlayArrangement.Horizontal, androidx.compose.ui/Alignment.Vertical =..., kotlin/Boolean =...): androidx.compose.ui/Modifier // com.svenjacobs.reveal/RevealOverlayScope.align|align@androidx.compose.ui.Modifier(com.svenjacobs.reveal.RevealOverlayArrangement.Horizontal;androidx.compose.ui.Alignment.Vertical;kotlin.Boolean){}[0]
+    abstract fun (androidx.compose.ui/Modifier).align(com.svenjacobs.reveal/RevealOverlayArrangement.Vertical, androidx.compose.ui/Alignment.Horizontal =..., kotlin/Boolean =...): androidx.compose.ui/Modifier // com.svenjacobs.reveal/RevealOverlayScope.align|align@androidx.compose.ui.Modifier(com.svenjacobs.reveal.RevealOverlayArrangement.Vertical;androidx.compose.ui.Alignment.Horizontal;kotlin.Boolean){}[0]
+}
+
+abstract interface com.svenjacobs.reveal/RevealScope { // com.svenjacobs.reveal/RevealScope|null[0]
+    abstract fun (androidx.compose.ui/Modifier).revealable(kotlin.collections/Iterable<kotlin/Any>, com.svenjacobs.reveal/RevealShape =..., androidx.compose.foundation.layout/PaddingValues =..., kotlin/Function1<kotlin/Any, kotlin/Unit>? =...): androidx.compose.ui/Modifier // com.svenjacobs.reveal/RevealScope.revealable|revealable@androidx.compose.ui.Modifier(kotlin.collections.Iterable<kotlin.Any>;com.svenjacobs.reveal.RevealShape;androidx.compose.foundation.layout.PaddingValues;kotlin.Function1<kotlin.Any,kotlin.Unit>?){}[0]
+    abstract fun (androidx.compose.ui/Modifier).revealable(kotlin/Any, com.svenjacobs.reveal/RevealShape =..., androidx.compose.foundation.layout/PaddingValues =..., kotlin/Function1<kotlin/Any, kotlin/Unit>? =...): androidx.compose.ui/Modifier // com.svenjacobs.reveal/RevealScope.revealable|revealable@androidx.compose.ui.Modifier(kotlin.Any;com.svenjacobs.reveal.RevealShape;androidx.compose.foundation.layout.PaddingValues;kotlin.Function1<kotlin.Any,kotlin.Unit>?){}[0]
+    abstract fun (androidx.compose.ui/Modifier).revealable(kotlin/Array<out kotlin/Any>..., com.svenjacobs.reveal/RevealShape =..., androidx.compose.foundation.layout/PaddingValues =..., kotlin/Function1<kotlin/Any, kotlin/Unit>? =...): androidx.compose.ui/Modifier // com.svenjacobs.reveal/RevealScope.revealable|revealable@androidx.compose.ui.Modifier(kotlin.Array<out|kotlin.Any>...;com.svenjacobs.reveal.RevealShape;androidx.compose.foundation.layout.PaddingValues;kotlin.Function1<kotlin.Any,kotlin.Unit>?){}[0]
+}
+
+sealed interface com.svenjacobs.reveal/RevealShape { // com.svenjacobs.reveal/RevealShape|null[0]
+    abstract fun clip(androidx.compose.ui.geometry/Size, androidx.compose.ui.unit/Density, androidx.compose.ui.unit/LayoutDirection): androidx.compose.ui.graphics/Path // com.svenjacobs.reveal/RevealShape.clip|clip(androidx.compose.ui.geometry.Size;androidx.compose.ui.unit.Density;androidx.compose.ui.unit.LayoutDirection){}[0]
+    open fun (androidx.compose.ui.geometry/Size).asRect(): androidx.compose.ui.geometry/Rect // com.svenjacobs.reveal/RevealShape.asRect|asRect@androidx.compose.ui.geometry.Size(){}[0]
+
+    final class Custom : com.svenjacobs.reveal/RevealShape { // com.svenjacobs.reveal/RevealShape.Custom|null[0]
+        constructor <init>(kotlin/Function3<androidx.compose.ui.geometry/Size, androidx.compose.ui.unit/Density, androidx.compose.ui.unit/LayoutDirection, androidx.compose.ui.graphics/Path>) // com.svenjacobs.reveal/RevealShape.Custom.<init>|<init>(kotlin.Function3<androidx.compose.ui.geometry.Size,androidx.compose.ui.unit.Density,androidx.compose.ui.unit.LayoutDirection,androidx.compose.ui.graphics.Path>){}[0]
+
+        final fun clip(androidx.compose.ui.geometry/Size, androidx.compose.ui.unit/Density, androidx.compose.ui.unit/LayoutDirection): androidx.compose.ui.graphics/Path // com.svenjacobs.reveal/RevealShape.Custom.clip|clip(androidx.compose.ui.geometry.Size;androidx.compose.ui.unit.Density;androidx.compose.ui.unit.LayoutDirection){}[0]
+    }
+
+    final class RoundRect : com.svenjacobs.reveal/RevealShape { // com.svenjacobs.reveal/RevealShape.RoundRect|null[0]
+        constructor <init>(androidx.compose.ui.unit/Dp) // com.svenjacobs.reveal/RevealShape.RoundRect.<init>|<init>(androidx.compose.ui.unit.Dp){}[0]
+
+        final fun clip(androidx.compose.ui.geometry/Size, androidx.compose.ui.unit/Density, androidx.compose.ui.unit/LayoutDirection): androidx.compose.ui.graphics/Path // com.svenjacobs.reveal/RevealShape.RoundRect.clip|clip(androidx.compose.ui.geometry.Size;androidx.compose.ui.unit.Density;androidx.compose.ui.unit.LayoutDirection){}[0]
+    }
+
+    final object Circle : com.svenjacobs.reveal/RevealShape { // com.svenjacobs.reveal/RevealShape.Circle|null[0]
+        final fun clip(androidx.compose.ui.geometry/Size, androidx.compose.ui.unit/Density, androidx.compose.ui.unit/LayoutDirection): androidx.compose.ui.graphics/Path // com.svenjacobs.reveal/RevealShape.Circle.clip|clip(androidx.compose.ui.geometry.Size;androidx.compose.ui.unit.Density;androidx.compose.ui.unit.LayoutDirection){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.svenjacobs.reveal/RevealShape.Circle.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.svenjacobs.reveal/RevealShape.Circle.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.svenjacobs.reveal/RevealShape.Circle.toString|toString(){}[0]
+    }
+
+    final object Rect : com.svenjacobs.reveal/RevealShape { // com.svenjacobs.reveal/RevealShape.Rect|null[0]
+        final fun clip(androidx.compose.ui.geometry/Size, androidx.compose.ui.unit/Density, androidx.compose.ui.unit/LayoutDirection): androidx.compose.ui.graphics/Path // com.svenjacobs.reveal/RevealShape.Rect.clip|clip(androidx.compose.ui.geometry.Size;androidx.compose.ui.unit.Density;androidx.compose.ui.unit.LayoutDirection){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.svenjacobs.reveal/RevealShape.Rect.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.svenjacobs.reveal/RevealShape.Rect.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.svenjacobs.reveal/RevealShape.Rect.toString|toString(){}[0]
+    }
+}
+
+final class com.svenjacobs.reveal.effect.dim/DimRevealOverlayEffect : com.svenjacobs.reveal.effect/RevealOverlayEffect { // com.svenjacobs.reveal.effect.dim/DimRevealOverlayEffect|null[0]
+    constructor <init>(androidx.compose.animation.core/AnimationSpec<kotlin/Float> =..., androidx.compose.ui.graphics/Color =..., androidx.compose.animation.core/AnimationSpec<kotlin/Float> =...) // com.svenjacobs.reveal.effect.dim/DimRevealOverlayEffect.<init>|<init>(androidx.compose.animation.core.AnimationSpec<kotlin.Float>;androidx.compose.ui.graphics.Color;androidx.compose.animation.core.AnimationSpec<kotlin.Float>){}[0]
+
+    final val alphaAnimationSpec // com.svenjacobs.reveal.effect.dim/DimRevealOverlayEffect.alphaAnimationSpec|{}alphaAnimationSpec[0]
+        final fun <get-alphaAnimationSpec>(): androidx.compose.animation.core/AnimationSpec<kotlin/Float> // com.svenjacobs.reveal.effect.dim/DimRevealOverlayEffect.alphaAnimationSpec.<get-alphaAnimationSpec>|<get-alphaAnimationSpec>(){}[0]
+
+    final fun Overlay(com.svenjacobs.reveal/RevealState, androidx.compose.runtime/State<com.svenjacobs.reveal/ActualRevealable?>, androidx.compose.runtime/State<com.svenjacobs.reveal/ActualRevealable?>, androidx.compose.ui/Modifier, kotlin/Function4<com.svenjacobs.reveal/RevealOverlayScope, kotlin/Any, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.svenjacobs.reveal.effect.dim/DimRevealOverlayEffect.Overlay|Overlay(com.svenjacobs.reveal.RevealState;androidx.compose.runtime.State<com.svenjacobs.reveal.ActualRevealable?>;androidx.compose.runtime.State<com.svenjacobs.reveal.ActualRevealable?>;androidx.compose.ui.Modifier;kotlin.Function4<com.svenjacobs.reveal.RevealOverlayScope,kotlin.Any,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+}
+
+final class com.svenjacobs.reveal/ActualRevealable { // com.svenjacobs.reveal/ActualRevealable|null[0]
+    constructor <init>(kotlin/Any, com.svenjacobs.reveal/RevealShape, androidx.compose.foundation.layout/PaddingValues, androidx.compose.ui.geometry/Rect, kotlin/Function1<kotlin/Any, kotlin/Unit>?) // com.svenjacobs.reveal/ActualRevealable.<init>|<init>(kotlin.Any;com.svenjacobs.reveal.RevealShape;androidx.compose.foundation.layout.PaddingValues;androidx.compose.ui.geometry.Rect;kotlin.Function1<kotlin.Any,kotlin.Unit>?){}[0]
+
+    final val area // com.svenjacobs.reveal/ActualRevealable.area|{}area[0]
+        final fun <get-area>(): androidx.compose.ui.geometry/Rect // com.svenjacobs.reveal/ActualRevealable.area.<get-area>|<get-area>(){}[0]
+    final val key // com.svenjacobs.reveal/ActualRevealable.key|{}key[0]
+        final fun <get-key>(): kotlin/Any // com.svenjacobs.reveal/ActualRevealable.key.<get-key>|<get-key>(){}[0]
+    final val onClick // com.svenjacobs.reveal/ActualRevealable.onClick|{}onClick[0]
+        final fun <get-onClick>(): kotlin/Function1<kotlin/Any, kotlin/Unit>? // com.svenjacobs.reveal/ActualRevealable.onClick.<get-onClick>|<get-onClick>(){}[0]
+    final val padding // com.svenjacobs.reveal/ActualRevealable.padding|{}padding[0]
+        final fun <get-padding>(): androidx.compose.foundation.layout/PaddingValues // com.svenjacobs.reveal/ActualRevealable.padding.<get-padding>|<get-padding>(){}[0]
+    final val shape // com.svenjacobs.reveal/ActualRevealable.shape|{}shape[0]
+        final fun <get-shape>(): com.svenjacobs.reveal/RevealShape // com.svenjacobs.reveal/ActualRevealable.shape.<get-shape>|<get-shape>(){}[0]
+
+    final fun component1(): kotlin/Any // com.svenjacobs.reveal/ActualRevealable.component1|component1(){}[0]
+    final fun component2(): com.svenjacobs.reveal/RevealShape // com.svenjacobs.reveal/ActualRevealable.component2|component2(){}[0]
+    final fun component3(): androidx.compose.foundation.layout/PaddingValues // com.svenjacobs.reveal/ActualRevealable.component3|component3(){}[0]
+    final fun component4(): androidx.compose.ui.geometry/Rect // com.svenjacobs.reveal/ActualRevealable.component4|component4(){}[0]
+    final fun component5(): kotlin/Function1<kotlin/Any, kotlin/Unit>? // com.svenjacobs.reveal/ActualRevealable.component5|component5(){}[0]
+    final fun copy(kotlin/Any =..., com.svenjacobs.reveal/RevealShape =..., androidx.compose.foundation.layout/PaddingValues =..., androidx.compose.ui.geometry/Rect =..., kotlin/Function1<kotlin/Any, kotlin/Unit>? =...): com.svenjacobs.reveal/ActualRevealable // com.svenjacobs.reveal/ActualRevealable.copy|copy(kotlin.Any;com.svenjacobs.reveal.RevealShape;androidx.compose.foundation.layout.PaddingValues;androidx.compose.ui.geometry.Rect;kotlin.Function1<kotlin.Any,kotlin.Unit>?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.svenjacobs.reveal/ActualRevealable.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.svenjacobs.reveal/ActualRevealable.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.svenjacobs.reveal/ActualRevealable.toString|toString(){}[0]
+}
+
+final class com.svenjacobs.reveal/RevealCanvasState { // com.svenjacobs.reveal/RevealCanvasState|null[0]
+    constructor <init>() // com.svenjacobs.reveal/RevealCanvasState.<init>|<init>(){}[0]
+}
+
+final class com.svenjacobs.reveal/RevealState { // com.svenjacobs.reveal/RevealState|null[0]
+    constructor <init>() // com.svenjacobs.reveal/RevealState.<init>|<init>(){}[0]
+
+    final val currentRevealableKey // com.svenjacobs.reveal/RevealState.currentRevealableKey|{}currentRevealableKey[0]
+        final fun <get-currentRevealableKey>(): kotlin/Any? // com.svenjacobs.reveal/RevealState.currentRevealableKey.<get-currentRevealableKey>|<get-currentRevealableKey>(){}[0]
+    final val isVisible // com.svenjacobs.reveal/RevealState.isVisible|{}isVisible[0]
+        final fun <get-isVisible>(): kotlin/Boolean // com.svenjacobs.reveal/RevealState.isVisible.<get-isVisible>|<get-isVisible>(){}[0]
+    final val previousRevealableKey // com.svenjacobs.reveal/RevealState.previousRevealableKey|{}previousRevealableKey[0]
+        final fun <get-previousRevealableKey>(): kotlin/Any? // com.svenjacobs.reveal/RevealState.previousRevealableKey.<get-previousRevealableKey>|<get-previousRevealableKey>(){}[0]
+    final val revealableKeys // com.svenjacobs.reveal/RevealState.revealableKeys|{}revealableKeys[0]
+        final fun <get-revealableKeys>(): kotlin.collections/Set<kotlin/Any> // com.svenjacobs.reveal/RevealState.revealableKeys.<get-revealableKeys>|<get-revealableKeys>(){}[0]
+
+    final fun addRevealable(com.svenjacobs.reveal/Revealable) // com.svenjacobs.reveal/RevealState.addRevealable|addRevealable(com.svenjacobs.reveal.Revealable){}[0]
+    final fun containsRevealable(kotlin/Any): kotlin/Boolean // com.svenjacobs.reveal/RevealState.containsRevealable|containsRevealable(kotlin.Any){}[0]
+    final fun putRevealable(com.svenjacobs.reveal/Revealable) // com.svenjacobs.reveal/RevealState.putRevealable|putRevealable(com.svenjacobs.reveal.Revealable){}[0]
+    final fun removeRevealable(kotlin/Any) // com.svenjacobs.reveal/RevealState.removeRevealable|removeRevealable(kotlin.Any){}[0]
+    final suspend fun hide() // com.svenjacobs.reveal/RevealState.hide|hide(){}[0]
+    final suspend fun reveal(kotlin/Any) // com.svenjacobs.reveal/RevealState.reveal|reveal(kotlin.Any){}[0]
+    final suspend fun tryReveal(kotlin/Any): kotlin/Boolean // com.svenjacobs.reveal/RevealState.tryReveal|tryReveal(kotlin.Any){}[0]
+}
+
+final class com.svenjacobs.reveal/Revealable { // com.svenjacobs.reveal/Revealable|null[0]
+    constructor <init>(kotlin/Any, com.svenjacobs.reveal/RevealShape, androidx.compose.foundation.layout/PaddingValues, com.svenjacobs.reveal/Revealable.Layout, kotlin/Function1<kotlin/Any, kotlin/Unit>?) // com.svenjacobs.reveal/Revealable.<init>|<init>(kotlin.Any;com.svenjacobs.reveal.RevealShape;androidx.compose.foundation.layout.PaddingValues;com.svenjacobs.reveal.Revealable.Layout;kotlin.Function1<kotlin.Any,kotlin.Unit>?){}[0]
+
+    final val key // com.svenjacobs.reveal/Revealable.key|{}key[0]
+        final fun <get-key>(): kotlin/Any // com.svenjacobs.reveal/Revealable.key.<get-key>|<get-key>(){}[0]
+    final val layout // com.svenjacobs.reveal/Revealable.layout|{}layout[0]
+        final fun <get-layout>(): com.svenjacobs.reveal/Revealable.Layout // com.svenjacobs.reveal/Revealable.layout.<get-layout>|<get-layout>(){}[0]
+    final val onClick // com.svenjacobs.reveal/Revealable.onClick|{}onClick[0]
+        final fun <get-onClick>(): kotlin/Function1<kotlin/Any, kotlin/Unit>? // com.svenjacobs.reveal/Revealable.onClick.<get-onClick>|<get-onClick>(){}[0]
+    final val padding // com.svenjacobs.reveal/Revealable.padding|{}padding[0]
+        final fun <get-padding>(): androidx.compose.foundation.layout/PaddingValues // com.svenjacobs.reveal/Revealable.padding.<get-padding>|<get-padding>(){}[0]
+    final val shape // com.svenjacobs.reveal/Revealable.shape|{}shape[0]
+        final fun <get-shape>(): com.svenjacobs.reveal/RevealShape // com.svenjacobs.reveal/Revealable.shape.<get-shape>|<get-shape>(){}[0]
+
+    final fun component1(): kotlin/Any // com.svenjacobs.reveal/Revealable.component1|component1(){}[0]
+    final fun component2(): com.svenjacobs.reveal/RevealShape // com.svenjacobs.reveal/Revealable.component2|component2(){}[0]
+    final fun component3(): androidx.compose.foundation.layout/PaddingValues // com.svenjacobs.reveal/Revealable.component3|component3(){}[0]
+    final fun component4(): com.svenjacobs.reveal/Revealable.Layout // com.svenjacobs.reveal/Revealable.component4|component4(){}[0]
+    final fun component5(): kotlin/Function1<kotlin/Any, kotlin/Unit>? // com.svenjacobs.reveal/Revealable.component5|component5(){}[0]
+    final fun copy(kotlin/Any =..., com.svenjacobs.reveal/RevealShape =..., androidx.compose.foundation.layout/PaddingValues =..., com.svenjacobs.reveal/Revealable.Layout =..., kotlin/Function1<kotlin/Any, kotlin/Unit>? =...): com.svenjacobs.reveal/Revealable // com.svenjacobs.reveal/Revealable.copy|copy(kotlin.Any;com.svenjacobs.reveal.RevealShape;androidx.compose.foundation.layout.PaddingValues;com.svenjacobs.reveal.Revealable.Layout;kotlin.Function1<kotlin.Any,kotlin.Unit>?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.svenjacobs.reveal/Revealable.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.svenjacobs.reveal/Revealable.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.svenjacobs.reveal/Revealable.toString|toString(){}[0]
+
+    final class Layout { // com.svenjacobs.reveal/Revealable.Layout|null[0]
+        constructor <init>(androidx.compose.ui.geometry/Offset, androidx.compose.ui.geometry/Size) // com.svenjacobs.reveal/Revealable.Layout.<init>|<init>(androidx.compose.ui.geometry.Offset;androidx.compose.ui.geometry.Size){}[0]
+
+        final val offset // com.svenjacobs.reveal/Revealable.Layout.offset|{}offset[0]
+            final fun <get-offset>(): androidx.compose.ui.geometry/Offset // com.svenjacobs.reveal/Revealable.Layout.offset.<get-offset>|<get-offset>(){}[0]
+        final val size // com.svenjacobs.reveal/Revealable.Layout.size|{}size[0]
+            final fun <get-size>(): androidx.compose.ui.geometry/Size // com.svenjacobs.reveal/Revealable.Layout.size.<get-size>|<get-size>(){}[0]
+
+        final fun component1(): androidx.compose.ui.geometry/Offset // com.svenjacobs.reveal/Revealable.Layout.component1|component1(){}[0]
+        final fun component2(): androidx.compose.ui.geometry/Size // com.svenjacobs.reveal/Revealable.Layout.component2|component2(){}[0]
+        final fun copy(androidx.compose.ui.geometry/Offset =..., androidx.compose.ui.geometry/Size =...): com.svenjacobs.reveal/Revealable.Layout // com.svenjacobs.reveal/Revealable.Layout.copy|copy(androidx.compose.ui.geometry.Offset;androidx.compose.ui.geometry.Size){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.svenjacobs.reveal/Revealable.Layout.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.svenjacobs.reveal/Revealable.Layout.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.svenjacobs.reveal/Revealable.Layout.toString|toString(){}[0]
+    }
+}
+
+final object com.svenjacobs.reveal/RevealOverlayArrangement { // com.svenjacobs.reveal/RevealOverlayArrangement|null[0]
+    sealed interface Horizontal { // com.svenjacobs.reveal/RevealOverlayArrangement.Horizontal|null[0]
+        abstract fun align(kotlin/Int, kotlin/Int, kotlin/Int): kotlin/Int // com.svenjacobs.reveal/RevealOverlayArrangement.Horizontal.align|align(kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+        abstract fun arrange(androidx.compose.ui.unit/IntRect, androidx.compose.ui.unit/IntSize, kotlin/Boolean, androidx.compose.ui.unit/LayoutDirection): androidx.compose.ui.unit/IntRect // com.svenjacobs.reveal/RevealOverlayArrangement.Horizontal.arrange|arrange(androidx.compose.ui.unit.IntRect;androidx.compose.ui.unit.IntSize;kotlin.Boolean;androidx.compose.ui.unit.LayoutDirection){}[0]
+    }
+
+    sealed interface Vertical { // com.svenjacobs.reveal/RevealOverlayArrangement.Vertical|null[0]
+        abstract fun align(kotlin/Int, kotlin/Int, kotlin/Int): kotlin/Int // com.svenjacobs.reveal/RevealOverlayArrangement.Vertical.align|align(kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+        abstract fun arrange(androidx.compose.ui.unit/IntRect, androidx.compose.ui.unit/IntSize, kotlin/Boolean): androidx.compose.ui.unit/IntRect // com.svenjacobs.reveal/RevealOverlayArrangement.Vertical.arrange|arrange(androidx.compose.ui.unit.IntRect;androidx.compose.ui.unit.IntSize;kotlin.Boolean){}[0]
+    }
+
+    final object Bottom : com.svenjacobs.reveal/RevealOverlayArrangement.Vertical { // com.svenjacobs.reveal/RevealOverlayArrangement.Bottom|null[0]
+        final fun align(kotlin/Int, kotlin/Int, kotlin/Int): kotlin/Int // com.svenjacobs.reveal/RevealOverlayArrangement.Bottom.align|align(kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+        final fun arrange(androidx.compose.ui.unit/IntRect, androidx.compose.ui.unit/IntSize, kotlin/Boolean): androidx.compose.ui.unit/IntRect // com.svenjacobs.reveal/RevealOverlayArrangement.Bottom.arrange|arrange(androidx.compose.ui.unit.IntRect;androidx.compose.ui.unit.IntSize;kotlin.Boolean){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.svenjacobs.reveal/RevealOverlayArrangement.Bottom.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.svenjacobs.reveal/RevealOverlayArrangement.Bottom.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.svenjacobs.reveal/RevealOverlayArrangement.Bottom.toString|toString(){}[0]
+    }
+
+    final object End : com.svenjacobs.reveal/RevealOverlayArrangement.Horizontal { // com.svenjacobs.reveal/RevealOverlayArrangement.End|null[0]
+        final fun align(kotlin/Int, kotlin/Int, kotlin/Int): kotlin/Int // com.svenjacobs.reveal/RevealOverlayArrangement.End.align|align(kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+        final fun arrange(androidx.compose.ui.unit/IntRect, androidx.compose.ui.unit/IntSize, kotlin/Boolean, androidx.compose.ui.unit/LayoutDirection): androidx.compose.ui.unit/IntRect // com.svenjacobs.reveal/RevealOverlayArrangement.End.arrange|arrange(androidx.compose.ui.unit.IntRect;androidx.compose.ui.unit.IntSize;kotlin.Boolean;androidx.compose.ui.unit.LayoutDirection){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.svenjacobs.reveal/RevealOverlayArrangement.End.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.svenjacobs.reveal/RevealOverlayArrangement.End.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.svenjacobs.reveal/RevealOverlayArrangement.End.toString|toString(){}[0]
+    }
+
+    final object Start : com.svenjacobs.reveal/RevealOverlayArrangement.Horizontal { // com.svenjacobs.reveal/RevealOverlayArrangement.Start|null[0]
+        final fun align(kotlin/Int, kotlin/Int, kotlin/Int): kotlin/Int // com.svenjacobs.reveal/RevealOverlayArrangement.Start.align|align(kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+        final fun arrange(androidx.compose.ui.unit/IntRect, androidx.compose.ui.unit/IntSize, kotlin/Boolean, androidx.compose.ui.unit/LayoutDirection): androidx.compose.ui.unit/IntRect // com.svenjacobs.reveal/RevealOverlayArrangement.Start.arrange|arrange(androidx.compose.ui.unit.IntRect;androidx.compose.ui.unit.IntSize;kotlin.Boolean;androidx.compose.ui.unit.LayoutDirection){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.svenjacobs.reveal/RevealOverlayArrangement.Start.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.svenjacobs.reveal/RevealOverlayArrangement.Start.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.svenjacobs.reveal/RevealOverlayArrangement.Start.toString|toString(){}[0]
+    }
+
+    final object Top : com.svenjacobs.reveal/RevealOverlayArrangement.Vertical { // com.svenjacobs.reveal/RevealOverlayArrangement.Top|null[0]
+        final fun align(kotlin/Int, kotlin/Int, kotlin/Int): kotlin/Int // com.svenjacobs.reveal/RevealOverlayArrangement.Top.align|align(kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+        final fun arrange(androidx.compose.ui.unit/IntRect, androidx.compose.ui.unit/IntSize, kotlin/Boolean): androidx.compose.ui.unit/IntRect // com.svenjacobs.reveal/RevealOverlayArrangement.Top.arrange|arrange(androidx.compose.ui.unit.IntRect;androidx.compose.ui.unit.IntSize;kotlin.Boolean){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.svenjacobs.reveal/RevealOverlayArrangement.Top.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.svenjacobs.reveal/RevealOverlayArrangement.Top.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.svenjacobs.reveal/RevealOverlayArrangement.Top.toString|toString(){}[0]
+    }
+}
+
+final const val com.svenjacobs.reveal.effect.dim/com_svenjacobs_reveal_effect_dim_DimRevealOverlayEffect$stableprop // com.svenjacobs.reveal.effect.dim/com_svenjacobs_reveal_effect_dim_DimRevealOverlayEffect$stableprop|#static{}com_svenjacobs_reveal_effect_dim_DimRevealOverlayEffect$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_ActualRevealable$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_ActualRevealable$stableprop|#static{}com_svenjacobs_reveal_ActualRevealable$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealCanvasState$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealCanvasState$stableprop|#static{}com_svenjacobs_reveal_RevealCanvasState$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement$stableprop|#static{}com_svenjacobs_reveal_RevealOverlayArrangement$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Bottom$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Bottom$stableprop|#static{}com_svenjacobs_reveal_RevealOverlayArrangement_Bottom$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_End$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_End$stableprop|#static{}com_svenjacobs_reveal_RevealOverlayArrangement_End$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Start$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Start$stableprop|#static{}com_svenjacobs_reveal_RevealOverlayArrangement_Start$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Top$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Top$stableprop|#static{}com_svenjacobs_reveal_RevealOverlayArrangement_Top$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayScopeInstance$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayScopeInstance$stableprop|#static{}com_svenjacobs_reveal_RevealOverlayScopeInstance$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealScopeInstance$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealScopeInstance$stableprop|#static{}com_svenjacobs_reveal_RevealScopeInstance$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Circle$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Circle$stableprop|#static{}com_svenjacobs_reveal_RevealShape_Circle$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Custom$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Custom$stableprop|#static{}com_svenjacobs_reveal_RevealShape_Custom$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Rect$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Rect$stableprop|#static{}com_svenjacobs_reveal_RevealShape_Rect$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_RoundRect$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_RoundRect$stableprop|#static{}com_svenjacobs_reveal_RevealShape_RoundRect$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealState$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealState$stableprop|#static{}com_svenjacobs_reveal_RevealState$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_Revealable$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_Revealable$stableprop|#static{}com_svenjacobs_reveal_Revealable$stableprop[0]
+final const val com.svenjacobs.reveal/com_svenjacobs_reveal_Revealable_Layout$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_Revealable_Layout$stableprop|#static{}com_svenjacobs_reveal_Revealable_Layout$stableprop[0]
+
+final fun (androidx.compose.ui/Modifier).com.svenjacobs.reveal/revealable(kotlin.collections/Iterable<kotlin/Any>, com.svenjacobs.reveal/RevealState, com.svenjacobs.reveal/RevealShape =..., androidx.compose.foundation.layout/PaddingValues =..., kotlin/Function1<kotlin/Any, kotlin/Unit>? =...): androidx.compose.ui/Modifier // com.svenjacobs.reveal/revealable|revealable@androidx.compose.ui.Modifier(kotlin.collections.Iterable<kotlin.Any>;com.svenjacobs.reveal.RevealState;com.svenjacobs.reveal.RevealShape;androidx.compose.foundation.layout.PaddingValues;kotlin.Function1<kotlin.Any,kotlin.Unit>?){}[0]
+final fun (androidx.compose.ui/Modifier).com.svenjacobs.reveal/revealable(kotlin/Any, com.svenjacobs.reveal/RevealState, com.svenjacobs.reveal/RevealShape =..., androidx.compose.foundation.layout/PaddingValues =..., kotlin/Function1<kotlin/Any, kotlin/Unit>? =...): androidx.compose.ui/Modifier // com.svenjacobs.reveal/revealable|revealable@androidx.compose.ui.Modifier(kotlin.Any;com.svenjacobs.reveal.RevealState;com.svenjacobs.reveal.RevealShape;androidx.compose.foundation.layout.PaddingValues;kotlin.Function1<kotlin.Any,kotlin.Unit>?){}[0]
+final fun (androidx.compose.ui/Modifier).com.svenjacobs.reveal/revealable(kotlin/Array<out kotlin/Any>..., com.svenjacobs.reveal/RevealState, com.svenjacobs.reveal/RevealShape =..., androidx.compose.foundation.layout/PaddingValues =..., kotlin/Function1<kotlin/Any, kotlin/Unit>? =...): androidx.compose.ui/Modifier // com.svenjacobs.reveal/revealable|revealable@androidx.compose.ui.Modifier(kotlin.Array<out|kotlin.Any>...;com.svenjacobs.reveal.RevealState;com.svenjacobs.reveal.RevealShape;androidx.compose.foundation.layout.PaddingValues;kotlin.Function1<kotlin.Any,kotlin.Unit>?){}[0]
+final fun com.svenjacobs.reveal/Reveal(com.svenjacobs.reveal/RevealCanvasState, androidx.compose.ui/Modifier?, kotlin/Function1<kotlin/Any, kotlin/Unit>?, kotlin/Function1<kotlin/Any, kotlin/Unit>?, com.svenjacobs.reveal/RevealState?, com.svenjacobs.reveal.effect/RevealOverlayEffect?, kotlin/Function4<com.svenjacobs.reveal/RevealOverlayScope, kotlin/Any, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function3<com.svenjacobs.reveal/RevealScope, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.svenjacobs.reveal/Reveal|Reveal(com.svenjacobs.reveal.RevealCanvasState;androidx.compose.ui.Modifier?;kotlin.Function1<kotlin.Any,kotlin.Unit>?;kotlin.Function1<kotlin.Any,kotlin.Unit>?;com.svenjacobs.reveal.RevealState?;com.svenjacobs.reveal.effect.RevealOverlayEffect?;kotlin.Function4<com.svenjacobs.reveal.RevealOverlayScope,kotlin.Any,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function3<com.svenjacobs.reveal.RevealScope,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.svenjacobs.reveal/RevealCanvas(com.svenjacobs.reveal/RevealCanvasState, androidx.compose.ui/Modifier?, com.svenjacobs.reveal.common.inserter/RevealOverlayInserter?, kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.svenjacobs.reveal/RevealCanvas|RevealCanvas(com.svenjacobs.reveal.RevealCanvasState;androidx.compose.ui.Modifier?;com.svenjacobs.reveal.common.inserter.RevealOverlayInserter?;kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.svenjacobs.reveal/rememberRevealCanvasState(androidx.compose.runtime/Composer?, kotlin/Int): com.svenjacobs.reveal/RevealCanvasState // com.svenjacobs.reveal/rememberRevealCanvasState|rememberRevealCanvasState(androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+final fun com.svenjacobs.reveal/rememberRevealState(androidx.compose.runtime.saveable/Saver<kotlin/Any, kotlin/Any>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): com.svenjacobs.reveal/RevealState // com.svenjacobs.reveal/rememberRevealState|rememberRevealState(androidx.compose.runtime.saveable.Saver<kotlin.Any,kotlin.Any>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]

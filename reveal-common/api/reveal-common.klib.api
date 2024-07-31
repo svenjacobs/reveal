@@ -1,0 +1,38 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <Reveal:reveal-common>
+abstract interface com.svenjacobs.reveal.common.inserter/RevealOverlayInserter { // com.svenjacobs.reveal.common.inserter/RevealOverlayInserter|null[0]
+    abstract val revealableOffset // com.svenjacobs.reveal.common.inserter/RevealOverlayInserter.revealableOffset|{}revealableOffset[0]
+        abstract fun <get-revealableOffset>(): androidx.compose.ui.unit/DpOffset // com.svenjacobs.reveal.common.inserter/RevealOverlayInserter.revealableOffset.<get-revealableOffset>|<get-revealableOffset>(){}[0]
+
+    abstract fun Container(kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.svenjacobs.reveal.common.inserter/RevealOverlayInserter.Container|Container(kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+}
+
+final class com.svenjacobs.reveal.common.inserter/InPlaceRevealOverlayInserter : com.svenjacobs.reveal.common.inserter/RevealOverlayInserter { // com.svenjacobs.reveal.common.inserter/InPlaceRevealOverlayInserter|null[0]
+    constructor <init>() // com.svenjacobs.reveal.common.inserter/InPlaceRevealOverlayInserter.<init>|<init>(){}[0]
+
+    final val revealableOffset // com.svenjacobs.reveal.common.inserter/InPlaceRevealOverlayInserter.revealableOffset|{}revealableOffset[0]
+        final fun <get-revealableOffset>(): androidx.compose.ui.unit/DpOffset // com.svenjacobs.reveal.common.inserter/InPlaceRevealOverlayInserter.revealableOffset.<get-revealableOffset>|<get-revealableOffset>(){}[0]
+
+    final fun Container(kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.svenjacobs.reveal.common.inserter/InPlaceRevealOverlayInserter.Container|Container(kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+}
+
+final object com.svenjacobs.reveal.common.internal.log/Logger { // com.svenjacobs.reveal.common.internal.log/Logger|null[0]
+    final var adapter // com.svenjacobs.reveal.common.internal.log/Logger.adapter|{}adapter[0]
+        final fun <get-adapter>(): com.svenjacobs.reveal.common.internal.log/Logger.Adapter? // com.svenjacobs.reveal.common.internal.log/Logger.adapter.<get-adapter>|<get-adapter>(){}[0]
+        final fun <set-adapter>(com.svenjacobs.reveal.common.internal.log/Logger.Adapter?) // com.svenjacobs.reveal.common.internal.log/Logger.adapter.<set-adapter>|<set-adapter>(com.svenjacobs.reveal.common.internal.log.Logger.Adapter?){}[0]
+
+    final fun d(kotlin/String, kotlin/String =...) // com.svenjacobs.reveal.common.internal.log/Logger.d|d(kotlin.String;kotlin.String){}[0]
+
+    abstract fun interface Adapter { // com.svenjacobs.reveal.common.internal.log/Logger.Adapter|null[0]
+        abstract fun d(kotlin/String, kotlin/String) // com.svenjacobs.reveal.common.internal.log/Logger.Adapter.d|d(kotlin.String;kotlin.String){}[0]
+    }
+}
+
+final const val com.svenjacobs.reveal.common.inserter/com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop // com.svenjacobs.reveal.common.inserter/com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop|#static{}com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop[0]
+final const val com.svenjacobs.reveal.common.internal.log/com_svenjacobs_reveal_common_internal_log_Logger$stableprop // com.svenjacobs.reveal.common.internal.log/com_svenjacobs_reveal_common_internal_log_Logger$stableprop|#static{}com_svenjacobs_reveal_common_internal_log_Logger$stableprop[0]

@@ -28,6 +28,11 @@ apiValidation {
 	ignoredProjects += listOf(
 		"android-tests",
 	)
+
+	@OptIn(kotlinx.validation.ExperimentalBCVApi::class)
+	klib {
+		enabled = true
+	}
 }
 
 nexusPublishing {
