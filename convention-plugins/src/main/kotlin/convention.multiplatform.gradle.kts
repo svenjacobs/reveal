@@ -1,9 +1,12 @@
+@file:OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
+
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
 	kotlin("multiplatform")
 	id("org.jetbrains.compose")
+	id("org.jetbrains.kotlin.plugin.compose")
 }
-
-val baseName: String by extra
 
 kotlin {
 	applyDefaultHierarchyTemplate()
@@ -11,10 +14,8 @@ kotlin {
 	jvm("desktop")
 
 	androidTarget {
-		compilations.all {
-			kotlinOptions {
-				jvmTarget = "11"
-			}
+		compilerOptions {
+			jvmTarget.set(JvmTarget.JVM_11)
 		}
 		publishLibraryVariants("release")
 	}
@@ -24,8 +25,12 @@ kotlin {
 		iosArm64(),
 		iosSimulatorArm64(),
 	).forEach {
-		it.binaries.framework {
-			this.baseName = baseName
+		afterEvaluate {
+			val baseName: String by extra
+
+			it.binaries.framework {
+				this.baseName = baseName
+			}
 		}
 	}
 

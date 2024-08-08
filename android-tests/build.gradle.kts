@@ -1,6 +1,7 @@
 plugins {
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.jetbrains.kotlin.android)
+	alias(libs.plugins.compose.compiler)
 }
 
 val androidMinSdk: Int by rootProject.extra
@@ -39,14 +40,10 @@ android {
 	kotlinOptions {
 		jvmTarget = "11"
 	}
+}
 
-	buildFeatures {
-		compose = true
-	}
-
-	composeOptions {
-		kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-	}
+composeCompiler {
+	enableStrongSkippingMode = true
 }
 
 dependencies {
