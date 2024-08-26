@@ -27,12 +27,15 @@ final object com.svenjacobs.reveal.common.internal.log/Logger { // com.svenjacob
         final fun <get-adapter>(): com.svenjacobs.reveal.common.internal.log/Logger.Adapter? // com.svenjacobs.reveal.common.internal.log/Logger.adapter.<get-adapter>|<get-adapter>(){}[0]
         final fun <set-adapter>(com.svenjacobs.reveal.common.internal.log/Logger.Adapter?) // com.svenjacobs.reveal.common.internal.log/Logger.adapter.<set-adapter>|<set-adapter>(com.svenjacobs.reveal.common.internal.log.Logger.Adapter?){}[0]
 
-    final fun d(kotlin/String, kotlin/String =...) // com.svenjacobs.reveal.common.internal.log/Logger.d|d(kotlin.String;kotlin.String){}[0]
+    final fun d(kotlin/String, kotlin/String = ...) // com.svenjacobs.reveal.common.internal.log/Logger.d|d(kotlin.String;kotlin.String){}[0]
 
     abstract fun interface Adapter { // com.svenjacobs.reveal.common.internal.log/Logger.Adapter|null[0]
         abstract fun d(kotlin/String, kotlin/String) // com.svenjacobs.reveal.common.internal.log/Logger.Adapter.d|d(kotlin.String;kotlin.String){}[0]
     }
 }
 
-final const val com.svenjacobs.reveal.common.inserter/com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop // com.svenjacobs.reveal.common.inserter/com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop|#static{}com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop[0]
-final const val com.svenjacobs.reveal.common.internal.log/com_svenjacobs_reveal_common_internal_log_Logger$stableprop // com.svenjacobs.reveal.common.internal.log/com_svenjacobs_reveal_common_internal_log_Logger$stableprop|#static{}com_svenjacobs_reveal_common_internal_log_Logger$stableprop[0]
+final val com.svenjacobs.reveal.common.inserter/com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop // com.svenjacobs.reveal.common.inserter/com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop|#static{}com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop[0]
+final val com.svenjacobs.reveal.common.internal.log/com_svenjacobs_reveal_common_internal_log_Logger$stableprop // com.svenjacobs.reveal.common.internal.log/com_svenjacobs_reveal_common_internal_log_Logger$stableprop|#static{}com_svenjacobs_reveal_common_internal_log_Logger$stableprop[0]
+
+final fun com.svenjacobs.reveal.common.inserter/com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal.common.inserter/com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop_getter|com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop_getter(){}[0]
+final fun com.svenjacobs.reveal.common.internal.log/com_svenjacobs_reveal_common_internal_log_Logger$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal.common.internal.log/com_svenjacobs_reveal_common_internal_log_Logger$stableprop_getter|com_svenjacobs_reveal_common_internal_log_Logger$stableprop_getter(){}[0]
