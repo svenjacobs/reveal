@@ -24,11 +24,14 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Sample project**
-Provide a minimal sample project which reproduces the problem.
+Provide a minimal sample project which reproduces the problem or at least a code snippet.
 
 **Smartphone (please complete the following information):**
  - Device: [e.g. Google Pixel 7]
  - Android version: [e.g. Android 13]
+
+**Version**
+Version of the library.
 
 **Additional context**
 Add any other context about the problem here.
