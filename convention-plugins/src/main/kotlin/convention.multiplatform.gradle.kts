@@ -5,6 +5,12 @@ plugins {
 
 val baseName: String by extra
 
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
 kotlin {
 	applyDefaultHierarchyTemplate()
 
