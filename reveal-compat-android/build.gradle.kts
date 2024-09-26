@@ -5,6 +5,12 @@ plugins {
 	id("convention.publication")
 }
 
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
 val publicationName by extra { "Reveal (Compat Android)" }
 
 val androidMinSdk: Int by rootProject.extra

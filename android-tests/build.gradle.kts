@@ -7,6 +7,12 @@ val androidMinSdk: Int by rootProject.extra
 val androidTargetSdk: Int by rootProject.extra
 val androidCompileSdk: Int by rootProject.extra
 
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
 android {
 	namespace = "com.svenjacobs.reveal.android.tests"
 	compileSdk = androidCompileSdk
