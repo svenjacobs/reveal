@@ -22,4 +22,9 @@ dependencies {
 		name = "compose-gradle-plugin",
 		version = libs.findVersion("jetbrains-compose").get().requiredVersion,
 	)
+	implementation(
+		group = "org.jetbrains.kotlin.plugin.compose",
+		name = "org.jetbrains.kotlin.plugin.compose.gradle.plugin",
+		version = libs.findVersion("kotlin").get().requiredVersion,
+	)
 }
