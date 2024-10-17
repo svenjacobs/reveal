@@ -48,10 +48,6 @@ android {
 	}
 }
 
-composeCompiler {
-	enableStrongSkippingMode = true
-}
-
 dependencies {
 	implementation(project(":reveal-core"))
 	implementation(project(":reveal-shapes"))
