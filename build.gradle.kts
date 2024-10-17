@@ -1,20 +1,20 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
-buildscript {
-	dependencies {
-	}
-}
-
 plugins {
 	alias(libs.plugins.jetbrains.kotlin.multiplatform) apply false
 	alias(libs.plugins.jetbrains.compose) apply false
 	alias(libs.plugins.android.application) apply false
 	alias(libs.plugins.android.library) apply false
 	alias(libs.plugins.jetbrains.kotlin.android) apply false
+	alias(libs.plugins.compose.compiler) apply false
 	alias(libs.plugins.nexus.publish)
 	alias(libs.plugins.ben.manes.versions)
 	alias(libs.plugins.kotlinter)
-	alias(libs.plugins.binary.compat.validator)
+    alias(libs.plugins.binary.compat.validator)
+
+	// https://github.com/JetBrains/compose-multiplatform/issues/4773#issuecomment-2100795877
+	id("convention.multiplatform") apply false
+	id("convention.publication") apply false
 }
 
 group = "com.svenjacobs.reveal"
