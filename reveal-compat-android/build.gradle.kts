@@ -51,6 +51,10 @@ android {
 		freeCompilerArgs += "-Xexplicit-api=strict"
 	}
 
+	buildFeatures {
+		compose = true
+	}
+
 	publishing {
 		singleVariant("release") {
 			withSourcesJar()
