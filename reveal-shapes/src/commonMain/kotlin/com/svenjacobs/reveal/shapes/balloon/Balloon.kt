@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -84,17 +86,12 @@ private fun Balloon(
 	backgroundModifier: Modifier = Modifier,
 	content: @Composable BoxScope.() -> Unit,
 ) {
+	val shape = BalloonShape(arrow, cornerRadius, LocalDensity.current)
+
 	Box(
 		modifier = modifier
-			.graphicsLayer {
-				shadowElevation = elevation.toPx()
-				shape = BalloonShape(
-					arrow = arrow,
-					cornerRadius = cornerRadius,
-					density = this@graphicsLayer,
-				)
-				clip = true
-			}
+			.shadow(elevation, shape)
+			.clip(shape)
 			.then(backgroundModifier)
 			.padding(arrow.padding),
 		contentAlignment = contentAlignment,
