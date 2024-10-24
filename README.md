@@ -29,7 +29,7 @@ some of the targets are still alpha or experimental.
 
 When using Reveal on Android, please make sure that the version of Google's Jetpack Compose is
 compatible with the version of Compose Multiplatform that Reveal uses, which you can
-find [here](./gradle/libs.versions.toml#L6).
+find [here](./gradle/libs.versions.toml#L5).
 
 ### Installation
 
