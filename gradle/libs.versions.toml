@@ -1,5 +1,5 @@
 [versions]
-android-gradle-plugin = "8.7.1"
+android-gradle-plugin = "8.7.2"
 androidx-activity = "1.9.3"
 androidx-compose-bom = "2024.10.01" # https://developer.android.com/jetpack/compose/bom/bom-mapping
 jetbrains-compose = "1.7.0"
