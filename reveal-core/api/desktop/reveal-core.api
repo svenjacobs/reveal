@@ -20,7 +20,6 @@ public final class com/svenjacobs/reveal/ActualRevealable {
 
 public final class com/svenjacobs/reveal/ComposableSingletons$RevealKt {
 	public static final field INSTANCE Lcom/svenjacobs/reveal/ComposableSingletons$RevealKt;
-	public static field lambda-1 Lkotlin/jvm/functions/Function4;
 	public fun <init> ()V
 	public final fun getLambda-1$reveal_core ()Lkotlin/jvm/functions/Function4;
 }
