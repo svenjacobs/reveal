@@ -1,5 +1,6 @@
 package com.svenjacobs.reveal
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
@@ -19,15 +20,16 @@ import androidx.compose.ui.unit.toSize
  * If the element that this modifier is applied to leaves the composition while the reveal
  * effect is shown for the element, the effect is finished.
  *
- * @param key     Unique key to identify the revealable content. Also see documentation of [Key].
- * @param state   Item is associated with this [RevealState]
- * @param shape   Shape of the reveal effect around the element. Defaults to a rounded rect
- *                with a corner size of 4 dp.
- * @param padding Additional padding around the reveal area. Positive values increase area while
- *                negative values decrease it. Defaults to 8 dp on all sides.
- * @param onClick Called when item is clicked while revealed. `key` is the key of this, the clicked
- *                element. If click listener is defined here, clicks for this element will not be
- *                handled by `onRevealableClick` of `Reveal`
+ * @param key          Unique key to identify the revealable content. Also see documentation of [Key].
+ * @param state        Item is associated with this [RevealState].
+ * @param shape        Shape of the reveal effect around the element. Defaults to a rounded rect
+ *                     with a corner size of 4 dp.
+ * @param padding      Additional padding around the reveal area. Positive values increase area
+ *                     while negative values decrease it. Defaults to 8 dp on all sides.
+ * @param borderStroke Optional border around the revealable item.
+ * @param onClick      Called when item is clicked while revealed. `key` is the key of this, the
+ *                     clicked element. If click listener is defined here, clicks for this element
+ *                     will not be handled by `onRevealableClick` of `Reveal`.
  *
  * @see Key
  */
@@ -36,6 +38,7 @@ public fun Modifier.revealable(
 	state: RevealState,
 	shape: RevealShape = RevealShape.RoundRect(4.dp),
 	padding: PaddingValues = PaddingValues(8.dp),
+	borderStroke: BorderStroke? = null,
 	onClick: OnClickListener? = null,
 ): Modifier = this.then(
 	Modifier.revealable(
@@ -43,6 +46,7 @@ public fun Modifier.revealable(
 		keys = listOf(key),
 		shape = shape,
 		padding = padding,
+		borderStroke = borderStroke,
 		onClick = onClick,
 	),
 )
@@ -57,15 +61,16 @@ public fun Modifier.revealable(
  * If the element that this modifier is applied to leaves the composition while the reveal
  * effect is shown for the element, the effect is finished.
  *
- * @param keys    Unique keys to identify the revealable content. Also see documentation of [Key].
- * @param state   Item is associated with this [RevealState]
- * @param shape   Shape of the reveal effect around the element. Defaults to a rounded rect
- *                with a corner size of 4 dp.
- * @param padding Additional padding around the reveal area. Positive values increase area while
- *                negative values decrease it. Defaults to 8 dp on all sides.
- * @param onClick Called when item is clicked while revealed. `key` is the key of this, the clicked
- *                element. If click listener is defined here, clicks for this element will not be
- *                handled by `onRevealableClick` of `Reveal`
+ * @param keys         Unique keys to identify the revealable content. Also see documentation of [Key].
+ * @param state        Item is associated with this [RevealState].
+ * @param shape        Shape of the reveal effect around the element. Defaults to a rounded rect
+ *                     with a corner size of 4 dp.
+ * @param padding      Additional padding around the reveal area. Positive values increase area
+ *                     while negative values decrease it. Defaults to 8 dp on all sides.
+ * @param borderStroke Optional border around the revealable item.
+ * @param onClick      Called when item is clicked while revealed. `key` is the key of this, the
+ *                     clicked element. If click listener is defined here, clicks for this element
+ *                     will not be handled by `onRevealableClick` of `Reveal`.
  *
  * @see Key
  */
@@ -74,6 +79,7 @@ public fun Modifier.revealable(
 	state: RevealState,
 	shape: RevealShape = RevealShape.RoundRect(4.dp),
 	padding: PaddingValues = PaddingValues(8.dp),
+	borderStroke: BorderStroke? = null,
 	onClick: OnClickListener? = null,
 ): Modifier = this.then(
 	Modifier.revealable(
@@ -81,6 +87,7 @@ public fun Modifier.revealable(
 		keys = keys.toList(),
 		shape = shape,
 		padding = padding,
+		borderStroke = borderStroke,
 		onClick = onClick,
 	),
 )
@@ -95,15 +102,16 @@ public fun Modifier.revealable(
  * If the element that this modifier is applied to leaves the composition while the reveal
  * effect is shown for the element, the effect is finished.
  *
- * @param keys    Unique keys to identify the revealable content. Also see documentation of [Key].
- * @param state   Item is associated with this [RevealState]
- * @param shape   Shape of the reveal effect around the element. Defaults to a rounded rect
- *                with a corner size of 4 dp.
- * @param padding Additional padding around the reveal area. Positive values increase area while
- *                negative values decrease it. Defaults to 8 dp on all sides.
- * @param onClick Called when item is clicked while revealed. `key` is the key of this, the clicked
- *                element. If click listener is defined here, clicks for this element will not be
- *                handled by `onRevealableClick` of `Reveal`
+ * @param keys         Unique keys to identify the revealable content. Also see documentation of [Key].
+ * @param state        Item is associated with this [RevealState].
+ * @param shape        Shape of the reveal effect around the element. Defaults to a rounded rect
+ *                     with a corner size of 4 dp.
+ * @param padding      Additional padding around the reveal area. Positive values increase area
+ *                     while negative values decrease it. Defaults to 8 dp on all sides.
+ * @param borderStroke Optional border around the revealable item.
+ * @param onClick      Called when item is clicked while revealed. `key` is the key of this, the
+ *                     clicked element. If click listener is defined here, clicks for this element
+ *                     will not be handled by `onRevealableClick` of `Reveal`.
  *
  * @see Key
  */
@@ -112,6 +120,7 @@ public fun Modifier.revealable(
 	state: RevealState,
 	shape: RevealShape = RevealShape.RoundRect(4.dp),
 	padding: PaddingValues = PaddingValues(8.dp),
+	borderStroke: BorderStroke? = null,
 	onClick: OnClickListener? = null,
 ): Modifier = this.then(
 	Modifier
@@ -122,6 +131,7 @@ public fun Modifier.revealable(
 						key = key,
 						shape = shape,
 						padding = padding,
+						borderStroke = borderStroke,
 						layout = Revealable.Layout(
 							offset = layoutCoordinates.positionInRoot(),
 							size = layoutCoordinates.size.toSize(),

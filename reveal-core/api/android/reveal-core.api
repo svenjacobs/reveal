@@ -1,15 +1,17 @@
 public final class com/svenjacobs/reveal/ActualRevealable {
 	public static final field $stable I
-	public fun <init> (Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/geometry/Rect;Lkotlin/jvm/functions/Function1;)V
+	public fun <init> (Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Landroidx/compose/ui/geometry/Rect;Lkotlin/jvm/functions/Function1;)V
 	public final fun component1 ()Ljava/lang/Object;
 	public final fun component2 ()Lcom/svenjacobs/reveal/RevealShape;
 	public final fun component3 ()Landroidx/compose/foundation/layout/PaddingValues;
-	public final fun component4 ()Landroidx/compose/ui/geometry/Rect;
-	public final fun component5 ()Lkotlin/jvm/functions/Function1;
-	public final fun copy (Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/geometry/Rect;Lkotlin/jvm/functions/Function1;)Lcom/svenjacobs/reveal/ActualRevealable;
-	public static synthetic fun copy$default (Lcom/svenjacobs/reveal/ActualRevealable;Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/ui/geometry/Rect;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/svenjacobs/reveal/ActualRevealable;
+	public final fun component4 ()Landroidx/compose/foundation/BorderStroke;
+	public final fun component5 ()Landroidx/compose/ui/geometry/Rect;
+	public final fun component6 ()Lkotlin/jvm/functions/Function1;
+	public final fun copy (Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Landroidx/compose/ui/geometry/Rect;Lkotlin/jvm/functions/Function1;)Lcom/svenjacobs/reveal/ActualRevealable;
+	public static synthetic fun copy$default (Lcom/svenjacobs/reveal/ActualRevealable;Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Landroidx/compose/ui/geometry/Rect;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/svenjacobs/reveal/ActualRevealable;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getArea ()Landroidx/compose/ui/geometry/Rect;
+	public final fun getBorderStroke ()Landroidx/compose/foundation/BorderStroke;
 	public final fun getKey ()Ljava/lang/Object;
 	public final fun getOnClick ()Lkotlin/jvm/functions/Function1;
 	public final fun getPadding ()Landroidx/compose/foundation/layout/PaddingValues;
@@ -25,12 +27,12 @@ public final class com/svenjacobs/reveal/ComposableSingletons$RevealKt {
 }
 
 public final class com/svenjacobs/reveal/ModifiersKt {
-	public static final fun revealable (Landroidx/compose/ui/Modifier;Ljava/lang/Iterable;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
-	public static final fun revealable (Landroidx/compose/ui/Modifier;Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
-	public static final fun revealable (Landroidx/compose/ui/Modifier;[Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
-	public static synthetic fun revealable$default (Landroidx/compose/ui/Modifier;Ljava/lang/Iterable;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
-	public static synthetic fun revealable$default (Landroidx/compose/ui/Modifier;Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
-	public static synthetic fun revealable$default (Landroidx/compose/ui/Modifier;[Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+	public static final fun revealable (Landroidx/compose/ui/Modifier;Ljava/lang/Iterable;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
+	public static final fun revealable (Landroidx/compose/ui/Modifier;Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
+	public static final fun revealable (Landroidx/compose/ui/Modifier;[Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
+	public static synthetic fun revealable$default (Landroidx/compose/ui/Modifier;Ljava/lang/Iterable;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+	public static synthetic fun revealable$default (Landroidx/compose/ui/Modifier;Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+	public static synthetic fun revealable$default (Landroidx/compose/ui/Modifier;[Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
 }
 
 public final class com/svenjacobs/reveal/RevealCanvasKt {
@@ -116,15 +118,15 @@ public final class com/svenjacobs/reveal/RevealOverlayScope$DefaultImpls {
 }
 
 public abstract interface class com/svenjacobs/reveal/RevealScope {
-	public abstract fun revealable (Landroidx/compose/ui/Modifier;Ljava/lang/Iterable;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
-	public abstract fun revealable (Landroidx/compose/ui/Modifier;Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
-	public abstract fun revealable (Landroidx/compose/ui/Modifier;[Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
+	public abstract fun revealable (Landroidx/compose/ui/Modifier;Ljava/lang/Iterable;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
+	public abstract fun revealable (Landroidx/compose/ui/Modifier;Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
+	public abstract fun revealable (Landroidx/compose/ui/Modifier;[Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
 }
 
 public final class com/svenjacobs/reveal/RevealScope$DefaultImpls {
-	public static synthetic fun revealable$default (Lcom/svenjacobs/reveal/RevealScope;Landroidx/compose/ui/Modifier;Ljava/lang/Iterable;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
-	public static synthetic fun revealable$default (Lcom/svenjacobs/reveal/RevealScope;Landroidx/compose/ui/Modifier;Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
-	public static synthetic fun revealable$default (Lcom/svenjacobs/reveal/RevealScope;Landroidx/compose/ui/Modifier;[Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+	public static synthetic fun revealable$default (Lcom/svenjacobs/reveal/RevealScope;Landroidx/compose/ui/Modifier;Ljava/lang/Iterable;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+	public static synthetic fun revealable$default (Lcom/svenjacobs/reveal/RevealScope;Landroidx/compose/ui/Modifier;Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+	public static synthetic fun revealable$default (Lcom/svenjacobs/reveal/RevealScope;Landroidx/compose/ui/Modifier;[Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Landroidx/compose/ui/Modifier;
 }
 
 public abstract interface class com/svenjacobs/reveal/RevealShape {
@@ -192,15 +194,17 @@ public final class com/svenjacobs/reveal/RevealStateKt {
 
 public final class com/svenjacobs/reveal/Revealable {
 	public static final field $stable I
-	public fun <init> (Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lcom/svenjacobs/reveal/Revealable$Layout;Lkotlin/jvm/functions/Function1;)V
+	public fun <init> (Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lcom/svenjacobs/reveal/Revealable$Layout;Lkotlin/jvm/functions/Function1;)V
 	public final fun component1 ()Ljava/lang/Object;
 	public final fun component2 ()Lcom/svenjacobs/reveal/RevealShape;
 	public final fun component3 ()Landroidx/compose/foundation/layout/PaddingValues;
-	public final fun component4 ()Lcom/svenjacobs/reveal/Revealable$Layout;
-	public final fun component5 ()Lkotlin/jvm/functions/Function1;
-	public final fun copy (Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lcom/svenjacobs/reveal/Revealable$Layout;Lkotlin/jvm/functions/Function1;)Lcom/svenjacobs/reveal/Revealable;
-	public static synthetic fun copy$default (Lcom/svenjacobs/reveal/Revealable;Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Lcom/svenjacobs/reveal/Revealable$Layout;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/svenjacobs/reveal/Revealable;
+	public final fun component4 ()Landroidx/compose/foundation/BorderStroke;
+	public final fun component5 ()Lcom/svenjacobs/reveal/Revealable$Layout;
+	public final fun component6 ()Lkotlin/jvm/functions/Function1;
+	public final fun copy (Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lcom/svenjacobs/reveal/Revealable$Layout;Lkotlin/jvm/functions/Function1;)Lcom/svenjacobs/reveal/Revealable;
+	public static synthetic fun copy$default (Lcom/svenjacobs/reveal/Revealable;Ljava/lang/Object;Lcom/svenjacobs/reveal/RevealShape;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/BorderStroke;Lcom/svenjacobs/reveal/Revealable$Layout;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lcom/svenjacobs/reveal/Revealable;
 	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBorderStroke ()Landroidx/compose/foundation/BorderStroke;
 	public final fun getKey ()Ljava/lang/Object;
 	public final fun getLayout ()Lcom/svenjacobs/reveal/Revealable$Layout;
 	public final fun getOnClick ()Lkotlin/jvm/functions/Function1;
