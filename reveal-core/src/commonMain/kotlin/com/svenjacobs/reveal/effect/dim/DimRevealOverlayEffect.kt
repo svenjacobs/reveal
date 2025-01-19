@@ -3,6 +3,7 @@ package com.svenjacobs.reveal.effect.dim
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
@@ -18,7 +19,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
@@ -79,11 +83,11 @@ public class DimRevealOverlayEffect(
 
 		Box(
 			modifier = modifier
-				.graphicsLayer(alpha = 0.99f)
+				.graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
 				.drawBehind {
 					drawRect(color)
-					prevItemHolder?.let { with(it) { drawCutout(density) } }
-					currentItemHolder?.let { with(it) { drawCutout(density) } }
+					prevItemHolder?.let { with(it) { draw(density) } }
+					currentItemHolder?.let { with(it) { draw(density) } }
 				},
 		) {
 			prevItemHolder?.let { with(it) { Container(content = content) } }
@@ -115,17 +119,31 @@ private class DimItemHolder(val revealable: ActualRevealable, val contentAlpha: 
 		)
 	}
 
-	fun DrawScope.drawCutout(density: Density) {
+	fun DrawScope.draw(density: Density) {
 		val path = revealable.createShapePath(
 			density = density,
 			layoutDirection = layoutDirection,
 		)
 
+		drawCutout(path)
+		revealable.borderStroke?.let { drawBorder(path, density, it) }
+	}
+
+	private fun DrawScope.drawCutout(path: Path) {
 		drawPath(
-			path,
-			Color.Black,
+			path = path,
+			color = Color.Black,
 			alpha = contentAlpha.value,
 			blendMode = BlendMode.DstOut,
+		)
+	}
+
+	private fun DrawScope.drawBorder(path: Path, density: Density, borderStroke: BorderStroke) {
+		drawPath(
+			path = path,
+			brush = borderStroke.brush,
+			style = Stroke(width = with(density) { borderStroke.width.toPx() }),
+			alpha = contentAlpha.value,
 		)
 	}
 }

@@ -1,5 +1,6 @@
 package com.svenjacobs.reveal.android.tests.presentation
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.svenjacobs.reveal.Key
@@ -65,6 +67,7 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
 					modifier = Modifier.revealable(
 						key = Keys.Fab,
 						shape = RevealShape.RoundRect(16.dp),
+						borderStroke = BorderStroke(2.dp, Color.DarkGray),
 						onClick = {
 							scope.launch { revealState.reveal(Keys.Explanation) }
 						},
@@ -92,6 +95,7 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
 						.padding(top = 16.dp)
 						.revealable(
 							key = Keys.Explanation,
+							borderStroke = BorderStroke(2.dp, Color.DarkGray),
 							onClick = {
 								scope.launch { revealState.hide() }
 							},

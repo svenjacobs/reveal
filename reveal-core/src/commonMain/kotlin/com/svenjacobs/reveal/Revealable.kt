@@ -1,5 +1,6 @@
 package com.svenjacobs.reveal
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.geometry.Offset
@@ -14,6 +15,7 @@ public data class Revealable(
 	val key: Key,
 	val shape: RevealShape,
 	val padding: PaddingValues,
+	val borderStroke: BorderStroke?,
 	val layout: Layout,
 	val onClick: OnClickListener?,
 ) {
@@ -31,6 +33,7 @@ public data class ActualRevealable(
 	val key: Key,
 	val shape: RevealShape,
 	val padding: PaddingValues,
+	val borderStroke: BorderStroke?,
 	val area: Rect,
 	val onClick: OnClickListener?,
 )

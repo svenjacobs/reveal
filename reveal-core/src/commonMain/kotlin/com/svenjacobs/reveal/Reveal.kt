@@ -170,6 +170,7 @@ private fun Revealable.toActual(
 	key = key,
 	shape = shape,
 	padding = padding,
+	borderStroke = borderStroke,
 	area = computeArea(
 		density = density,
 		layoutDirection = layoutDirection,
