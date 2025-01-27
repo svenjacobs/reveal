@@ -33,7 +33,7 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-ben-manes-versions = "com.github.ben-manes.versions:0.51.0"
+ben-manes-versions = "com.github.ben-manes.versions:0.52.0"
 nexus-publish = "io.github.gradle-nexus.publish-plugin:2.0.0"
 kotlinter = "org.jmailen.kotlinter:5.0.1"
 binary-compat-validator = "org.jetbrains.kotlinx.binary-compatibility-validator:0.17.0"
