@@ -24,7 +24,7 @@ Android, iOS, Desktop and Web.
 ### Compose Multiplatform
 
 As of version `3.0` Reveal is based on Compose Multiplatform targeting Android, iOS, Desktop and
-Web. However please not that except Android the other platforms are currently not well tested and
+Web. However please note that except Android the other platforms are currently not well tested and
 some of the targets are still alpha or experimental.
 
 When using Reveal on Android, please make sure that the version of Google's Jetpack Compose is
