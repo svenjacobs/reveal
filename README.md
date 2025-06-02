@@ -1,5 +1,5 @@
 ![Deploy Release](https://img.shields.io/github/actions/workflow/status/svenjacobs/reveal/deploy-release.yml?label=Deploy%20Release)
-![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.7.3-blue)
+![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.8.1-blue)
 ![Android](https://img.shields.io/badge/Android-green)
 ![iOS](https://img.shields.io/badge/iOS-slategray)
 ![Desktop](https://img.shields.io/badge/Desktop-tomato)
