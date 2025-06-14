@@ -10,7 +10,7 @@ plugins {
 	alias(libs.plugins.nexus.publish)
 	alias(libs.plugins.ben.manes.versions)
 	alias(libs.plugins.kotlinter)
-    alias(libs.plugins.binary.compat.validator)
+	alias(libs.plugins.binary.compat.validator)
 
 	// https://github.com/JetBrains/compose-multiplatform/issues/4773#issuecomment-2100795877
 	id("convention.multiplatform") apply false
@@ -37,7 +37,10 @@ apiValidation {
 
 nexusPublishing {
 	repositories {
-		sonatype()
+		sonatype {
+			nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+			snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
+		}
 	}
 }
 
