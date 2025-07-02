@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
 	alias(libs.plugins.android.library)
 	alias(libs.plugins.jetbrains.kotlin.android)
@@ -46,11 +48,6 @@ android {
 		targetCompatibility = JavaVersion.VERSION_11
 	}
 
-	kotlinOptions {
-		jvmTarget = "11"
-		freeCompilerArgs += "-Xexplicit-api=strict"
-	}
-
 	buildFeatures {
 		compose = true
 	}
@@ -63,6 +60,13 @@ android {
 
 	lint {
 		baseline = file("lint-baseline.xml")
+	}
+}
+
+kotlin {
+	explicitApi()
+	compilerOptions {
+		jvmTarget = JvmTarget.JVM_11
 	}
 }
 
