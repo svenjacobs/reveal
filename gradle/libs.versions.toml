@@ -22,7 +22,7 @@ slack-compose-lint-checks = "com.slack.lint.compose:compose-lint-checks:1.4.2"
 # Test dependencies
 androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
-androidx-test-espresso-core = "androidx.test.espresso:espresso-core:3.6.1"
+androidx-test-espresso-core = "androidx.test.espresso:espresso-core:3.7.0"
 androidx-test-ext-junit = "androidx.test.ext:junit:1.2.1"
 junit = "junit:junit:4.13.2"
 
