@@ -7,8 +7,6 @@ updates:
       day: "monday"
       time: "08:00"
       timezone: "Europe/Berlin"
-    reviewers:
-      - "svenjacobs"
     assignees:
       - "svenjacobs"
     groups:
@@ -25,7 +23,5 @@ updates:
       day: "monday"
       time: "08:00"
       timezone: "Europe/Berlin"
-    reviewers:
-      - "svenjacobs"
     assignees:
       - "svenjacobs"
