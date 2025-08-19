@@ -91,10 +91,11 @@ internal class RevealOverlayScopeInstance(private val revealableRect: IntRect) :
 						layout = layoutSize.width,
 						space = space.width,
 					),
-					y = layoutSize.top + verticalAlignment.align(
-						size = placeable.height,
-						space = layoutSize.height,
-					),
+					y = layoutSize.top +
+						verticalAlignment.align(
+							size = placeable.height,
+							space = layoutSize.height,
+						),
 				)
 			}
 		},
@@ -123,11 +124,12 @@ internal class RevealOverlayScopeInstance(private val revealableRect: IntRect) :
 				// Using place() instead of placeRelative() because layoutSize and the value
 				// returned by horizontalAlignment.align() are RTL-aware
 				placeable.place(
-					x = layoutSize.left + horizontalAlignment.align(
-						size = placeable.width,
-						space = layoutSize.width,
-						layoutDirection = layoutDirection,
-					),
+					x = layoutSize.left +
+						horizontalAlignment.align(
+							size = placeable.width,
+							space = layoutSize.width,
+							layoutDirection = layoutDirection,
+						),
 					y = verticalArrangement.align(
 						size = placeable.height,
 						layout = layoutSize.height,
