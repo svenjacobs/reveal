@@ -146,7 +146,8 @@ public sealed interface Arrow {
 				y = verticalAlignment.align(
 					size = height.roundToPx(),
 					space = size.height.toInt(),
-				).toFloat() + verticalAlignment.cornerRadiusOffset(cornerRadius),
+				).toFloat() +
+					verticalAlignment.cornerRadiusOffset(cornerRadius),
 			)
 		}
 	}
@@ -179,10 +180,11 @@ public sealed interface Arrow {
 					size = width.roundToPx(),
 					space = size.width.toInt(),
 					layoutDirection = layoutDirection,
-				).toFloat() + horizontalAlignment.cornerRadiusOffset(
-					cornerRadius,
-					layoutDirection,
-				),
+				).toFloat() +
+					horizontalAlignment.cornerRadiusOffset(
+						cornerRadius,
+						layoutDirection,
+					),
 				y = 0f,
 			)
 		}
@@ -215,7 +217,8 @@ public sealed interface Arrow {
 				y = verticalAlignment.align(
 					size = height.roundToPx(),
 					space = size.height.toInt(),
-				).toFloat() + verticalAlignment.cornerRadiusOffset(cornerRadius),
+				).toFloat() +
+					verticalAlignment.cornerRadiusOffset(cornerRadius),
 			)
 		}
 	}
@@ -247,10 +250,11 @@ public sealed interface Arrow {
 					width.roundToPx(),
 					size.width.toInt(),
 					layoutDirection,
-				).toFloat() + horizontalAlignment.cornerRadiusOffset(
-					cornerRadius,
-					layoutDirection,
-				),
+				).toFloat() +
+					horizontalAlignment.cornerRadiusOffset(
+						cornerRadius,
+						layoutDirection,
+					),
 				y = size.height - height.toPx(),
 			)
 		}

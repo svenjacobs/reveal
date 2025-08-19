@@ -35,5 +35,5 @@ jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-com
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ben-manes-versions = "com.github.ben-manes.versions:0.52.0"
 nexus-publish = "io.github.gradle-nexus.publish-plugin:2.0.0"
-kotlinter = "org.jmailen.kotlinter:5.1.1"
+kotlinter = "org.jmailen.kotlinter:5.2.0"
 binary-compat-validator = "org.jetbrains.kotlinx.binary-compatibility-validator:0.18.1"
