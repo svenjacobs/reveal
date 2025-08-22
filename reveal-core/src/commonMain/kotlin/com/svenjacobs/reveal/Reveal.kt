@@ -1,7 +1,9 @@
 package com.svenjacobs.reveal
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -13,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -123,17 +126,22 @@ public fun Reveal(
 
 		val clickModifier = when {
 			revealState.isVisible -> Modifier.pointerInput(Unit) {
-				detectTapGestures(
-					onPress = { offset ->
-						rev?.key?.let(
-							if (rev?.area?.contains(offset) == true) {
-								rev?.onClick ?: onRevealableClick
-							} else {
-								onOverlayClick
-							},
-						)
-					},
-				)
+				awaitEachGesture {
+					awaitFirstDown(pass = PointerEventPass.Initial)
+					val up = waitForUpOrCancellation(pass = PointerEventPass.Initial) ?: return@awaitEachGesture
+
+					if (rev?.onClick is OnClick.Passthrough) return@awaitEachGesture
+
+					rev?.key?.let(
+						if (rev?.area?.contains(up.position) == true) {
+							(rev?.onClick as? OnClick.Listener)?.listener ?: onRevealableClick
+						} else {
+							onOverlayClick
+						},
+					)
+
+					up.consume()
+				}
 			}
 
 			else -> Modifier

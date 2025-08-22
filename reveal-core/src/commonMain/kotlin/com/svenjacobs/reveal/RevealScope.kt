@@ -29,9 +29,10 @@ public interface RevealScope {
 	 * @param padding      Additional padding around the reveal area. Positive values increase area
 	 *                     while negative values decrease it. Defaults to 8 dp on all sides.
 	 * @param borderStroke Optional border around the revealable item.
-	 * @param onClick      Called when item is clicked while revealed. `key` is the key of this, the
-	 *                     clicked element. If click listener is defined here, clicks for this
-	 *                     element will not be handled by `onRevealableClick` of `Reveal`.
+	 * @param onClick      If `null` clicks will be handled by `onRevealableClick` of `Reveal`.
+	 *                     If set to `OnClick.Handler` clicks will be handled by this listener.
+	 *                     If set to `OnClick.Passthrough` Reveal will not intercept clicks and clicks
+	 *                     will be passed through to underlying composables.
 	 *
 	 * @see Key
 	 */
@@ -40,7 +41,7 @@ public interface RevealScope {
 		shape: RevealShape = RevealShape.RoundRect(4.dp),
 		padding: PaddingValues = PaddingValues(8.dp),
 		borderStroke: BorderStroke? = null,
-		onClick: OnClickListener? = null,
+		onClick: OnClick? = null,
 	): Modifier
 
 	/**
@@ -59,9 +60,10 @@ public interface RevealScope {
 	 * @param padding      Additional padding around the reveal area. Positive values increase area
 	 *                     while negative values decrease it. Defaults to 8 dp on all sides.
 	 * @param borderStroke Optional border around the revealable item.
-	 * @param onClick      Called when item is clicked while revealed. `key` is the key of this, the
-	 *                     clicked element. If click listener is defined here, clicks for this
-	 *                     element will not be handled by `onRevealableClick` of `Reveal`
+	 * @param onClick      If `null` clicks will be handled by `onRevealableClick` of `Reveal`.
+	 *                     If set to `OnClick.Handler` clicks will be handled by this listener.
+	 *                     If set to `OnClick.Passthrough` Reveal will not intercept clicks and clicks
+	 *                     will be passed through to underlying composables.
 	 *
 	 * @see Key
 	 */
@@ -70,7 +72,7 @@ public interface RevealScope {
 		shape: RevealShape = RevealShape.RoundRect(4.dp),
 		padding: PaddingValues = PaddingValues(8.dp),
 		borderStroke: BorderStroke? = null,
-		onClick: OnClickListener? = null,
+		onClick: OnClick? = null,
 	): Modifier
 
 	/**
@@ -89,9 +91,10 @@ public interface RevealScope {
 	 * @param padding      Additional padding around the reveal area. Positive values increase area
 	 *                     while negative values decrease it. Defaults to 8 dp on all sides.
 	 * @param borderStroke Optional border around the revealable item.
-	 * @param onClick      Called when item is clicked while revealed. `key` is the key of this, the
-	 *                     clicked element. If click listener is defined here, clicks for this
-	 *                     element will not be handled by `onRevealableClick` of `Reveal`
+	 * @param onClick      If `null` clicks will be handled by `onRevealableClick` of `Reveal`.
+	 *                     If set to `OnClick.Handler` clicks will be handled by this listener.
+	 *                     If set to `OnClick.Passthrough` Reveal will not intercept clicks and clicks
+	 *                     will be passed through to underlying composables.
 	 *
 	 * @see Key
 	 */
@@ -100,7 +103,7 @@ public interface RevealScope {
 		shape: RevealShape = RevealShape.RoundRect(4.dp),
 		padding: PaddingValues = PaddingValues(8.dp),
 		borderStroke: BorderStroke? = null,
-		onClick: OnClickListener? = null,
+		onClick: OnClick? = null,
 	): Modifier
 }
 
@@ -111,7 +114,7 @@ internal class RevealScopeInstance(private val revealState: RevealState) : Revea
 		shape: RevealShape,
 		padding: PaddingValues,
 		borderStroke: BorderStroke?,
-		onClick: OnClickListener?,
+		onClick: OnClick?,
 	): Modifier = this.then(
 		Modifier.revealable(
 			key = key,
@@ -128,7 +131,7 @@ internal class RevealScopeInstance(private val revealState: RevealState) : Revea
 		shape: RevealShape,
 		padding: PaddingValues,
 		borderStroke: BorderStroke?,
-		onClick: OnClickListener?,
+		onClick: OnClick?,
 	): Modifier = this.then(
 		Modifier.revealable(
 			keys = keys,
@@ -145,7 +148,7 @@ internal class RevealScopeInstance(private val revealState: RevealState) : Revea
 		shape: RevealShape,
 		padding: PaddingValues,
 		borderStroke: BorderStroke?,
-		onClick: OnClickListener?,
+		onClick: OnClick?,
 	): Modifier = this.then(
 		Modifier.revealable(
 			keys = keys,
