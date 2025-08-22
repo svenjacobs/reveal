@@ -3,12 +3,29 @@ package com.svenjacobs.reveal
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+
+public sealed interface OnClick {
+	/**
+	 * Clicks on Revealable are handled by the specified handler.
+	 */
+	@Immutable
+	public data class Listener(
+		val listener: OnClickListener
+	) : OnClick
+
+	/**
+	 * Clicks on Revealable are not handled by Reveal and passed through to underlying
+	 * composables.
+	 */
+	public data object Passthrough : OnClick
+}
 
 /**
  * Registers the element as a revealable item.
@@ -27,9 +44,10 @@ import androidx.compose.ui.unit.toSize
  * @param padding      Additional padding around the reveal area. Positive values increase area
  *                     while negative values decrease it. Defaults to 8 dp on all sides.
  * @param borderStroke Optional border around the revealable item.
- * @param onClick      Called when item is clicked while revealed. `key` is the key of this, the
- *                     clicked element. If click listener is defined here, clicks for this element
- *                     will not be handled by `onRevealableClick` of `Reveal`.
+ * @param onClick      If `null` clicks will be handled by `onRevealableClick` of `Reveal`.
+ *                     If set to `OnClick.Handler` clicks will be handled by this listener.
+ *                     If set to `OnClick.Passthrough` Reveal will not intercept clicks and clicks
+ *                     will be passed through to underlying composables.
  *
  * @see Key
  */
@@ -39,7 +57,7 @@ public fun Modifier.revealable(
 	shape: RevealShape = RevealShape.RoundRect(4.dp),
 	padding: PaddingValues = PaddingValues(8.dp),
 	borderStroke: BorderStroke? = null,
-	onClick: OnClickListener? = null,
+	onClick: OnClick? = null,
 ): Modifier = this.then(
 	Modifier.revealable(
 		state = state,
@@ -68,9 +86,10 @@ public fun Modifier.revealable(
  * @param padding      Additional padding around the reveal area. Positive values increase area
  *                     while negative values decrease it. Defaults to 8 dp on all sides.
  * @param borderStroke Optional border around the revealable item.
- * @param onClick      Called when item is clicked while revealed. `key` is the key of this, the
- *                     clicked element. If click listener is defined here, clicks for this element
- *                     will not be handled by `onRevealableClick` of `Reveal`.
+ * @param onClick      If `null` clicks will be handled by `onRevealableClick` of `Reveal`.
+ *                     If set to `OnClick.Handler` clicks will be handled by this listener.
+ *                     If set to `OnClick.Passthrough` Reveal will not intercept clicks and clicks
+ *                     will be passed through to underlying composables.
  *
  * @see Key
  */
@@ -80,7 +99,7 @@ public fun Modifier.revealable(
 	shape: RevealShape = RevealShape.RoundRect(4.dp),
 	padding: PaddingValues = PaddingValues(8.dp),
 	borderStroke: BorderStroke? = null,
-	onClick: OnClickListener? = null,
+	onClick: OnClick? = null,
 ): Modifier = this.then(
 	Modifier.revealable(
 		state = state,
@@ -109,9 +128,10 @@ public fun Modifier.revealable(
  * @param padding      Additional padding around the reveal area. Positive values increase area
  *                     while negative values decrease it. Defaults to 8 dp on all sides.
  * @param borderStroke Optional border around the revealable item.
- * @param onClick      Called when item is clicked while revealed. `key` is the key of this, the
- *                     clicked element. If click listener is defined here, clicks for this element
- *                     will not be handled by `onRevealableClick` of `Reveal`.
+ * @param onClick      If `null` clicks will be handled by `onRevealableClick` of `Reveal`.
+ *                     If set to `OnClick.Handler` clicks will be handled by this listener.
+ *                     If set to `OnClick.Passthrough` Reveal will not intercept clicks and clicks
+ *                     will be passed through to underlying composables.
  *
  * @see Key
  */
@@ -121,7 +141,7 @@ public fun Modifier.revealable(
 	shape: RevealShape = RevealShape.RoundRect(4.dp),
 	padding: PaddingValues = PaddingValues(8.dp),
 	borderStroke: BorderStroke? = null,
-	onClick: OnClickListener? = null,
+	onClick: OnClick? = null,
 ): Modifier = this.then(
 	Modifier
 		.onGloballyPositioned { layoutCoordinates ->
