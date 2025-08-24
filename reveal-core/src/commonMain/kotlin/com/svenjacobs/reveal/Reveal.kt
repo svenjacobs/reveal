@@ -113,12 +113,17 @@ public fun Reveal(
 		revealState.isVisible -> Modifier.pointerInput(Unit) {
 			awaitEachGesture {
 				awaitFirstDown(pass = PointerEventPass.Initial)
-				val up = waitForUpOrCancellation(pass = PointerEventPass.Initial) ?: return@awaitEachGesture
+				val up = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+					?: return@awaitEachGesture
 
-				if (rev?.onClick is OnClick.Passthrough) return@awaitEachGesture
 				rev?.key?.let(
 					if (rev?.area?.contains(up.position) == true) {
-						(rev?.onClick as? OnClick.Listener)?.listener ?: onRevealableClick
+						// pass through touches in the area on top of revealable
+						if (rev?.onClick is OnClick.Passthrough) {
+							return@awaitEachGesture
+						} else {
+							(rev?.onClick as? OnClick.Listener)?.listener ?: onRevealableClick
+						}
 					} else {
 						onOverlayClick
 					},
