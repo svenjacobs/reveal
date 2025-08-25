@@ -1,14 +1,11 @@
 package com.svenjacobs.reveal.demo.presentation
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -38,7 +35,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-private enum class Keys { Fab, Explanation, MultipleSelection }
+private enum class Keys { Fab, Explanation }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -93,7 +90,6 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
 					.padding(contentPadding)
 					.padding(horizontal = 16.dp),
 				horizontalAlignment = Alignment.CenterHorizontally,
-				verticalArrangement = Arrangement.spacedBy(16.dp),
 			) {
 				Text(
 					modifier = Modifier
@@ -102,7 +98,7 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
 							key = Keys.Explanation,
 							borderStroke = BorderStroke(2.dp, Color.DarkGray),
 							onClick = OnClick.Listener {
-								scope.launch { revealState.reveal(Keys.MultipleSelection) }
+								scope.launch { revealState.hide() }
 							},
 						),
 					text = "Reveal is a lightweight, simple reveal effect (also known as " +
@@ -110,35 +106,6 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
 					style = MaterialTheme.typography.bodyLarge,
 					textAlign = TextAlign.Justify,
 				)
-
-				Row(
-					modifier = Modifier
-						.align(Alignment.CenterHorizontally)
-						.revealable(
-							key = Keys.MultipleSelection,
-							onClick = OnClick.Passthrough,
-						)
-					,
-					horizontalArrangement = Arrangement.spacedBy(16.dp),
-					verticalAlignment = Alignment.CenterVertically,
-				) {
-					Button(
-						onClick = {
-							println("Button 1 was clicked")
-						}
-					) {
-						Text("Option 1")
-					}
-
-					Button(
-						onClick = {
-							println("Button 2 was clicked")
-						}
-					) {
-						Text("Option 2")
-					}
-				}
-
 			}
 		}
 	}
@@ -162,14 +129,6 @@ private fun RevealOverlayScope.RevealOverlayContent(key: Key) {
 			text = "Actually we already started. This was an example of the reveal effect.",
 			arrow = Arrow.top(),
 		)
-
-		Keys.MultipleSelection -> OverlayText(
-			modifier = Modifier.align(
-				verticalArrangement = RevealOverlayArrangement.Bottom,
-			),
-			text = "Pick one of the options to proceed though the app flow.",
-			arrow = Arrow.top(),
-		)
 	}
 }
 
@@ -189,3 +148,4 @@ private fun OverlayText(text: String, arrow: Arrow, modifier: Modifier = Modifie
 		)
 	}
 }
+
