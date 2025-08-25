@@ -43,7 +43,7 @@ public sealed interface OnClick {
  *                     while negative values decrease it. Defaults to 8 dp on all sides.
  * @param borderStroke Optional border around the revealable item.
  * @param onClick      If `null` clicks will be handled by `onRevealableClick` of `Reveal`.
- *                     If set to `OnClick.Handler` clicks will be handled by this listener.
+ *                     If set to `OnClick.Listener` clicks will be handled by this listener.
  *                     If set to `OnClick.Passthrough` Reveal will not intercept clicks and clicks
  *                     will be passed through to underlying composables.
  *
@@ -85,7 +85,7 @@ public fun Modifier.revealable(
  *                     while negative values decrease it. Defaults to 8 dp on all sides.
  * @param borderStroke Optional border around the revealable item.
  * @param onClick      If `null` clicks will be handled by `onRevealableClick` of `Reveal`.
- *                     If set to `OnClick.Handler` clicks will be handled by this listener.
+ *                     If set to `OnClick.Listener` clicks will be handled by this listener.
  *                     If set to `OnClick.Passthrough` Reveal will not intercept clicks and clicks
  *                     will be passed through to underlying composables.
  *
@@ -127,7 +127,7 @@ public fun Modifier.revealable(
  *                     while negative values decrease it. Defaults to 8 dp on all sides.
  * @param borderStroke Optional border around the revealable item.
  * @param onClick      If `null` clicks will be handled by `onRevealableClick` of `Reveal`.
- *                     If set to `OnClick.Handler` clicks will be handled by this listener.
+ *                     If set to `OnClick.Listener` clicks will be handled by this listener.
  *                     If set to `OnClick.Passthrough` Reveal will not intercept clicks and clicks
  *                     will be passed through to underlying composables.
  *
