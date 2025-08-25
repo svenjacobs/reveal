@@ -19,7 +19,9 @@ class RevealTest : BaseRevealTest() {
 		) { testRule, revealState, scope ->
 			scope.launch { revealState.reveal(Keys.Key1) }
 
-			testRule.onNodeWithText("Overlay1").performClick()
+			testRule.onNodeWithText("Overlay1")
+				.assertExists()
+				.performClick()
 
 			assertEquals(Keys.Key1, onRevealableClickKey)
 		}
@@ -34,7 +36,9 @@ class RevealTest : BaseRevealTest() {
 		) { testRule, revealState, scope ->
 			scope.launch { revealState.reveal(Keys.Key1) }
 
-			testRule.onNodeWithTag("overlay").performClick()
+			testRule.onNodeWithTag("overlay")
+				.assertExists()
+				.performClick()
 
 			assertEquals(Keys.Key1, onOverlayClickKey)
 		}

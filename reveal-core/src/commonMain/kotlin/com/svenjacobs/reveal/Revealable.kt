@@ -17,7 +17,7 @@ public data class Revealable(
 	val padding: PaddingValues,
 	val borderStroke: BorderStroke?,
 	val layout: Layout,
-	val onClick: OnClickListener?,
+	val onClick: OnClick?,
 ) {
 
 	/**
@@ -35,7 +35,7 @@ public data class ActualRevealable(
 	val padding: PaddingValues,
 	val borderStroke: BorderStroke?,
 	val area: Rect,
-	val onClick: OnClickListener?,
+	val onClick: OnClick?,
 )
 
 /**
