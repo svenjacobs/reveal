@@ -16,9 +16,7 @@ public sealed interface OnClick {
 	 * Clicks on Revealable are handled by the specified handler.
 	 */
 	@Immutable
-	public data class Listener(
-		val listener: OnClickListener
-	) : OnClick
+	public data class Listener(val listener: OnClickListener) : OnClick
 
 	/**
 	 * Clicks on Revealable are not handled by Reveal and passed through to underlying
