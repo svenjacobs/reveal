@@ -112,7 +112,7 @@ public fun Reveal(
 	val clickModifier = when {
 		revealState.isVisible -> Modifier.pointerInput(Unit) {
 			awaitEachGesture {
-				awaitFirstDown(pass = PointerEventPass.Initial)
+				val down = awaitFirstDown(pass = PointerEventPass.Initial)
 				val up = waitForUpOrCancellation(pass = PointerEventPass.Initial)
 					?: return@awaitEachGesture
 
@@ -129,6 +129,7 @@ public fun Reveal(
 					},
 				)
 
+				down.consume()
 				up.consume()
 			}
 		}
@@ -137,7 +138,9 @@ public fun Reveal(
 	}
 
 	Box(
-		modifier = modifier.then(clickModifier),
+		modifier = modifier
+			.then(clickModifier)
+			.semantics { testTag = "overlay" },
 	) {
 		content(RevealScopeInstance(revealState))
 
@@ -160,7 +163,6 @@ public fun Reveal(
 						currentRevealable = currentRevealable,
 						previousRevealable = previousRevealable,
 						modifier = Modifier
-							.semantics { testTag = "overlay" }
 							.fillMaxSize()
 							.alpha(animatedOverlayAlpha),
 						content = overlayContent,
