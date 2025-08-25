@@ -97,20 +97,49 @@ public fun Reveal(
 	val layoutDirection = LocalLayoutDirection.current
 	val density = LocalDensity.current
 
-	Box(
-		modifier = modifier,
-	) {
-		content(RevealScopeInstance(revealState))
+	val currentRevealable = remember {
+		derivedStateOf {
+			revealState.currentRevealable?.toActual(
+				density = density,
+				layoutDirection = layoutDirection,
+				additionalOffset = revealCanvasState.revealableOffset,
+			)
+		}
+	}
 
-		val currentRevealable = remember {
-			derivedStateOf {
-				revealState.currentRevealable?.toActual(
-					density = density,
-					layoutDirection = layoutDirection,
-					additionalOffset = revealCanvasState.revealableOffset,
+	val rev by rememberUpdatedState(currentRevealable.value)
+
+	val clickModifier = when {
+		revealState.isVisible -> Modifier.pointerInput(Unit) {
+			awaitEachGesture {
+				awaitFirstDown(pass = PointerEventPass.Initial)
+				val up = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+					?: return@awaitEachGesture
+
+				rev?.key?.let(
+					if (rev?.area?.contains(up.position) == true) {
+						// pass through touches in the area on top of revealable
+						if (rev?.onClick is OnClick.Passthrough) {
+							return@awaitEachGesture
+						} else {
+							(rev?.onClick as? OnClick.Listener)?.listener ?: onRevealableClick
+						}
+					} else {
+						onOverlayClick
+					},
 				)
+
+				up.consume()
 			}
 		}
+
+		else -> Modifier
+	}
+
+	Box(
+		modifier = modifier.then(clickModifier),
+	) {
+		content(RevealScopeInstance(revealState))
 
 		val previousRevealable = remember {
 			derivedStateOf {
@@ -122,31 +151,6 @@ public fun Reveal(
 			}
 		}
 
-		val rev by rememberUpdatedState(currentRevealable.value)
-
-		val clickModifier = when {
-			revealState.isVisible -> Modifier.pointerInput(Unit) {
-				awaitEachGesture {
-					awaitFirstDown(pass = PointerEventPass.Initial)
-					val up = waitForUpOrCancellation(pass = PointerEventPass.Initial) ?: return@awaitEachGesture
-
-					if (rev?.onClick is OnClick.Passthrough) return@awaitEachGesture
-
-					rev?.key?.let(
-						if (rev?.area?.contains(up.position) == true) {
-							(rev?.onClick as? OnClick.Listener)?.listener ?: onRevealableClick
-						} else {
-							onOverlayClick
-						},
-					)
-
-					up.consume()
-				}
-			}
-
-			else -> Modifier
-		}
-
 		LaunchedEffect(animatedOverlayAlpha) {
 			@Suppress("ktlint:standard:wrapping")
 			revealCanvasState.overlayContent = when {
@@ -155,7 +159,7 @@ public fun Reveal(
 						revealState = revealState,
 						currentRevealable = currentRevealable,
 						previousRevealable = previousRevealable,
-						modifier = clickModifier
+						modifier = Modifier
 							.semantics { testTag = "overlay" }
 							.fillMaxSize()
 							.alpha(animatedOverlayAlpha),
