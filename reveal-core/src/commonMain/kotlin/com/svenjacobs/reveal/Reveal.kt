@@ -113,6 +113,10 @@ public fun Reveal(
 		revealState.isVisible -> Modifier.pointerInput(Unit) {
 			awaitEachGesture {
 				val down = awaitFirstDown(pass = PointerEventPass.Initial)
+				if (rev?.onClick !is OnClick.Passthrough) {
+					down.consume()
+				}
+
 				val up = waitForUpOrCancellation(pass = PointerEventPass.Initial)
 					?: return@awaitEachGesture
 
@@ -128,8 +132,7 @@ public fun Reveal(
 						onOverlayClick
 					},
 				)
-
-				down.consume()
+				
 				up.consume()
 			}
 		}
