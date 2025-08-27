@@ -1,5 +1,6 @@
 package com.svenjacobs.reveal.android.tests
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -41,6 +42,8 @@ abstract class BaseRevealTest {
 
 			RevealCanvas(revealCanvasState = revealCanvasState) {
 				Reveal(
+					// this must take full screen for correct clicks handling by test runner
+					modifier = Modifier.fillMaxSize(),
 					onRevealableClick = onRevealableClick,
 					onOverlayClick = onOverlayClick,
 					revealCanvasState = revealCanvasState,

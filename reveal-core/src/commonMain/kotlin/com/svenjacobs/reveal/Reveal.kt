@@ -1,7 +1,9 @@
 package com.svenjacobs.reveal
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -13,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -94,20 +97,55 @@ public fun Reveal(
 	val layoutDirection = LocalLayoutDirection.current
 	val density = LocalDensity.current
 
-	Box(
-		modifier = modifier,
-	) {
-		content(RevealScopeInstance(revealState))
+	val currentRevealable = remember {
+		derivedStateOf {
+			revealState.currentRevealable?.toActual(
+				density = density,
+				layoutDirection = layoutDirection,
+				additionalOffset = revealCanvasState.revealableOffset,
+			)
+		}
+	}
 
-		val currentRevealable = remember {
-			derivedStateOf {
-				revealState.currentRevealable?.toActual(
-					density = density,
-					layoutDirection = layoutDirection,
-					additionalOffset = revealCanvasState.revealableOffset,
+	val rev by rememberUpdatedState(currentRevealable.value)
+
+	val clickModifier = when {
+		revealState.isVisible -> Modifier.pointerInput(Unit) {
+			awaitEachGesture {
+				val down = awaitFirstDown(pass = PointerEventPass.Initial)
+				if (rev?.onClick !is OnClick.Passthrough) {
+					down.consume()
+				}
+
+				val up = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+					?: return@awaitEachGesture
+
+				rev?.key?.let(
+					if (rev?.area?.contains(up.position) == true) {
+						// pass through touches in the area on top of revealable
+						if (rev?.onClick is OnClick.Passthrough) {
+							return@awaitEachGesture
+						} else {
+							(rev?.onClick as? OnClick.Listener)?.listener ?: onRevealableClick
+						}
+					} else {
+						onOverlayClick
+					},
 				)
+				
+				up.consume()
 			}
 		}
+
+		else -> Modifier
+	}
+
+	Box(
+		modifier = modifier
+			.then(clickModifier)
+			.semantics { testTag = "overlay" },
+	) {
+		content(RevealScopeInstance(revealState))
 
 		val previousRevealable = remember {
 			derivedStateOf {
@@ -119,26 +157,6 @@ public fun Reveal(
 			}
 		}
 
-		val rev by rememberUpdatedState(currentRevealable.value)
-
-		val clickModifier = when {
-			revealState.isVisible -> Modifier.pointerInput(Unit) {
-				detectTapGestures(
-					onPress = { offset ->
-						rev?.key?.let(
-							if (rev?.area?.contains(offset) == true) {
-								rev?.onClick ?: onRevealableClick
-							} else {
-								onOverlayClick
-							},
-						)
-					},
-				)
-			}
-
-			else -> Modifier
-		}
-
 		LaunchedEffect(animatedOverlayAlpha) {
 			@Suppress("ktlint:standard:wrapping")
 			revealCanvasState.overlayContent = when {
@@ -147,8 +165,7 @@ public fun Reveal(
 						revealState = revealState,
 						currentRevealable = currentRevealable,
 						previousRevealable = previousRevealable,
-						modifier = clickModifier
-							.semantics { testTag = "overlay" }
+						modifier = Modifier
 							.fillMaxSize()
 							.alpha(animatedOverlayAlpha),
 						content = overlayContent,

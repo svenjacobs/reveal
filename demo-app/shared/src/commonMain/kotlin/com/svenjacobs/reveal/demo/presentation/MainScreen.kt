@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.svenjacobs.reveal.Key
+import com.svenjacobs.reveal.OnClick
 import com.svenjacobs.reveal.Reveal
 import com.svenjacobs.reveal.RevealCanvasState
 import com.svenjacobs.reveal.RevealOverlayArrangement
@@ -68,7 +69,7 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
 						key = Keys.Fab,
 						shape = RevealShape.RoundRect(16.dp),
 						borderStroke = BorderStroke(2.dp, Color.DarkGray),
-						onClick = {
+						onClick = OnClick.Listener {
 							scope.launch { revealState.reveal(Keys.Explanation) }
 						},
 					),
@@ -96,7 +97,7 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
 						.revealable(
 							key = Keys.Explanation,
 							borderStroke = BorderStroke(2.dp, Color.DarkGray),
-							onClick = {
+							onClick = OnClick.Listener {
 								scope.launch { revealState.hide() }
 							},
 						),
