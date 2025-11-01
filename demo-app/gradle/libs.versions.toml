@@ -1,6 +1,6 @@
 [versions]
-android-gradle-plugin = "8.12.1"
-androidx-compose-bom = "2025.08.00"
+android-gradle-plugin = "8.13.0"
+androidx-compose-bom = "2025.10.01"
 jetbrains-compose = "1.8.2"
 kotlin = "2.2.10"
 reveal = "3.3.0"
