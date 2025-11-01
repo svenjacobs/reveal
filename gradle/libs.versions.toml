@@ -1,7 +1,7 @@
 [versions]
 android-gradle-plugin = "8.13.0"
 androidx-activity = "1.11.0"
-androidx-compose-bom = "2025.09.00" # https://developer.android.com/jetpack/compose/bom/bom-mapping
+androidx-compose-bom = "2025.10.01" # https://developer.android.com/jetpack/compose/bom/bom-mapping
 jetbrains-compose = "1.8.2"
 kotlin = "2.2.10"
 
@@ -11,6 +11,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-compose-animation = { module = "androidx.compose.animation:animation" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-compose-material3-window-size = { module = "androidx.compose.material3:material3-window-size-class" }
 androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
@@ -33,7 +34,7 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-ben-manes-versions = "com.github.ben-manes.versions:0.52.0"
+ben-manes-versions = "com.github.ben-manes.versions:0.53.0"
 nexus-publish = "io.github.gradle-nexus.publish-plugin:2.0.0"
 kotlinter = "org.jmailen.kotlinter:5.2.0"
 binary-compat-validator = "org.jetbrains.kotlinx.binary-compatibility-validator:0.18.1"
