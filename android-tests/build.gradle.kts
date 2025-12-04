@@ -6,7 +6,6 @@ plugins {
 	alias(libs.plugins.compose.compiler)
 }
 
-val androidMinSdk: Int by rootProject.extra
 val androidTargetSdk: Int by rootProject.extra
 val androidCompileSdk: Int by rootProject.extra
 
@@ -22,7 +21,7 @@ android {
 
 	defaultConfig {
 		applicationId = "com.svenjacobs.reveal.android.tests"
-		minSdk = androidMinSdk
+		minSdk = 23
 		targetSdk = androidTargetSdk
 		versionCode = 1
 		versionName = "1.0"

@@ -26,7 +26,7 @@ jobs:
     runs-on: macos-15-intel
     strategy:
       matrix:
-        api-level: [ 21, 29 ]
+        api-level: [ 23, 29 ]
     steps:
       - uses: actions/checkout@v6
         with:
