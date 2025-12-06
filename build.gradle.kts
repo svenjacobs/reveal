@@ -56,6 +56,6 @@ tasks.withType<DependencyUpdatesTask> {
 	}
 }
 
-val androidMinSdk by extra { 21 }
+val androidMinSdk by extra { 23 }
 val androidTargetSdk by extra { 36 }
 val androidCompileSdk by extra { 36 }

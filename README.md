@@ -33,7 +33,7 @@ find [here](./gradle/libs.versions.toml#L5).
 
 ### Installation
 
-The minimum supported Android SDK is 21 (Android 5.0), which is a requirement of Jetpack Compose.
+The minimum supported Android SDK is 23 (Android 6.0), which is a requirement of Jetpack Compose.
 Add Reveal as a dependency to your project. It's available on Maven Central.
 
 ```kotlin
