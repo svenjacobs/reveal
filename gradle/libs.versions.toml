@@ -3,7 +3,7 @@ android-gradle-plugin = "8.13.1"
 androidx-activity = "1.12.1"
 androidx-compose-bom = "2025.11.01" # https://developer.android.com/jetpack/compose/bom/bom-mapping
 jetbrains-compose = "1.8.2"
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 
 [libraries]
 androidx-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
