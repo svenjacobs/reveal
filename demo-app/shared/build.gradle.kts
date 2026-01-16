@@ -56,8 +56,8 @@ kotlin {
 
 android {
 	namespace = "com.svenjacobs.reveal.demo"
-	compileSdk = 34
+	compileSdk = 36
 	defaultConfig {
-		minSdk = 21
+		minSdk = 23
 	}
 }
