@@ -27,4 +27,9 @@ dependencies {
 		name = "org.jetbrains.kotlin.plugin.compose.gradle.plugin",
 		version = libs.findVersion("kotlin").get().requiredVersion,
 	)
+	implementation(
+		group = "com.android.tools.build",
+		name = "gradle",
+		version = libs.findVersion("android-gradle-plugin").get().requiredVersion,
+	)
 }

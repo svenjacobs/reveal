@@ -1,5 +1,5 @@
 plugins {
-	alias(libs.plugins.android.library)
+	alias(libs.plugins.android.multiplatform.library)
 	id("convention.multiplatform")
 	id("convention.publication")
 }
@@ -7,55 +7,30 @@ plugins {
 val baseName by extra { "reveal-core" }
 val publicationName by extra { "Reveal (Core)" }
 
-kotlin {
-	sourceSets {
-		commonMain.dependencies {
-			api(project(":reveal-common"))
-			implementation(compose.runtime)
-			implementation(compose.foundation)
-		}
-		commonTest.dependencies {
-			implementation(kotlin("test"))
-		}
-	}
-}
-
 val androidMinSdk: Int by rootProject.extra
 val androidTargetSdk: Int by rootProject.extra
 val androidCompileSdk: Int by rootProject.extra
 
-android {
-	namespace = "com.svenjacobs.reveal"
-	compileSdk = androidCompileSdk
-
-	defaultConfig {
-		minSdk = androidMinSdk
+kotlin {
+	android {
+		namespace = "com.svenjacobs.reveal"
+		compileSdk { version = release(androidCompileSdk) }
+		minSdk { version = release(androidMinSdk) }
 
 		aarMetadata {
 			minCompileSdk = androidMinSdk
 		}
-
-		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-		consumerProguardFiles("consumer-rules.pro")
 	}
 
-	buildTypes {
-		release {
-			isMinifyEnabled = false
-			proguardFiles(
-				getDefaultProguardFile("proguard-android-optimize.txt"),
-				"proguard-rules.pro",
-			)
+	sourceSets {
+		commonMain.dependencies {
+			api(project(":reveal-common"))
+			implementation(libs.compose.multiplatform.runtime)
+			implementation(libs.compose.multiplatform.foundation)
 		}
-	}
-
-	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_11
-		targetCompatibility = JavaVersion.VERSION_11
-	}
-
-	buildFeatures {
-		compose = true
+		commonTest.dependencies {
+			implementation(kotlin("test"))
+		}
 	}
 }
 

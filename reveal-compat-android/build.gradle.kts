@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
 	alias(libs.plugins.android.library)
-	alias(libs.plugins.jetbrains.kotlin.android)
 	alias(libs.plugins.compose.compiler)
 	`maven-publish`
 	id("convention.publication")
@@ -21,10 +20,10 @@ val androidCompileSdk: Int by rootProject.extra
 
 android {
 	namespace = "com.svenjacobs.reveal.compat.android"
-	compileSdk = androidCompileSdk
+	compileSdk { version = release(androidCompileSdk) }
 
 	defaultConfig {
-		minSdk = androidMinSdk
+		minSdk { version = release(androidMinSdk) }
 
 		aarMetadata {
 			minCompileSdk = androidMinSdk
