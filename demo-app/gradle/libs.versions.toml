@@ -1,13 +1,13 @@
 [versions]
 android-gradle-plugin = "9.0.1"
-androidx-compose-bom = "2025.12.00"
+androidx-compose-bom = "2026.02.00"
 jetbrains-compose = "1.10.1"
-kotlin = "2.2.21"
+kotlin = "2.3.10"
 reveal = "4.0.0"
 
 [libraries]
 androidx-core-ktx = "androidx.core:core-ktx:1.17.0"
-androidx-activity-compose = "androidx.activity:activity-compose:1.12.1"
+androidx-activity-compose = "androidx.activity:activity-compose:1.12.4"
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
