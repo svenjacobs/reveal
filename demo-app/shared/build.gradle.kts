@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
 	alias(libs.plugins.jetbrains.kotlin.multiplatform)
-	alias(libs.plugins.android.library)
+	alias(libs.plugins.android.multiplatform.library)
 	alias(libs.plugins.jetbrains.compose)
 	alias(libs.plugins.compose.compiler)
 }
@@ -17,7 +17,13 @@ kotlin {
 
 	jvm("desktop")
 
-	androidTarget {
+	android {
+		namespace = "com.svenjacobs.reveal.demo"
+		minSdk { version = release(23) }
+		compileSdk { version = release(36) }
+	}
+
+	androidLibrary {
 		compilerOptions {
 			jvmTarget.set(JvmTarget.JVM_17)
 		}
@@ -35,12 +41,11 @@ kotlin {
 
 	sourceSets {
 		commonMain.dependencies {
-			implementation(compose.runtime)
-			implementation(compose.foundation)
-			implementation(compose.material3)
-			implementation(compose.materialIconsExtended)
-			@OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-			implementation(compose.components.resources)
+			implementation(libs.compose.multiplatform.runtime)
+			implementation(libs.compose.multiplatform.foundation)
+			implementation(libs.compose.multiplatform.material3)
+			implementation(libs.compose.multiplatform.material.icons.extended)
+			implementation(libs.compose.multiplatform.components.resources)
 
 			//noinspection UseTomlInstead
 			implementation("reveal:core")
@@ -51,13 +56,5 @@ kotlin {
 		commonTest.dependencies {
 			implementation(kotlin("test"))
 		}
-	}
-}
-
-android {
-	namespace = "com.svenjacobs.reveal.demo"
-	compileSdk = 36
-	defaultConfig {
-		minSdk = 23
 	}
 }

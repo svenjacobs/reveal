@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
 	kotlin("multiplatform")
+	id("com.android.kotlin.multiplatform.library")
 	id("org.jetbrains.compose")
 	id("org.jetbrains.kotlin.plugin.compose")
 }
@@ -19,11 +20,10 @@ kotlin {
 
 	jvm("desktop")
 
-	androidTarget {
+	androidLibrary {
 		compilerOptions {
 			jvmTarget.set(JvmTarget.JVM_11)
 		}
-		publishLibraryVariants("release")
 	}
 
 	listOf(

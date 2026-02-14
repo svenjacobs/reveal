@@ -1,5 +1,5 @@
 plugins {
-	alias(libs.plugins.android.library)
+	alias(libs.plugins.android.multiplatform.library)
 	id("convention.multiplatform")
 	id("convention.publication")
 }
@@ -7,52 +7,28 @@ plugins {
 val baseName by extra { "reveal-shapes" }
 val publicationName by extra { "Reveal (Shapes)" }
 
-kotlin {
-	sourceSets {
-		commonMain.dependencies {
-			implementation(compose.runtime)
-			implementation(compose.foundation)
-		}
-		commonTest.dependencies {
-			implementation(kotlin("test"))
-		}
-	}
-}
-
 val androidMinSdk: Int by rootProject.extra
 val androidCompileSdk: Int by rootProject.extra
 
-android {
-	namespace = "com.svenjacobs.reveal.shapes"
-	compileSdk = androidCompileSdk
-
-	defaultConfig {
-		minSdk = androidMinSdk
+kotlin {
+	android {
+		namespace = "com.svenjacobs.reveal.shapes"
+		compileSdk { version = release(androidCompileSdk) }
+		minSdk { version = release(androidMinSdk) }
 
 		aarMetadata {
 			minCompileSdk = androidMinSdk
 		}
-
-		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
 
-	buildTypes {
-		release {
-			isMinifyEnabled = false
-			proguardFiles(
-				getDefaultProguardFile("proguard-android-optimize.txt"),
-				"proguard-rules.pro",
-			)
+	sourceSets {
+		commonMain.dependencies {
+			implementation(libs.compose.multiplatform.runtime)
+			implementation(libs.compose.multiplatform.foundation)
 		}
-	}
-
-	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_11
-		targetCompatibility = JavaVersion.VERSION_11
-	}
-
-	buildFeatures {
-		compose = true
+		commonTest.dependencies {
+			implementation(kotlin("test"))
+		}
 	}
 }
 

@@ -1,7 +1,7 @@
 [versions]
-android-gradle-plugin = "8.13.1"
+android-gradle-plugin = "9.0.1"
 androidx-compose-bom = "2025.12.00"
-jetbrains-compose = "1.9.3"
+jetbrains-compose = "1.10.1"
 kotlin = "2.2.21"
 reveal = "4.0.0"
 
@@ -16,11 +16,16 @@ androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 reveal-core = { module = "com.svenjacobs.reveal:reveal-core", version.ref = "reveal" }
 reveal-shapes = { module = "com.svenjacobs.reveal:reveal-shapes", version.ref = "reveal" }
+compose-multiplatform-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrains-compose" }
+compose-multiplatform-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "jetbrains-compose" }
+compose-multiplatform-material3 = "org.jetbrains.compose.material3:material3:1.9.0"
+compose-multiplatform-material-icons-extended = "org.jetbrains.compose.material:material-icons-extended:1.7.3"
+compose-multiplatform-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "jetbrains-compose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
 android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "android-gradle-plugin" }
 jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

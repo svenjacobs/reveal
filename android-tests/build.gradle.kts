@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
 	alias(libs.plugins.android.application)
-	alias(libs.plugins.jetbrains.kotlin.android)
 	alias(libs.plugins.compose.compiler)
 }
 
@@ -17,12 +16,12 @@ java {
 
 android {
 	namespace = "com.svenjacobs.reveal.android.tests"
-	compileSdk = androidCompileSdk
+	compileSdk { version = release(androidCompileSdk) }
 
 	defaultConfig {
 		applicationId = "com.svenjacobs.reveal.android.tests"
-		minSdk = 23
-		targetSdk = androidTargetSdk
+		minSdk { version = release(23) }
+		targetSdk { version = release(androidTargetSdk) }
 		versionCode = 1
 		versionName = "1.0"
 
