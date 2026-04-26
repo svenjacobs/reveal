@@ -21,9 +21,6 @@ kotlin {
 		namespace = "com.svenjacobs.reveal.demo"
 		minSdk { version = release(23) }
 		compileSdk { version = release(36) }
-	}
-
-	androidLibrary {
 		compilerOptions {
 			jvmTarget.set(JvmTarget.JVM_17)
 		}

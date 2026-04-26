@@ -1,13 +1,13 @@
 [versions]
-android-gradle-plugin = "9.0.1"
-androidx-compose-bom = "2026.02.00"
-jetbrains-compose = "1.10.1"
-kotlin = "2.3.10"
-reveal = "4.0.0"
+android-gradle-plugin = "9.2.0"
+androidx-compose-bom = "2026.04.01"
+jetbrains-compose = "1.10.3"
+kotlin = "2.3.21"
+reveal = "4.1.0"
 
 [libraries]
-androidx-core-ktx = "androidx.core:core-ktx:1.17.0"
-androidx-activity-compose = "androidx.activity:activity-compose:1.12.4"
+androidx-core-ktx = "androidx.core:core-ktx:1.18.0"
+androidx-activity-compose = "androidx.activity:activity-compose:1.13.0"
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
@@ -29,4 +29,4 @@ android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library
 jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-ben-manes-versions = "com.github.ben-manes.versions:0.53.0"
+ben-manes-versions = "com.github.ben-manes.versions:0.54.0"

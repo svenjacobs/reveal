@@ -20,6 +20,8 @@ kotlin {
 		aarMetadata {
 			minCompileSdk = androidMinSdk
 		}
+
+		withHostTest {}
 	}
 
 	sourceSets {
