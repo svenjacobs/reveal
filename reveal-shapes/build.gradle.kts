@@ -25,7 +25,7 @@ kotlin {
 
 	sourceSets {
 		commonMain.dependencies {
-			implementation(project(":reveal-core"))
+			implementation(project(":reveal-common"))
 			implementation(libs.compose.multiplatform.runtime)
 			implementation(libs.compose.multiplatform.foundation)
 		}

@@ -1,3 +1,16 @@
+public final class com/svenjacobs/reveal/RevealOverlayArrowAnchor {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun getOffsetX ()Ljava/lang/Float;
+	public final fun getOffsetY ()Ljava/lang/Float;
+	public final fun setOffsetX (Ljava/lang/Float;)V
+	public final fun setOffsetY (Ljava/lang/Float;)V
+}
+
+public final class com/svenjacobs/reveal/RevealOverlayArrowAnchorKt {
+	public static final fun getLocalRevealOverlayArrowAnchor ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
 public final class com/svenjacobs/reveal/common/inserter/InPlaceRevealOverlayInserter : com/svenjacobs/reveal/common/inserter/RevealOverlayInserter {
 	public static final field $stable I
 	public fun <init> ()V

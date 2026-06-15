@@ -27,15 +27,13 @@ import androidx.compose.runtime.setValue
  * A value is `null` while it is unknown or not applicable for the current arrangement.
  */
 @Stable
-public class RevealOverlayArrowAnchor internal constructor() {
+public class RevealOverlayArrowAnchor {
 
 	/** Horizontal center-relative offset; non-null for [RevealOverlayArrangement.Vertical] alignments. */
 	public var offsetX: Float? by mutableStateOf(null)
-		internal set
 
 	/** Vertical center-relative offset; non-null for [RevealOverlayArrangement.Horizontal] alignments. */
 	public var offsetY: Float? by mutableStateOf(null)
-		internal set
 }
 
 /**
