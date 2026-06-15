@@ -80,22 +80,30 @@ internal class RevealOverlayScopeInstance(private val revealableRect: IntRect) :
 				confineHeight = confineHeight,
 				layoutDirection = layoutDirection,
 			)
+			// Constrain the content to the available space so it never exceeds the
+			// boundaries of the screen. The width is confined to the arranged layout area
+			// (the space beside the reveal area), the height to the whole available space.
 			val placeable = measurable.measure(
-				constraints.copy(maxWidth = layoutSize.width),
+				constraints.copy(
+					maxWidth = layoutSize.width,
+					maxHeight = space.height,
+				),
 			)
 
-			layout(constraints.maxWidth, constraints.maxHeight) {
+			layout(space.width, space.height) {
+				val x = horizontalArrangement.align(
+					size = placeable.width,
+					layout = layoutSize.width,
+					space = space.width,
+				)
+				val y = layoutSize.top +
+					verticalAlignment.align(
+						size = placeable.height,
+						space = layoutSize.height,
+					)
 				placeable.placeRelative(
-					x = horizontalArrangement.align(
-						size = placeable.width,
-						layout = layoutSize.width,
-						space = space.width,
-					),
-					y = layoutSize.top +
-						verticalAlignment.align(
-							size = placeable.height,
-							space = layoutSize.height,
-						),
+					x = x.coerceWithin(size = placeable.width, space = space.width),
+					y = y.coerceWithin(size = placeable.height, space = space.height),
 				)
 			}
 		},
@@ -116,27 +124,42 @@ internal class RevealOverlayScopeInstance(private val revealableRect: IntRect) :
 				space = space,
 				confineWidth = confineWidth,
 			)
+			// Constrain the content to the available space so it never exceeds the
+			// boundaries of the screen. The height is confined to the arranged layout area
+			// (the space above/below the reveal area), the width to the whole available space.
 			val placeable = measurable.measure(
-				constraints.copy(maxHeight = layoutSize.height),
+				constraints.copy(
+					maxWidth = space.width,
+					maxHeight = layoutSize.height,
+				),
 			)
 
-			layout(constraints.maxWidth, constraints.maxHeight) {
+			layout(space.width, space.height) {
 				// Using place() instead of placeRelative() because layoutSize and the value
 				// returned by horizontalAlignment.align() are RTL-aware
+				val x = layoutSize.left +
+					horizontalAlignment.align(
+						size = placeable.width,
+						space = layoutSize.width,
+						layoutDirection = layoutDirection,
+					)
+				val y = verticalArrangement.align(
+					size = placeable.height,
+					layout = layoutSize.height,
+					space = space.height,
+				)
 				placeable.place(
-					x = layoutSize.left +
-						horizontalAlignment.align(
-							size = placeable.width,
-							space = layoutSize.width,
-							layoutDirection = layoutDirection,
-						),
-					y = verticalArrangement.align(
-						size = placeable.height,
-						layout = layoutSize.height,
-						space = space.height,
-					),
+					x = x.coerceWithin(size = placeable.width, space = space.width),
+					y = y.coerceWithin(size = placeable.height, space = space.height),
 				)
 			}
 		},
 	)
 }
+
+/**
+ * Coerces this offset so that an element of [size] is fully contained within [space], shifting it
+ * back into bounds when it would otherwise overflow the start or end of the available space.
+ */
+private fun Int.coerceWithin(size: Int, space: Int): Int =
+	coerceIn(0, (space - size).coerceAtLeast(0))
