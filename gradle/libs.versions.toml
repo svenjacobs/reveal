@@ -4,6 +4,8 @@ androidx-activity = "1.13.0"
 androidx-compose-bom = "2026.05.01" # https://developer.android.com/jetpack/compose/bom/bom-mapping
 jetbrains-compose = "1.11.0"
 kotlin = "2.3.21"
+roborazzi = "1.64.0"
+robolectric = "4.16.1"
 
 [libraries]
 androidx-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
@@ -26,6 +28,10 @@ androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-mani
 androidx-test-espresso-core = "androidx.test.espresso:espresso-core:3.7.0"
 androidx-test-ext-junit = "androidx.test.ext:junit:1.3.0"
 junit = "junit:junit:4.13.2"
+roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
+roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
+roborazzi-junit-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "roborazzi" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 compose-multiplatform-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrains-compose" }
 compose-multiplatform-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "jetbrains-compose" }
 
@@ -40,3 +46,4 @@ ben-manes-versions = "com.github.ben-manes.versions:0.54.0"
 nexus-publish = "io.github.gradle-nexus.publish-plugin:2.0.0"
 kotlinter = "org.jmailen.kotlinter:5.5.0"
 binary-compat-validator = "org.jetbrains.kotlinx.binary-compatibility-validator:0.18.1"
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }

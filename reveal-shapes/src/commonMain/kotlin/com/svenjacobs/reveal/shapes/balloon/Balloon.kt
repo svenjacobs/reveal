@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.svenjacobs.reveal.LocalRevealOverlayArrowAnchor
 
 /**
  * A balloon (speech / chat bubble) with an arrow on one side.
@@ -86,7 +87,16 @@ private fun Balloon(
 	backgroundModifier: Modifier = Modifier,
 	content: @Composable BoxScope.() -> Unit,
 ) {
-	val shape = BalloonShape(arrow, cornerRadius, LocalDensity.current)
+	// When the arrow should point towards the reveal area, read the anchor published by the reveal
+	// overlay. Exactly one axis is provided depending on the arrangement (offsetX for top/bottom,
+	// offsetY for start/end), so picking the non-null one yields the correct value for this arrow.
+	// Reading the snapshot state here recomposes (and rebuilds the shape) when the anchor changes.
+	val arrowAnchor = if (arrow.anchorToReveal) {
+		LocalRevealOverlayArrowAnchor.current?.let { it.offsetX ?: it.offsetY }
+	} else {
+		null
+	}
+	val shape = BalloonShape(arrow, cornerRadius, LocalDensity.current, arrowAnchor)
 
 	Box(
 		modifier = modifier

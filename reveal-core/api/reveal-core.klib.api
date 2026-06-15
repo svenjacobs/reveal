@@ -117,6 +117,13 @@ final class com.svenjacobs.reveal/RevealCanvasState { // com.svenjacobs.reveal/R
     constructor <init>() // com.svenjacobs.reveal/RevealCanvasState.<init>|<init>(){}[0]
 }
 
+final class com.svenjacobs.reveal/RevealOverlayArrowAnchor { // com.svenjacobs.reveal/RevealOverlayArrowAnchor|null[0]
+    final var offsetX // com.svenjacobs.reveal/RevealOverlayArrowAnchor.offsetX|{}offsetX[0]
+        final fun <get-offsetX>(): kotlin/Float? // com.svenjacobs.reveal/RevealOverlayArrowAnchor.offsetX.<get-offsetX>|<get-offsetX>(){}[0]
+    final var offsetY // com.svenjacobs.reveal/RevealOverlayArrowAnchor.offsetY|{}offsetY[0]
+        final fun <get-offsetY>(): kotlin/Float? // com.svenjacobs.reveal/RevealOverlayArrowAnchor.offsetY.<get-offsetY>|<get-offsetY>(){}[0]
+}
+
 final class com.svenjacobs.reveal/RevealState { // com.svenjacobs.reveal/RevealState|null[0]
     constructor <init>() // com.svenjacobs.reveal/RevealState.<init>|<init>(){}[0]
 
@@ -227,6 +234,8 @@ final object com.svenjacobs.reveal/RevealOverlayArrangement { // com.svenjacobs.
 }
 
 final val com.svenjacobs.reveal.effect.dim/com_svenjacobs_reveal_effect_dim_DimRevealOverlayEffect$stableprop // com.svenjacobs.reveal.effect.dim/com_svenjacobs_reveal_effect_dim_DimRevealOverlayEffect$stableprop|#static{}com_svenjacobs_reveal_effect_dim_DimRevealOverlayEffect$stableprop[0]
+final val com.svenjacobs.reveal/LocalRevealOverlayArrowAnchor // com.svenjacobs.reveal/LocalRevealOverlayArrowAnchor|{}LocalRevealOverlayArrowAnchor[0]
+    final fun <get-LocalRevealOverlayArrowAnchor>(): androidx.compose.runtime/ProvidableCompositionLocal<com.svenjacobs.reveal/RevealOverlayArrowAnchor?> // com.svenjacobs.reveal/LocalRevealOverlayArrowAnchor.<get-LocalRevealOverlayArrowAnchor>|<get-LocalRevealOverlayArrowAnchor>(){}[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_ActualRevealable$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_ActualRevealable$stableprop|#static{}com_svenjacobs_reveal_ActualRevealable$stableprop[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_OnClick_Listener$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_OnClick_Listener$stableprop|#static{}com_svenjacobs_reveal_OnClick_Listener$stableprop[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_OnClick_Passthrough$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_OnClick_Passthrough$stableprop|#static{}com_svenjacobs_reveal_OnClick_Passthrough$stableprop[0]
@@ -236,6 +245,7 @@ final val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_B
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_End$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_End$stableprop|#static{}com_svenjacobs_reveal_RevealOverlayArrangement_End$stableprop[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Start$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Start$stableprop|#static{}com_svenjacobs_reveal_RevealOverlayArrangement_Start$stableprop[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Top$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Top$stableprop|#static{}com_svenjacobs_reveal_RevealOverlayArrangement_Top$stableprop[0]
+final val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrowAnchor$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrowAnchor$stableprop|#static{}com_svenjacobs_reveal_RevealOverlayArrowAnchor$stableprop[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Circle$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Circle$stableprop|#static{}com_svenjacobs_reveal_RevealShape_Circle$stableprop[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Custom$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Custom$stableprop|#static{}com_svenjacobs_reveal_RevealShape_Custom$stableprop[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Rect$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Rect$stableprop|#static{}com_svenjacobs_reveal_RevealShape_Rect$stableprop[0]
@@ -259,6 +269,7 @@ final fun com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_B
 final fun com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_End$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_End$stableprop_getter|com_svenjacobs_reveal_RevealOverlayArrangement_End$stableprop_getter(){}[0]
 final fun com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Start$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Start$stableprop_getter|com_svenjacobs_reveal_RevealOverlayArrangement_Start$stableprop_getter(){}[0]
 final fun com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Top$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement_Top$stableprop_getter|com_svenjacobs_reveal_RevealOverlayArrangement_Top$stableprop_getter(){}[0]
+final fun com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrowAnchor$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrowAnchor$stableprop_getter|com_svenjacobs_reveal_RevealOverlayArrowAnchor$stableprop_getter(){}[0]
 final fun com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Circle$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Circle$stableprop_getter|com_svenjacobs_reveal_RevealShape_Circle$stableprop_getter(){}[0]
 final fun com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Custom$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Custom$stableprop_getter|com_svenjacobs_reveal_RevealShape_Custom$stableprop_getter(){}[0]
 final fun com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Rect$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealShape_Rect$stableprop_getter|com_svenjacobs_reveal_RevealShape_Rect$stableprop_getter(){}[0]

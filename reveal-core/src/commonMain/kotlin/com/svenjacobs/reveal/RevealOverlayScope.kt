@@ -61,8 +61,10 @@ public interface RevealOverlayScope {
 	): Modifier
 }
 
-internal class RevealOverlayScopeInstance(private val revealableRect: IntRect) :
-	RevealOverlayScope {
+internal class RevealOverlayScopeInstance(
+	private val revealableRect: IntRect,
+	private val arrowAnchor: RevealOverlayArrowAnchor,
+) : RevealOverlayScope {
 
 	override fun Modifier.align(
 		horizontalArrangement: RevealOverlayArrangement.Horizontal,
@@ -101,10 +103,13 @@ internal class RevealOverlayScopeInstance(private val revealableRect: IntRect) :
 						size = placeable.height,
 						space = layoutSize.height,
 					)
-				placeable.placeRelative(
-					x = x.coerceWithin(size = placeable.width, space = space.width),
-					y = y.coerceWithin(size = placeable.height, space = space.height),
-				)
+				val placedX = x.coerceWithin(size = placeable.width, space = space.width)
+				val placedY = y.coerceWithin(size = placeable.height, space = space.height)
+				// The content is placed to the side of the reveal area, so the arrow points
+				// horizontally and slides along the vertical axis towards the reveal center.
+				arrowAnchor.offsetX = null
+				arrowAnchor.offsetY = (revealableRect.center.y - placedY).toFloat()
+				placeable.placeRelative(x = placedX, y = placedY)
 			}
 		},
 	)
@@ -148,9 +153,15 @@ internal class RevealOverlayScopeInstance(private val revealableRect: IntRect) :
 					layout = layoutSize.height,
 					space = space.height,
 				)
+				val placedX = x.coerceWithin(size = placeable.width, space = space.width)
+				val placedY = y.coerceWithin(size = placeable.height, space = space.height)
+				// The content is placed above/below the reveal area, so the arrow points
+				// vertically and slides along the horizontal axis towards the reveal center.
+				arrowAnchor.offsetX = (revealableRect.center.x - placedX).toFloat()
+				arrowAnchor.offsetY = null
 				placeable.place(
-					x = x.coerceWithin(size = placeable.width, space = space.width),
-					y = y.coerceWithin(size = placeable.height, space = space.height),
+					x = placedX,
+					y = placedY,
 				)
 			}
 		},

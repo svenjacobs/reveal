@@ -130,6 +130,16 @@ public abstract interface class com/svenjacobs/reveal/RevealOverlayArrangement$V
 	public abstract fun arrange-JVtK1S4 (Landroidx/compose/ui/unit/IntRect;JZ)Landroidx/compose/ui/unit/IntRect;
 }
 
+public final class com/svenjacobs/reveal/RevealOverlayArrowAnchor {
+	public static final field $stable I
+	public final fun getOffsetX ()Ljava/lang/Float;
+	public final fun getOffsetY ()Ljava/lang/Float;
+}
+
+public final class com/svenjacobs/reveal/RevealOverlayArrowAnchorKt {
+	public static final fun getLocalRevealOverlayArrowAnchor ()Landroidx/compose/runtime/ProvidableCompositionLocal;
+}
+
 public abstract interface class com/svenjacobs/reveal/RevealOverlayScope {
 	public abstract fun align (Landroidx/compose/ui/Modifier;Lcom/svenjacobs/reveal/RevealOverlayArrangement$Horizontal;Landroidx/compose/ui/Alignment$Vertical;Z)Landroidx/compose/ui/Modifier;
 	public abstract fun align (Landroidx/compose/ui/Modifier;Lcom/svenjacobs/reveal/RevealOverlayArrangement$Vertical;Landroidx/compose/ui/Alignment$Horizontal;Z)Landroidx/compose/ui/Modifier;

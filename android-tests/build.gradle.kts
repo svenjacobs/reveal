@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.compose.compiler)
+	alias(libs.plugins.roborazzi)
 }
 
 val androidTargetSdk: Int by rootProject.extra
@@ -46,6 +47,12 @@ android {
 	buildFeatures {
 		compose = true
 	}
+
+	testOptions {
+		unitTests {
+			isIncludeAndroidResources = true
+		}
+	}
 }
 
 kotlin {
@@ -71,6 +78,16 @@ dependencies {
 	debugImplementation(libs.androidx.compose.ui.test.manifest)
 
 	testImplementation(libs.junit)
+	testImplementation(composeBom)
+	testImplementation(libs.androidx.compose.ui.test.junit4)
+	testImplementation(libs.androidx.compose.material3)
+	testImplementation(libs.androidx.test.ext.junit)
+	testImplementation(libs.robolectric)
+	testImplementation(libs.roborazzi)
+	testImplementation(libs.roborazzi.compose)
+	testImplementation(libs.roborazzi.junit.rule)
+	testImplementation(libs.androidx.compose.ui.test.manifest)
+
 	androidTestImplementation(composeBom)
 	androidTestImplementation(libs.androidx.test.ext.junit)
 	androidTestImplementation(libs.androidx.test.espresso.core)
