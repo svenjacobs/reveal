@@ -7,6 +7,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -28,6 +29,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import com.svenjacobs.reveal.ActualRevealable
 import com.svenjacobs.reveal.Key
+import com.svenjacobs.reveal.LocalRevealOverlayArrowAnchor
+import com.svenjacobs.reveal.RevealOverlayArrowAnchor
 import com.svenjacobs.reveal.RevealOverlayScope
 import com.svenjacobs.reveal.RevealOverlayScopeInstance
 import com.svenjacobs.reveal.RevealState
@@ -107,14 +110,21 @@ private class DimItemHolder(val revealable: ActualRevealable, val contentAlpha: 
 		// Optimization: don't place element into composition if it isn't visible at all
 		if (contentAlpha.value == 0.0f) return
 
+		val arrowAnchor = remember { RevealOverlayArrowAnchor() }
+
 		Box(
 			modifier = modifier
 				.matchParentSize()
 				.alpha(contentAlpha.value),
 			content = {
-				RevealOverlayScopeInstance(
-					revealableRect = revealable.area.toIntRect(),
-				).content(revealable.key)
+				CompositionLocalProvider(
+					LocalRevealOverlayArrowAnchor provides arrowAnchor,
+				) {
+					RevealOverlayScopeInstance(
+						revealableRect = revealable.area.toIntRect(),
+						arrowAnchor = arrowAnchor,
+					).content(revealable.key)
+				}
 			},
 		)
 	}

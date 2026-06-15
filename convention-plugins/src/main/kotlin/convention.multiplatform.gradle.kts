@@ -20,7 +20,7 @@ kotlin {
 
 	jvm("desktop")
 
-	androidLibrary {
+	android {
 		compilerOptions {
 			jvmTarget.set(JvmTarget.JVM_11)
 		}

@@ -119,7 +119,7 @@ private fun RevealOverlayScope.RevealOverlayContent(key: Key) {
 				horizontalArrangement = RevealOverlayArrangement.Start,
 			),
 			text = "Click button to get started",
-			arrow = Arrow.end(),
+			arrow = Arrow.end(anchorToReveal = true),
 		)
 
 		Keys.Explanation -> OverlayText(
@@ -127,7 +127,7 @@ private fun RevealOverlayScope.RevealOverlayContent(key: Key) {
 				verticalArrangement = RevealOverlayArrangement.Bottom,
 			),
 			text = "Actually we already started. This was an example of the reveal effect.",
-			arrow = Arrow.top(),
+			arrow = Arrow.top(anchorToReveal = true),
 		)
 	}
 }

@@ -21,6 +21,9 @@ jobs:
       - name: Check app
         run: ./gradlew check
 
+      - name: Verify screenshot tests
+        run: ./gradlew :android-tests:verifyRoborazziDebug
+
   test:
     timeout-minutes: 30
     runs-on: macos-15-intel

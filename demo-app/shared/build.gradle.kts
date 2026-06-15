@@ -24,6 +24,11 @@ kotlin {
 		compilerOptions {
 			jvmTarget.set(JvmTarget.JVM_17)
 		}
+		withHostTest {
+			targetSdk {
+				version = release(36)
+			}
+		}
 	}
 
 	listOf(
