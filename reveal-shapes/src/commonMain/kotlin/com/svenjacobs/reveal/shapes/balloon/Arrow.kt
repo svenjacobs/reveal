@@ -39,6 +39,18 @@ public sealed interface Arrow {
 		 */
 		public val DefaultCornerMargin: Dp = 4.dp
 
+		/**
+		 * Arrow pointing to the start (left in LTR, right in RTL), placed on the left side of the
+		 * balloon.
+		 *
+		 * @param width Horizontal extent of the arrow triangle.
+		 * @param height Vertical extent of the arrow triangle.
+		 * @param verticalAlignment Vertical position of the arrow when [anchorToReveal] is `false`.
+		 * @param anchorToReveal When `true` the arrow slides along the vertical axis so that it
+		 *   points towards the center of the reveal area, clamped by [cornerMargin].
+		 * @param cornerMargin Minimum distance the arrow keeps from a rounded corner when
+		 *   [anchorToReveal] is `true`. Defaults to [DefaultCornerMargin].
+		 */
 		@Composable
 		@ReadOnlyComposable
 		public fun start(
@@ -52,6 +64,17 @@ public sealed interface Arrow {
 			LayoutDirection.Rtl -> ::EndInternal
 		}(width, height, verticalAlignment, anchorToReveal, cornerMargin)
 
+		/**
+		 * Arrow pointing upward, placed on the top side of the balloon.
+		 *
+		 * @param width Horizontal extent of the arrow triangle.
+		 * @param height Vertical extent of the arrow triangle.
+		 * @param horizontalAlignment Horizontal position of the arrow when [anchorToReveal] is `false`.
+		 * @param anchorToReveal When `true` the arrow slides along the horizontal axis so that it
+		 *   points towards the center of the reveal area, clamped by [cornerMargin].
+		 * @param cornerMargin Minimum distance the arrow keeps from a rounded corner when
+		 *   [anchorToReveal] is `true`. Defaults to [DefaultCornerMargin].
+		 */
 		@Composable
 		@ReadOnlyComposable
 		public fun top(
@@ -68,6 +91,18 @@ public sealed interface Arrow {
 			cornerMargin = cornerMargin,
 		)
 
+		/**
+		 * Arrow pointing to the end (right in LTR, left in RTL), placed on the right side of the
+		 * balloon.
+		 *
+		 * @param width Horizontal extent of the arrow triangle.
+		 * @param height Vertical extent of the arrow triangle.
+		 * @param verticalAlignment Vertical position of the arrow when [anchorToReveal] is `false`.
+		 * @param anchorToReveal When `true` the arrow slides along the vertical axis so that it
+		 *   points towards the center of the reveal area, clamped by [cornerMargin].
+		 * @param cornerMargin Minimum distance the arrow keeps from a rounded corner when
+		 *   [anchorToReveal] is `true`. Defaults to [DefaultCornerMargin].
+		 */
 		@Composable
 		@ReadOnlyComposable
 		public fun end(
@@ -81,6 +116,17 @@ public sealed interface Arrow {
 			LayoutDirection.Rtl -> ::StartInternal
 		}(width, height, verticalAlignment, anchorToReveal, cornerMargin)
 
+		/**
+		 * Arrow pointing downward, placed on the bottom side of the balloon.
+		 *
+		 * @param width Horizontal extent of the arrow triangle.
+		 * @param height Vertical extent of the arrow triangle.
+		 * @param horizontalAlignment Horizontal position of the arrow when [anchorToReveal] is `false`.
+		 * @param anchorToReveal When `true` the arrow slides along the horizontal axis so that it
+		 *   points towards the center of the reveal area, clamped by [cornerMargin].
+		 * @param cornerMargin Minimum distance the arrow keeps from a rounded corner when
+		 *   [anchorToReveal] is `true`. Defaults to [DefaultCornerMargin].
+		 */
 		@Composable
 		@ReadOnlyComposable
 		public fun bottom(

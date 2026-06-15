@@ -29,9 +29,11 @@ import androidx.compose.runtime.setValue
 @Stable
 public class RevealOverlayArrowAnchor internal constructor() {
 
+	/** Horizontal center-relative offset; non-null for [RevealOverlayArrangement.Vertical] alignments. */
 	public var offsetX: Float? by mutableStateOf(null)
 		internal set
 
+	/** Vertical center-relative offset; non-null for [RevealOverlayArrangement.Horizontal] alignments. */
 	public var offsetY: Float? by mutableStateOf(null)
 		internal set
 }
