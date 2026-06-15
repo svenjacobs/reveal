@@ -16,6 +16,22 @@ updates:
           - "androidx.compose.compiler*"
         exclude-patterns:
           - "org.jetbrains.kotlinx*"
+  - package-ecosystem: "gradle"
+    directory: "/demo-app"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Berlin"
+    assignees:
+      - "svenjacobs"
+    groups:
+      kotlin:
+        patterns:
+          - "org.jetbrains.kotlin*"
+          - "androidx.compose.compiler*"
+        exclude-patterns:
+          - "org.jetbrains.kotlinx*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
