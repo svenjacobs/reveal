@@ -34,6 +34,7 @@ apiValidation {
 	klib {
 		enabled = true
 	}
+
 }
 
 nexusPublishing {
