@@ -107,8 +107,12 @@ internal class RevealOverlayScopeInstance(
 				val placedY = y.coerceWithin(size = placeable.height, space = space.height)
 				// The content is placed to the side of the reveal area, so the arrow points
 				// horizontally and slides along the vertical axis towards the reveal center.
+				// The offset is stored relative to the composable's outer center so that the
+				// BalloonShape can recover the correct shape-local coordinate via size/2 + offset
+				// without needing to know the caller's outer padding value.
 				arrowAnchor.offsetX = null
-				arrowAnchor.offsetY = (revealableRect.center.y - placedY).toFloat()
+				arrowAnchor.offsetY =
+					(revealableRect.center.y - placedY - placeable.height / 2).toFloat()
 				placeable.placeRelative(x = placedX, y = placedY)
 			}
 		},
@@ -157,7 +161,11 @@ internal class RevealOverlayScopeInstance(
 				val placedY = y.coerceWithin(size = placeable.height, space = space.height)
 				// The content is placed above/below the reveal area, so the arrow points
 				// vertically and slides along the horizontal axis towards the reveal center.
-				arrowAnchor.offsetX = (revealableRect.center.x - placedX).toFloat()
+				// The offset is stored relative to the composable's outer center so that the
+				// BalloonShape can recover the correct shape-local coordinate via size/2 + offset
+				// without needing to know the caller's outer padding value.
+				arrowAnchor.offsetX =
+					(revealableRect.center.x - placedX - placeable.width / 2).toFloat()
 				arrowAnchor.offsetY = null
 				placeable.place(
 					x = placedX,

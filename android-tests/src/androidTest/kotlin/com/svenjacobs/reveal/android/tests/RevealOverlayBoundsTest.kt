@@ -91,7 +91,7 @@ class RevealOverlayBoundsTest {
 	}
 
 	@Composable
-	private fun OverlayBox(modifier: Modifier) {
+	private fun OverlayBox(modifier: Modifier = Modifier) {
 		Box(
 			modifier = modifier
 				.size(width = 300.dp, height = 300.dp)

@@ -116,6 +116,18 @@ public sealed interface Arrow {
 			return leadingEdge.coerceIn(min, maxOf(min, max))
 		}
 
+		/**
+		 * Converts a center-relative anchor (reveal center offset from the composable's outer
+		 * center) to a shape-local coordinate along the arrow's sliding axis.
+		 *
+		 * For horizontal arrows (Top/Bottom) the sliding axis is the width; for vertical arrows
+		 * (Start/End) it is the height.
+		 */
+		internal fun shapeLocalAnchor(arrow: Arrow, offset: Float, size: Size): Float = when (arrow) {
+			is TopInternal, is BottomInternal -> size.width / 2f + offset
+			is StartInternal, is EndInternal -> size.height / 2f + offset
+		}
+
 		private fun Alignment.Horizontal.cornerRadiusOffset(
 			cornerRadius: Float,
 			layoutDirection: LayoutDirection,

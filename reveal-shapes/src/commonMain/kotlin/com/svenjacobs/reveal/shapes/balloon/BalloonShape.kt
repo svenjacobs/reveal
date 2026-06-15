@@ -17,7 +17,11 @@ internal fun BalloonShape(
 ): Shape = GenericShape { size, layoutDirection ->
 	val cornerRadiusPx = with(density) { cornerRadius.toPx() }
 	val arrowPath = arrow.path(density)
-	val arrowOffset = arrow.offset(density, size, cornerRadiusPx, layoutDirection, arrowAnchor)
+	// arrowAnchor is stored as a center-relative offset (reveal center minus composable outer
+	// center). Convert to the shape-local coordinate along the arrow's sliding axis so that
+	// clampArrowOffset receives a position within [0, size].
+	val localAnchor = arrowAnchor?.let { Arrow.shapeLocalAnchor(arrow, it, size) }
+	val arrowOffset = arrow.offset(density, size, cornerRadiusPx, layoutDirection, localAnchor)
 
 	addRoundRect(
 		with(density) {
