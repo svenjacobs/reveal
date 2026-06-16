@@ -42,5 +42,6 @@ public class RevealOverlayArrowAnchor {
  *
  * @see RevealOverlayArrowAnchor
  */
+@Suppress("ComposeCompositionLocalUsage")
 public val LocalRevealOverlayArrowAnchor: ProvidableCompositionLocal<RevealOverlayArrowAnchor?> =
     compositionLocalOf { null }
