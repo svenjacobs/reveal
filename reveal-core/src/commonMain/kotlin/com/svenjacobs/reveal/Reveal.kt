@@ -75,132 +75,132 @@ import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
  */
 @Composable
 public fun Reveal(
-	revealCanvasState: RevealCanvasState,
-	modifier: Modifier = Modifier,
-	onRevealableClick: OnClickListener = {},
-	onOverlayClick: OnClickListener = {},
-	revealState: RevealState = rememberRevealState(),
-	overlayEffect: RevealOverlayEffect = DimRevealOverlayEffect(),
-	overlayContent: @Composable (RevealOverlayScope.(key: Key) -> Unit) = {},
-	content: @Composable (RevealScope.() -> Unit),
+    revealCanvasState: RevealCanvasState,
+    modifier: Modifier = Modifier,
+    onRevealableClick: OnClickListener = {},
+    onOverlayClick: OnClickListener = {},
+    revealState: RevealState = rememberRevealState(),
+    overlayEffect: RevealOverlayEffect = DimRevealOverlayEffect(),
+    overlayContent: @Composable (RevealOverlayScope.(key: Key) -> Unit) = {},
+    content: @Composable (RevealScope.() -> Unit),
 ) {
-	val animatedOverlayAlpha by animateFloatAsState(
-		targetValue = if (revealState.isVisible) 1.0f else 0.0f,
-		animationSpec = overlayEffect.alphaAnimationSpec,
-		finishedListener = { alpha ->
-			if (alpha == 0.0f) {
-				revealState.onHideAnimationFinished()
-			}
-		},
-		label = "animatedOverlayAlpha",
-	)
-	val layoutDirection = LocalLayoutDirection.current
-	val density = LocalDensity.current
+    val animatedOverlayAlpha by animateFloatAsState(
+        targetValue = if (revealState.isVisible) 1.0f else 0.0f,
+        animationSpec = overlayEffect.alphaAnimationSpec,
+        finishedListener = { alpha ->
+            if (alpha == 0.0f) {
+                revealState.onHideAnimationFinished()
+            }
+        },
+        label = "animatedOverlayAlpha",
+    )
+    val layoutDirection = LocalLayoutDirection.current
+    val density = LocalDensity.current
 
-	val currentRevealable = remember {
-		derivedStateOf {
-			revealState.currentRevealable?.toActual(
-				density = density,
-				layoutDirection = layoutDirection,
-				additionalOffset = revealCanvasState.revealableOffset,
-			)
-		}
-	}
+    val currentRevealable = remember {
+        derivedStateOf {
+            revealState.currentRevealable?.toActual(
+                density = density,
+                layoutDirection = layoutDirection,
+                additionalOffset = revealCanvasState.revealableOffset,
+            )
+        }
+    }
 
-	val rev by rememberUpdatedState(currentRevealable.value)
+    val rev by rememberUpdatedState(currentRevealable.value)
 
-	val clickModifier = when {
-		revealState.isVisible -> Modifier.pointerInput(Unit) {
-			awaitEachGesture {
-				val down = awaitFirstDown(pass = PointerEventPass.Initial)
-				if (rev?.onClick !is OnClick.Passthrough) {
-					down.consume()
-				}
+    val clickModifier = when {
+        revealState.isVisible -> Modifier.pointerInput(Unit) {
+            awaitEachGesture {
+                val down = awaitFirstDown(pass = PointerEventPass.Initial)
+                if (rev?.onClick !is OnClick.Passthrough) {
+                    down.consume()
+                }
 
-				val up = waitForUpOrCancellation(pass = PointerEventPass.Initial)
-					?: return@awaitEachGesture
+                val up = waitForUpOrCancellation(pass = PointerEventPass.Initial)
+                    ?: return@awaitEachGesture
 
-				rev?.key?.let(
-					if (rev?.area?.contains(up.position) == true) {
-						// pass through touches in the area on top of revealable
-						if (rev?.onClick is OnClick.Passthrough) {
-							return@awaitEachGesture
-						} else {
-							(rev?.onClick as? OnClick.Listener)?.listener ?: onRevealableClick
-						}
-					} else {
-						onOverlayClick
-					},
-				)
-				
-				up.consume()
-			}
-		}
+                rev?.key?.let(
+                    if (rev?.area?.contains(up.position) == true) {
+                        // pass through touches in the area on top of revealable
+                        if (rev?.onClick is OnClick.Passthrough) {
+                            return@awaitEachGesture
+                        } else {
+                            (rev?.onClick as? OnClick.Listener)?.listener ?: onRevealableClick
+                        }
+                    } else {
+                        onOverlayClick
+                    },
+                )
 
-		else -> Modifier
-	}
+                up.consume()
+            }
+        }
 
-	Box(
-		modifier = modifier
-			.then(clickModifier)
-			.semantics { testTag = "overlay" },
-	) {
-		content(RevealScopeInstance(revealState))
+        else -> Modifier
+    }
 
-		val previousRevealable = remember {
-			derivedStateOf {
-				revealState.previousRevealable?.toActual(
-					density = density,
-					layoutDirection = layoutDirection,
-					additionalOffset = revealCanvasState.revealableOffset,
-				)
-			}
-		}
+    Box(
+        modifier = modifier
+            .then(clickModifier)
+            .semantics { testTag = "overlay" },
+    ) {
+        content(RevealScopeInstance(revealState))
 
-		LaunchedEffect(animatedOverlayAlpha) {
-			@Suppress("ktlint:standard:wrapping")
-			revealCanvasState.overlayContent = when {
-				animatedOverlayAlpha > 0.0f -> ({
-					overlayEffect.Overlay(
-						revealState = revealState,
-						currentRevealable = currentRevealable,
-						previousRevealable = previousRevealable,
-						modifier = Modifier
-							.fillMaxSize()
-							.alpha(animatedOverlayAlpha),
-						content = overlayContent,
-					)
-				})
+        val previousRevealable = remember {
+            derivedStateOf {
+                revealState.previousRevealable?.toActual(
+                    density = density,
+                    layoutDirection = layoutDirection,
+                    additionalOffset = revealCanvasState.revealableOffset,
+                )
+            }
+        }
 
-				else -> null
-			}
-		}
-	}
+        LaunchedEffect(animatedOverlayAlpha) {
+            @Suppress("ktlint:standard:wrapping")
+            revealCanvasState.overlayContent = when {
+                animatedOverlayAlpha > 0.0f -> ({
+                    overlayEffect.Overlay(
+                        revealState = revealState,
+                        currentRevealable = currentRevealable,
+                        previousRevealable = previousRevealable,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .alpha(animatedOverlayAlpha),
+                        content = overlayContent,
+                    )
+                })
 
-	// When the Reveal composable is disposed we need to reset overlayContent or else the effect
-	// might remain on the screen (issue #196).
-	DisposableEffect(Unit) {
-		onDispose {
-			revealCanvasState.overlayContent = null
-		}
-	}
+                else -> null
+            }
+        }
+    }
+
+    // When the Reveal composable is disposed we need to reset overlayContent or else the effect
+    // might remain on the screen (issue #196).
+    DisposableEffect(Unit) {
+        onDispose {
+            revealCanvasState.overlayContent = null
+        }
+    }
 }
 
 public typealias OnClickListener = (key: Key) -> Unit
 
 private fun Revealable.toActual(
-	density: Density,
-	layoutDirection: LayoutDirection,
-	additionalOffset: DpOffset,
+    density: Density,
+    layoutDirection: LayoutDirection,
+    additionalOffset: DpOffset,
 ): ActualRevealable = ActualRevealable(
-	key = key,
-	shape = shape,
-	padding = padding,
-	borderStroke = borderStroke,
-	area = computeArea(
-		density = density,
-		layoutDirection = layoutDirection,
-		additionalOffset = additionalOffset,
-	),
-	onClick = onClick,
+    key = key,
+    shape = shape,
+    padding = padding,
+    borderStroke = borderStroke,
+    area = computeArea(
+        density = density,
+        layoutDirection = layoutDirection,
+        additionalOffset = additionalOffset,
+    ),
+    onClick = onClick,
 )

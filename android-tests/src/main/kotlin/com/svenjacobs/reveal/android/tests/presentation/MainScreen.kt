@@ -40,111 +40,111 @@ private enum class Keys { Fab, Explanation }
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifier) {
-	val scope = rememberCoroutineScope()
-	val revealState = rememberRevealState()
+    val scope = rememberCoroutineScope()
+    val revealState = rememberRevealState()
 
-	LaunchedEffect(Unit) {
-		if (revealState.isVisible) return@LaunchedEffect
-		delay(2.seconds)
-		revealState.reveal(Keys.Fab)
-	}
+    LaunchedEffect(Unit) {
+        if (revealState.isVisible) return@LaunchedEffect
+        delay(2.seconds)
+        revealState.reveal(Keys.Fab)
+    }
 
-	Reveal(
-		onOverlayClick = { scope.launch { revealState.hide() } },
-		modifier = modifier,
-		revealCanvasState = revealCanvasState,
-		revealState = revealState,
-		overlayContent = { key -> RevealOverlayContent(key) },
-	) {
-		Scaffold(
-			modifier = Modifier.fillMaxSize(),
-			topBar = {
-				CenterAlignedTopAppBar(
-					title = { Text("Reveal Demo") },
-				)
-			},
-			floatingActionButton = {
-				FloatingActionButton(
-					modifier = Modifier.revealable(
-						key = Keys.Fab,
-						shape = RevealShape.RoundRect(16.dp),
-						borderStroke = BorderStroke(2.dp, Color.DarkGray),
-						onClick = OnClick.Listener {
-							scope.launch { revealState.reveal(Keys.Explanation) }
-						},
-					),
-					onClick = {
-						scope.launch { revealState.reveal(Keys.Explanation) }
-					},
-				) {
-					Icon(
-						Icons.Filled.Add,
-						contentDescription = null,
-					)
-				}
-			},
-		) { contentPadding ->
-			Column(
-				modifier = Modifier
-					.fillMaxSize()
-					.padding(contentPadding)
-					.padding(horizontal = 16.dp),
-				horizontalAlignment = Alignment.CenterHorizontally,
-			) {
-				Text(
-					modifier = Modifier
-						.padding(top = 16.dp)
-						.revealable(
-							key = Keys.Explanation,
-							borderStroke = BorderStroke(2.dp, Color.DarkGray),
-							onClick = OnClick.Listener {
-								scope.launch { revealState.hide() }
-							},
-						),
-					text = "Reveal is a lightweight, simple reveal effect (also known as " +
-						"coach mark or onboarding) library for Compose Multiplatform.",
-					style = MaterialTheme.typography.bodyLarge,
-					textAlign = TextAlign.Justify,
-				)
-			}
-		}
-	}
+    Reveal(
+        onOverlayClick = { scope.launch { revealState.hide() } },
+        modifier = modifier,
+        revealCanvasState = revealCanvasState,
+        revealState = revealState,
+        overlayContent = { key -> RevealOverlayContent(key) },
+    ) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = { Text("Reveal Demo") },
+                )
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    modifier = Modifier.revealable(
+                        key = Keys.Fab,
+                        shape = RevealShape.RoundRect(16.dp),
+                        borderStroke = BorderStroke(2.dp, Color.DarkGray),
+                        onClick = OnClick.Listener {
+                            scope.launch { revealState.reveal(Keys.Explanation) }
+                        },
+                    ),
+                    onClick = {
+                        scope.launch { revealState.reveal(Keys.Explanation) }
+                    },
+                ) {
+                    Icon(
+                        Icons.Filled.Add,
+                        contentDescription = null,
+                    )
+                }
+            },
+        ) { contentPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(contentPadding)
+                    .padding(horizontal = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .revealable(
+                            key = Keys.Explanation,
+                            borderStroke = BorderStroke(2.dp, Color.DarkGray),
+                            onClick = OnClick.Listener {
+                                scope.launch { revealState.hide() }
+                            },
+                        ),
+                    text = "Reveal is a lightweight, simple reveal effect (also known as " +
+                        "coach mark or onboarding) library for Compose Multiplatform.",
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Justify,
+                )
+            }
+        }
+    }
 }
 
 @Composable
 private fun RevealOverlayScope.RevealOverlayContent(key: Key) {
-	when (key) {
-		Keys.Fab -> OverlayText(
-			modifier = Modifier.align(
-				horizontalArrangement = RevealOverlayArrangement.Start,
-			),
-			text = "Click button to get started",
-			arrow = Arrow.end(anchorToReveal = true),
-		)
+    when (key) {
+        Keys.Fab -> OverlayText(
+            modifier = Modifier.align(
+                horizontalArrangement = RevealOverlayArrangement.Start,
+            ),
+            text = "Click button to get started",
+            arrow = Arrow.end(anchorToReveal = true),
+        )
 
-		Keys.Explanation -> OverlayText(
-			modifier = Modifier.align(
-				verticalArrangement = RevealOverlayArrangement.Bottom,
-			),
-			text = "Actually we already started. This was an example of the reveal effect.",
-			arrow = Arrow.top(anchorToReveal = true),
-		)
-	}
+        Keys.Explanation -> OverlayText(
+            modifier = Modifier.align(
+                verticalArrangement = RevealOverlayArrangement.Bottom,
+            ),
+            text = "Actually we already started. This was an example of the reveal effect.",
+            arrow = Arrow.top(anchorToReveal = true),
+        )
+    }
 }
 
 @Composable
 private fun OverlayText(text: String, arrow: Arrow, modifier: Modifier = Modifier) {
-	Balloon(
-		modifier = modifier.padding(8.dp),
-		arrow = arrow,
-		backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
-		elevation = 2.dp,
-	) {
-		Text(
-			modifier = Modifier.padding(8.dp),
-			text = text,
-			style = MaterialTheme.typography.labelLarge,
-			textAlign = TextAlign.Center,
-		)
-	}
+    Balloon(
+        modifier = modifier.padding(8.dp),
+        arrow = arrow,
+        backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
+        elevation = 2.dp,
+    ) {
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = text,
+            style = MaterialTheme.typography.labelLarge,
+            textAlign = TextAlign.Center,
+        )
+    }
 }

@@ -28,22 +28,22 @@ import com.svenjacobs.reveal.common.inserter.RevealOverlayInserter
  */
 @Composable
 public fun RevealCanvas(
-	revealCanvasState: RevealCanvasState,
-	modifier: Modifier = Modifier,
-	overlayInserter: RevealOverlayInserter = DefaultRevealOverlayInserter(),
-	content: @Composable () -> Unit,
+    revealCanvasState: RevealCanvasState,
+    modifier: Modifier = Modifier,
+    overlayInserter: RevealOverlayInserter = DefaultRevealOverlayInserter(),
+    content: @Composable () -> Unit,
 ) {
-	SideEffect {
-		revealCanvasState.revealableOffset = overlayInserter.revealableOffset
-	}
+    SideEffect {
+        revealCanvasState.revealableOffset = overlayInserter.revealableOffset
+    }
 
-	Box(modifier = modifier) {
-		content()
+    Box(modifier = modifier) {
+        content()
 
-		revealCanvasState.overlayContent?.let { overlayContent ->
-			overlayInserter.Container {
-				overlayContent()
-			}
-		}
-	}
+        revealCanvasState.overlayContent?.let { overlayContent ->
+            overlayInserter.Container {
+                overlayContent()
+            }
+        }
+    }
 }

@@ -1,7 +1,7 @@
 plugins {
-	alias(libs.plugins.android.multiplatform.library)
-	id("convention.multiplatform")
-	id("convention.publication")
+    alias(libs.plugins.android.multiplatform.library)
+    id("convention.multiplatform")
+    id("convention.publication")
 }
 
 val baseName by extra { "reveal-shapes" }
@@ -11,30 +11,30 @@ val androidMinSdk: Int by rootProject.extra
 val androidCompileSdk: Int by rootProject.extra
 
 kotlin {
-	android {
-		namespace = "com.svenjacobs.reveal.shapes"
-		compileSdk { version = release(androidCompileSdk) }
-		minSdk { version = release(androidMinSdk) }
+    android {
+        namespace = "com.svenjacobs.reveal.shapes"
+        compileSdk { version = release(androidCompileSdk) }
+        minSdk { version = release(androidMinSdk) }
 
-		aarMetadata {
-			minCompileSdk = androidMinSdk
-		}
+        aarMetadata {
+            minCompileSdk = androidMinSdk
+        }
 
-		withHostTest {}
-	}
+        withHostTest {}
+    }
 
-	sourceSets {
-		commonMain.dependencies {
-			implementation(project(":reveal-common"))
-			implementation(libs.compose.multiplatform.runtime)
-			implementation(libs.compose.multiplatform.foundation)
-		}
-		commonTest.dependencies {
-			implementation(kotlin("test"))
-		}
-	}
+    sourceSets {
+        commonMain.dependencies {
+            implementation(project(":reveal-common"))
+            implementation(libs.compose.multiplatform.runtime)
+            implementation(libs.compose.multiplatform.foundation)
+        }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
+    }
 }
 
 dependencies {
-	lintChecks(libs.slack.compose.lint.checks)
+    lintChecks(libs.slack.compose.lint.checks)
 }

@@ -8,22 +8,22 @@ import androidx.compose.ui.unit.LayoutDirection
 import com.svenjacobs.reveal.ActualRevealable
 
 internal fun ActualRevealable.createShapePath(
-	density: Density,
-	layoutDirection: LayoutDirection,
+    density: Density,
+    layoutDirection: LayoutDirection,
 ): Path = shape
-	.clip(
-		size = Size(
-			width = area.width,
-			height = area.height,
-		),
-		density = density,
-		layoutDirection = layoutDirection,
-	)
-	.apply {
-		translate(
-			Offset(
-				x = area.left,
-				y = area.top,
-			),
-		)
-	}
+    .clip(
+        size = Size(
+            width = area.width,
+            height = area.height,
+        ),
+        density = density,
+        layoutDirection = layoutDirection,
+    )
+    .apply {
+        translate(
+            Offset(
+                x = area.left,
+                y = area.top,
+            ),
+        )
+    }

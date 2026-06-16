@@ -6,13 +6,13 @@ package com.svenjacobs.reveal.common.internal.log
  */
 public object Logger {
 
-	public fun interface Adapter {
-		public fun d(message: String, tag: String)
-	}
+    public fun interface Adapter {
+        public fun d(message: String, tag: String)
+    }
 
-	public var adapter: Adapter? = null
+    public var adapter: Adapter? = null
 
-	public fun d(message: String, tag: String = "Reveal") {
-		adapter?.d(message, tag)
-	}
+    public fun d(message: String, tag: String = "Reveal") {
+        adapter?.d(message, tag)
+    }
 }

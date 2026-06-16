@@ -10,16 +10,16 @@ import androidx.compose.ui.unit.DpOffset
 @Stable
 public interface RevealOverlayInserter {
 
-	/**
-	 * Container which is used to insert the overlay.
-	 *
-	 * @param content Overlay composable
-	 */
-	@Composable
-	public fun Container(content: @Composable () -> Unit)
+    /**
+     * Container which is used to insert the overlay.
+     *
+     * @param content Overlay composable
+     */
+    @Composable
+    public fun Container(content: @Composable () -> Unit)
 
-	/**
-	 * Additional offset that is applied to all revealables when this inserter is used.
-	 */
-	public val revealableOffset: DpOffset
+    /**
+     * Additional offset that is applied to all revealables when this inserter is used.
+     */
+    public val revealableOffset: DpOffset
 }

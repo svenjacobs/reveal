@@ -25,23 +25,23 @@ import com.svenjacobs.reveal.LocalRevealOverlayArrowAnchor
  */
 @Composable
 public fun Balloon(
-	arrow: Arrow,
-	backgroundColor: Color,
-	modifier: Modifier = Modifier,
-	cornerRadius: Dp = 8.dp,
-	elevation: Dp = 0.dp,
-	contentAlignment: Alignment = Alignment.TopStart,
-	content: @Composable BoxScope.() -> Unit,
+    arrow: Arrow,
+    backgroundColor: Color,
+    modifier: Modifier = Modifier,
+    cornerRadius: Dp = 8.dp,
+    elevation: Dp = 0.dp,
+    contentAlignment: Alignment = Alignment.TopStart,
+    content: @Composable BoxScope.() -> Unit,
 ) {
-	Balloon(
-		arrow = arrow,
-		modifier = modifier,
-		backgroundModifier = Modifier.background(color = backgroundColor),
-		cornerRadius = cornerRadius,
-		elevation = elevation,
-		contentAlignment = contentAlignment,
-		content = content,
-	)
+    Balloon(
+        arrow = arrow,
+        modifier = modifier,
+        backgroundModifier = Modifier.background(color = backgroundColor),
+        cornerRadius = cornerRadius,
+        elevation = elevation,
+        contentAlignment = contentAlignment,
+        content = content,
+    )
 }
 
 /**
@@ -54,57 +54,57 @@ public fun Balloon(
  */
 @Composable
 public fun Balloon(
-	arrow: Arrow,
-	backgroundBrush: Brush,
-	modifier: Modifier = Modifier,
-	backgroundAlpha: Float = 1.0f,
-	cornerRadius: Dp = 8.dp,
-	elevation: Dp = 0.dp,
-	contentAlignment: Alignment = Alignment.TopStart,
-	content: @Composable BoxScope.() -> Unit,
+    arrow: Arrow,
+    backgroundBrush: Brush,
+    modifier: Modifier = Modifier,
+    backgroundAlpha: Float = 1.0f,
+    cornerRadius: Dp = 8.dp,
+    elevation: Dp = 0.dp,
+    contentAlignment: Alignment = Alignment.TopStart,
+    content: @Composable BoxScope.() -> Unit,
 ) {
-	Balloon(
-		arrow = arrow,
-		modifier = modifier,
-		backgroundModifier = Modifier.background(
-			brush = backgroundBrush,
-			alpha = backgroundAlpha,
-		),
-		cornerRadius = cornerRadius,
-		elevation = elevation,
-		contentAlignment = contentAlignment,
-		content = content,
-	)
+    Balloon(
+        arrow = arrow,
+        modifier = modifier,
+        backgroundModifier = Modifier.background(
+            brush = backgroundBrush,
+            alpha = backgroundAlpha,
+        ),
+        cornerRadius = cornerRadius,
+        elevation = elevation,
+        contentAlignment = contentAlignment,
+        content = content,
+    )
 }
 
 @Composable
 private fun Balloon(
-	arrow: Arrow,
-	cornerRadius: Dp,
-	elevation: Dp,
-	contentAlignment: Alignment,
-	modifier: Modifier = Modifier,
-	backgroundModifier: Modifier = Modifier,
-	content: @Composable BoxScope.() -> Unit,
+    arrow: Arrow,
+    cornerRadius: Dp,
+    elevation: Dp,
+    contentAlignment: Alignment,
+    modifier: Modifier = Modifier,
+    backgroundModifier: Modifier = Modifier,
+    content: @Composable BoxScope.() -> Unit,
 ) {
-	// When the arrow should point towards the reveal area, read the anchor published by the reveal
-	// overlay. Exactly one axis is provided depending on the arrangement (offsetX for top/bottom,
-	// offsetY for start/end), so picking the non-null one yields the correct value for this arrow.
-	// Reading the snapshot state here recomposes (and rebuilds the shape) when the anchor changes.
-	val arrowAnchor = if (arrow.anchorToReveal) {
-		LocalRevealOverlayArrowAnchor.current?.let { it.offsetX ?: it.offsetY }
-	} else {
-		null
-	}
-	val shape = BalloonShape(arrow, cornerRadius, LocalDensity.current, arrowAnchor)
+    // When the arrow should point towards the reveal area, read the anchor published by the reveal
+    // overlay. Exactly one axis is provided depending on the arrangement (offsetX for top/bottom,
+    // offsetY for start/end), so picking the non-null one yields the correct value for this arrow.
+    // Reading the snapshot state here recomposes (and rebuilds the shape) when the anchor changes.
+    val arrowAnchor = if (arrow.anchorToReveal) {
+        LocalRevealOverlayArrowAnchor.current?.let { it.offsetX ?: it.offsetY }
+    } else {
+        null
+    }
+    val shape = BalloonShape(arrow, cornerRadius, LocalDensity.current, arrowAnchor)
 
-	Box(
-		modifier = modifier
-			.shadow(elevation, shape)
-			.clip(shape)
-			.then(backgroundModifier)
-			.padding(arrow.padding),
-		contentAlignment = contentAlignment,
-		content = content,
-	)
+    Box(
+        modifier = modifier
+            .shadow(elevation, shape)
+            .clip(shape)
+            .then(backgroundModifier)
+            .padding(arrow.padding),
+        contentAlignment = contentAlignment,
+        content = content,
+    )
 }

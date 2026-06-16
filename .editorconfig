@@ -7,7 +7,7 @@ trim_trailing_whitespace = true
 
 [*.{kt,kts}]
 charset = utf-8
-indent_style = tab
+indent_style = space
 indent_size = 4
 # ktlint configuration
 ktlint_code_style = android_studio

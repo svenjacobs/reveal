@@ -10,37 +10,37 @@ import org.junit.Test
 
 class RevealTest : BaseRevealTest() {
 
-	@Test
-	fun clickCallsOnRevealableClick() {
-		var onRevealableClickKey: Key? = null
+    @Test
+    fun clickCallsOnRevealableClick() {
+        var onRevealableClickKey: Key? = null
 
-		test(
-			onRevealableClick = { key -> onRevealableClickKey = key },
-		) { testRule, revealState, scope ->
-			scope.launch { revealState.reveal(Keys.Key1) }
+        test(
+            onRevealableClick = { key -> onRevealableClickKey = key },
+        ) { testRule, revealState, scope ->
+            scope.launch { revealState.reveal(Keys.Key1) }
 
-			testRule.onNodeWithText("Overlay1")
-				.assertExists()
-				.performClick()
+            testRule.onNodeWithText("Overlay1")
+                .assertExists()
+                .performClick()
 
-			assertEquals(Keys.Key1, onRevealableClickKey)
-		}
-	}
+            assertEquals(Keys.Key1, onRevealableClickKey)
+        }
+    }
 
-	@Test
-	fun clickCallsOnOverlayClick() {
-		var onOverlayClickKey: Key? = null
+    @Test
+    fun clickCallsOnOverlayClick() {
+        var onOverlayClickKey: Key? = null
 
-		test(
-			onOverlayClick = { key -> onOverlayClickKey = key },
-		) { testRule, revealState, scope ->
-			scope.launch { revealState.reveal(Keys.Key1) }
+        test(
+            onOverlayClick = { key -> onOverlayClickKey = key },
+        ) { testRule, revealState, scope ->
+            scope.launch { revealState.reveal(Keys.Key1) }
 
-			testRule.onNodeWithTag("overlay")
-				.assertExists()
-				.performClick()
+            testRule.onNodeWithTag("overlay")
+                .assertExists()
+                .performClick()
 
-			assertEquals(Keys.Key1, onOverlayClickKey)
-		}
-	}
+            assertEquals(Keys.Key1, onOverlayClickKey)
+        }
+    }
 }

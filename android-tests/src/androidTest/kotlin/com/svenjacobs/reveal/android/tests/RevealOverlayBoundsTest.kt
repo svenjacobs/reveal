@@ -37,135 +37,135 @@ import org.junit.Test
  */
 class RevealOverlayBoundsTest {
 
-	private enum class Keys { Target }
+    private enum class Keys { Target }
 
-	@get:Rule
-	val composeTestRule: ComposeContentTestRule = createComposeRule()
+    @get:Rule
+    val composeTestRule: ComposeContentTestRule = createComposeRule()
 
-	@Test
-	fun topArrangementStaysWithinScreen() {
-		// Reveal area near the left edge, plenty of space above: a wide overlay centered above the
-		// reveal area would overflow the left boundary without dynamic adjustment.
-		assertOverlayWithinScreen(revealableAlignment = Alignment.BottomStart) {
-			OverlayBox(
-				modifier = Modifier.align(
-					verticalArrangement = RevealOverlayArrangement.Top,
-				),
-			)
-		}
-	}
+    @Test
+    fun topArrangementStaysWithinScreen() {
+        // Reveal area near the left edge, plenty of space above: a wide overlay centered above the
+        // reveal area would overflow the left boundary without dynamic adjustment.
+        assertOverlayWithinScreen(revealableAlignment = Alignment.BottomStart) {
+            OverlayBox(
+                modifier = Modifier.align(
+                    verticalArrangement = RevealOverlayArrangement.Top,
+                ),
+            )
+        }
+    }
 
-	@Test
-	fun bottomArrangementStaysWithinScreen() {
-		assertOverlayWithinScreen(revealableAlignment = Alignment.TopStart) {
-			OverlayBox(
-				modifier = Modifier.align(
-					verticalArrangement = RevealOverlayArrangement.Bottom,
-				),
-			)
-		}
-	}
+    @Test
+    fun bottomArrangementStaysWithinScreen() {
+        assertOverlayWithinScreen(revealableAlignment = Alignment.TopStart) {
+            OverlayBox(
+                modifier = Modifier.align(
+                    verticalArrangement = RevealOverlayArrangement.Bottom,
+                ),
+            )
+        }
+    }
 
-	@Test
-	fun startArrangementStaysWithinScreen() {
-		// Reveal area near the top edge, plenty of space to the start: a tall overlay centered
-		// vertically would overflow the top boundary without dynamic adjustment.
-		assertOverlayWithinScreen(revealableAlignment = Alignment.TopEnd) {
-			OverlayBox(
-				modifier = Modifier.align(
-					horizontalArrangement = RevealOverlayArrangement.Start,
-				),
-			)
-		}
-	}
+    @Test
+    fun startArrangementStaysWithinScreen() {
+        // Reveal area near the top edge, plenty of space to the start: a tall overlay centered
+        // vertically would overflow the top boundary without dynamic adjustment.
+        assertOverlayWithinScreen(revealableAlignment = Alignment.TopEnd) {
+            OverlayBox(
+                modifier = Modifier.align(
+                    horizontalArrangement = RevealOverlayArrangement.Start,
+                ),
+            )
+        }
+    }
 
-	@Test
-	fun endArrangementStaysWithinScreen() {
-		assertOverlayWithinScreen(revealableAlignment = Alignment.TopStart) {
-			OverlayBox(
-				modifier = Modifier.align(
-					horizontalArrangement = RevealOverlayArrangement.End,
-				),
-			)
-		}
-	}
+    @Test
+    fun endArrangementStaysWithinScreen() {
+        assertOverlayWithinScreen(revealableAlignment = Alignment.TopStart) {
+            OverlayBox(
+                modifier = Modifier.align(
+                    horizontalArrangement = RevealOverlayArrangement.End,
+                ),
+            )
+        }
+    }
 
-	@Composable
-	private fun OverlayBox(modifier: Modifier = Modifier) {
-		Box(
-			modifier = modifier
-				.size(width = 300.dp, height = 300.dp)
-				.testTag(OVERLAY_TAG),
-		)
-	}
+    @Composable
+    private fun OverlayBox(modifier: Modifier = Modifier) {
+        Box(
+            modifier = modifier
+                .size(width = 300.dp, height = 300.dp)
+                .testTag(OVERLAY_TAG),
+        )
+    }
 
-	private fun assertOverlayWithinScreen(
-		revealableAlignment: Alignment,
-		overlay: @Composable RevealOverlayScope.() -> Unit,
-	) {
-		lateinit var revealState: RevealState
-		lateinit var scope: CoroutineScope
+    private fun assertOverlayWithinScreen(
+        revealableAlignment: Alignment,
+        overlay: @Composable RevealOverlayScope.() -> Unit,
+    ) {
+        lateinit var revealState: RevealState
+        lateinit var scope: CoroutineScope
 
-		composeTestRule.setContent {
-			scope = rememberCoroutineScope()
-			revealState = rememberRevealState()
-			val revealCanvasState = rememberRevealCanvasState()
+        composeTestRule.setContent {
+            scope = rememberCoroutineScope()
+            revealState = rememberRevealState()
+            val revealCanvasState = rememberRevealCanvasState()
 
-			RevealCanvas(
-				revealCanvasState = revealCanvasState,
-				modifier = Modifier.fillMaxSize(),
-			) {
-				Reveal(
-					modifier = Modifier.fillMaxSize(),
-					revealCanvasState = revealCanvasState,
-					revealState = revealState,
-					overlayContent = { overlay() },
-				) {
-					Box(modifier = Modifier.fillMaxSize()) {
-						Box(
-							modifier = Modifier
-								.align(revealableAlignment)
-								.padding(16.dp)
-								.size(24.dp)
-								.revealable(
-									key = Keys.Target,
-									padding = PaddingValues(0.dp),
-								),
-						)
-					}
-				}
-			}
-		}
+            RevealCanvas(
+                revealCanvasState = revealCanvasState,
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                Reveal(
+                    modifier = Modifier.fillMaxSize(),
+                    revealCanvasState = revealCanvasState,
+                    revealState = revealState,
+                    overlayContent = { overlay() },
+                ) {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        Box(
+                            modifier = Modifier
+                                .align(revealableAlignment)
+                                .padding(16.dp)
+                                .size(24.dp)
+                                .revealable(
+                                    key = Keys.Target,
+                                    padding = PaddingValues(0.dp),
+                                ),
+                        )
+                    }
+                }
+            }
+        }
 
-		scope.launch { revealState.reveal(Keys.Target) }
-		composeTestRule.waitForIdle()
-		composeTestRule.waitUntil(timeoutMillis = 5_000) {
-			composeTestRule.onAllNodesWithTag(OVERLAY_TAG).fetchSemanticsNodes().isNotEmpty()
-		}
+        scope.launch { revealState.reveal(Keys.Target) }
+        composeTestRule.waitForIdle()
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule.onAllNodesWithTag(OVERLAY_TAG).fetchSemanticsNodes().isNotEmpty()
+        }
 
-		val root = composeTestRule.onRoot().getUnclippedBoundsInRoot()
-		val overlayBounds = composeTestRule.onNodeWithTag(OVERLAY_TAG).getUnclippedBoundsInRoot()
+        val root = composeTestRule.onRoot().getUnclippedBoundsInRoot()
+        val overlayBounds = composeTestRule.onNodeWithTag(OVERLAY_TAG).getUnclippedBoundsInRoot()
 
-		assertTrue(
-			"Overlay overflows left edge: left=${overlayBounds.left}, root left=${root.left}",
-			overlayBounds.left.value >= root.left.value - TOLERANCE,
-		)
-		assertTrue(
-			"Overlay overflows top edge: top=${overlayBounds.top}, root top=${root.top}",
-			overlayBounds.top.value >= root.top.value - TOLERANCE,
-		)
-		assertTrue(
-			"Overlay overflows right edge: right=${overlayBounds.right}, root right=${root.right}",
-			overlayBounds.right.value <= root.right.value + TOLERANCE,
-		)
-		assertTrue(
-			"Overlay overflows bottom edge: bottom=${overlayBounds.bottom}, root bottom=${root.bottom}",
-			overlayBounds.bottom.value <= root.bottom.value + TOLERANCE,
-		)
-	}
+        assertTrue(
+            "Overlay overflows left edge: left=${overlayBounds.left}, root left=${root.left}",
+            overlayBounds.left.value >= root.left.value - TOLERANCE,
+        )
+        assertTrue(
+            "Overlay overflows top edge: top=${overlayBounds.top}, root top=${root.top}",
+            overlayBounds.top.value >= root.top.value - TOLERANCE,
+        )
+        assertTrue(
+            "Overlay overflows right edge: right=${overlayBounds.right}, root right=${root.right}",
+            overlayBounds.right.value <= root.right.value + TOLERANCE,
+        )
+        assertTrue(
+            "Overlay overflows bottom edge: bottom=${overlayBounds.bottom}, root bottom=${root.bottom}",
+            overlayBounds.bottom.value <= root.bottom.value + TOLERANCE,
+        )
+    }
 
-	private companion object {
-		const val OVERLAY_TAG = "overlayContent"
-		const val TOLERANCE = 0.5f
-	}
+    private companion object {
+        const val OVERLAY_TAG = "overlayContent"
+        const val TOLERANCE = 0.5f
+    }
 }

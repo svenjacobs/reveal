@@ -12,17 +12,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 
 public sealed interface OnClick {
-	/**
-	 * Clicks on Revealable are handled by the specified handler.
-	 */
-	@Immutable
-	public data class Listener(val listener: OnClickListener) : OnClick
+    /**
+     * Clicks on Revealable are handled by the specified handler.
+     */
+    @Immutable
+    public data class Listener(val listener: OnClickListener) : OnClick
 
-	/**
-	 * Clicks on Revealable are not handled by Reveal and passed through to underlying
-	 * composables.
-	 */
-	public data object Passthrough : OnClick
+    /**
+     * Clicks on Revealable are not handled by Reveal and passed through to underlying
+     * composables.
+     */
+    public data object Passthrough : OnClick
 }
 
 /**
@@ -50,21 +50,21 @@ public sealed interface OnClick {
  * @see Key
  */
 public fun Modifier.revealable(
-	key: Key,
-	state: RevealState,
-	shape: RevealShape = RevealShape.RoundRect(4.dp),
-	padding: PaddingValues = PaddingValues(8.dp),
-	borderStroke: BorderStroke? = null,
-	onClick: OnClick? = null,
+    key: Key,
+    state: RevealState,
+    shape: RevealShape = RevealShape.RoundRect(4.dp),
+    padding: PaddingValues = PaddingValues(8.dp),
+    borderStroke: BorderStroke? = null,
+    onClick: OnClick? = null,
 ): Modifier = this.then(
-	Modifier.revealable(
-		state = state,
-		keys = listOf(key),
-		shape = shape,
-		padding = padding,
-		borderStroke = borderStroke,
-		onClick = onClick,
-	),
+    Modifier.revealable(
+        state = state,
+        keys = listOf(key),
+        shape = shape,
+        padding = padding,
+        borderStroke = borderStroke,
+        onClick = onClick,
+    ),
 )
 
 /**
@@ -92,21 +92,21 @@ public fun Modifier.revealable(
  * @see Key
  */
 public fun Modifier.revealable(
-	vararg keys: Key,
-	state: RevealState,
-	shape: RevealShape = RevealShape.RoundRect(4.dp),
-	padding: PaddingValues = PaddingValues(8.dp),
-	borderStroke: BorderStroke? = null,
-	onClick: OnClick? = null,
+    vararg keys: Key,
+    state: RevealState,
+    shape: RevealShape = RevealShape.RoundRect(4.dp),
+    padding: PaddingValues = PaddingValues(8.dp),
+    borderStroke: BorderStroke? = null,
+    onClick: OnClick? = null,
 ): Modifier = this.then(
-	Modifier.revealable(
-		state = state,
-		keys = keys.toList(),
-		shape = shape,
-		padding = padding,
-		borderStroke = borderStroke,
-		onClick = onClick,
-	),
+    Modifier.revealable(
+        state = state,
+        keys = keys.toList(),
+        shape = shape,
+        padding = padding,
+        borderStroke = borderStroke,
+        onClick = onClick,
+    ),
 )
 
 /**
@@ -134,37 +134,37 @@ public fun Modifier.revealable(
  * @see Key
  */
 public fun Modifier.revealable(
-	keys: Iterable<Key>,
-	state: RevealState,
-	shape: RevealShape = RevealShape.RoundRect(4.dp),
-	padding: PaddingValues = PaddingValues(8.dp),
-	borderStroke: BorderStroke? = null,
-	onClick: OnClick? = null,
+    keys: Iterable<Key>,
+    state: RevealState,
+    shape: RevealShape = RevealShape.RoundRect(4.dp),
+    padding: PaddingValues = PaddingValues(8.dp),
+    borderStroke: BorderStroke? = null,
+    onClick: OnClick? = null,
 ): Modifier = this.then(
-	Modifier
-		.onGloballyPositioned { layoutCoordinates ->
-			keys.forEach { key ->
-				state.addRevealable(
-					Revealable(
-						key = key,
-						shape = shape,
-						padding = padding,
-						borderStroke = borderStroke,
-						layout = Revealable.Layout(
-							offset = layoutCoordinates.positionInRoot(),
-							size = layoutCoordinates.size.toSize(),
-						),
-						onClick = onClick,
-					),
-				)
-			}
-		}
-		.composed {
-			DisposableEffect(Unit) {
-				onDispose {
-					keys.forEach(state::removeRevealable)
-				}
-			}
-			this
-		},
+    Modifier
+        .onGloballyPositioned { layoutCoordinates ->
+            keys.forEach { key ->
+                state.addRevealable(
+                    Revealable(
+                        key = key,
+                        shape = shape,
+                        padding = padding,
+                        borderStroke = borderStroke,
+                        layout = Revealable.Layout(
+                            offset = layoutCoordinates.positionInRoot(),
+                            size = layoutCoordinates.size.toSize(),
+                        ),
+                        onClick = onClick,
+                    ),
+                )
+            }
+        }
+        .composed {
+            DisposableEffect(Unit) {
+                onDispose {
+                    keys.forEach(state::removeRevealable)
+                }
+            }
+            this
+        },
 )
