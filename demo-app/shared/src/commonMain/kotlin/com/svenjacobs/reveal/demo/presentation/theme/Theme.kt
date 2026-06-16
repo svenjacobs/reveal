@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun DemoTheme(content: @Composable () -> Unit) {
-	MaterialTheme(
-		content = content,
-	)
+    MaterialTheme(
+        content = content,
+    )
 }

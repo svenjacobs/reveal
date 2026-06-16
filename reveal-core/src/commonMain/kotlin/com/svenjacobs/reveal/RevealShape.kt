@@ -15,57 +15,61 @@ import androidx.compose.ui.unit.LayoutDirection
  */
 public sealed interface RevealShape {
 
-	/**
-	 * Returns a [Path] which is used to clip the area around the revealable item with given [size].
-	 */
-	public fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path
+    /**
+     * Returns a [Path] which is used to clip the area around the revealable item with given [size].
+     */
+    public fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path
 
-	public data object Rect : RevealShape {
+    public data object Rect : RevealShape {
 
-		override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
-			Path().apply {
-				addRect(size.asRect())
-			}
-	}
+        override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
+            Path().apply {
+                addRect(size.asRect())
+            }
+    }
 
-	public data object Circle : RevealShape {
+    public data object Circle : RevealShape {
 
-		override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
-			Path().apply {
-				addOval(size.asRect())
-			}
-	}
+        override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
+            Path().apply {
+                addOval(size.asRect())
+            }
+    }
 
-	public class RoundRect(private val cornerSize: Dp) : RevealShape {
+    public class RoundRect(private val cornerSize: Dp) : RevealShape {
 
-		override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
-			Path().apply {
-				val cornerSizePx = with(density) { cornerSize.toPx() }
-				addRoundRect(
-					RoundRect(
-						size.asRect(),
-						CornerRadius(cornerSizePx, cornerSizePx),
-					),
-				)
-			}
-	}
+        override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
+            Path().apply {
+                val cornerSizePx = with(density) { cornerSize.toPx() }
+                addRoundRect(
+                    RoundRect(
+                        size.asRect(),
+                        CornerRadius(cornerSizePx, cornerSizePx),
+                    ),
+                )
+            }
+    }
 
-	/**
-	 * A custom shape.
-	 *
-	 * [onClip] should return a Path which is used to clip the area around the revealable item with
-	 * given `size`.
-	 */
-	public class Custom(
-		private val onClip: (size: Size, density: Density, layoutDirection: LayoutDirection) -> Path,
-	) : RevealShape {
+    /**
+     * A custom shape.
+     *
+     * [onClip] should return a Path which is used to clip the area around the revealable item with
+     * given `size`.
+     */
+    public class Custom(
+        private val onClip: (
+            size: Size,
+            density: Density,
+            layoutDirection: LayoutDirection,
+        ) -> Path,
+    ) : RevealShape {
 
-		override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
-			onClip(size, density, layoutDirection)
-	}
+        override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
+            onClip(size, density, layoutDirection)
+    }
 
-	public fun Size.asRect(): ComposeRect = ComposeRect(
-		offset = Offset.Zero,
-		size = this,
-	)
+    public fun Size.asRect(): ComposeRect = ComposeRect(
+        offset = Offset.Zero,
+        size = this,
+    )
 }

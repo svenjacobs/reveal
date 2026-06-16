@@ -3,50 +3,50 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-	kotlin("multiplatform")
-	id("com.android.kotlin.multiplatform.library")
-	id("org.jetbrains.compose")
-	id("org.jetbrains.kotlin.plugin.compose")
+    kotlin("multiplatform")
+    id("com.android.kotlin.multiplatform.library")
+    id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 kotlin {
-	applyDefaultHierarchyTemplate()
+    applyDefaultHierarchyTemplate()
 
-	jvm("desktop")
+    jvm("desktop")
 
-	android {
-		compilerOptions {
-			jvmTarget.set(JvmTarget.JVM_11)
-		}
-	}
+    android {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
 
-	listOf(
-		iosArm64(),
-		iosSimulatorArm64(),
-	).forEach {
-		afterEvaluate {
-			val baseName: String by extra
+    listOf(
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach {
+        afterEvaluate {
+            val baseName: String by extra
 
-			it.binaries.framework {
-				this.baseName = baseName
-			}
-		}
-	}
+            it.binaries.framework {
+                this.baseName = baseName
+            }
+        }
+    }
 
-	js(IR) {
-		browser()
-	}
+    js(IR) {
+        browser()
+    }
 
-	@OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
-	wasmJs {
-		browser()
-	}
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+    }
 
-	explicitApi()
+    explicitApi()
 }

@@ -11,10 +11,10 @@ public typealias DefaultRevealOverlayInserter = InPlaceRevealOverlayInserter
  */
 public class InPlaceRevealOverlayInserter : RevealOverlayInserter {
 
-	@Composable
-	override fun Container(content: @Composable () -> Unit) {
-		content()
-	}
+    @Composable
+    override fun Container(content: @Composable () -> Unit) {
+        content()
+    }
 
-	override val revealableOffset: DpOffset = DpOffset.Zero
+    override val revealableOffset: DpOffset = DpOffset.Zero
 }

@@ -29,11 +29,11 @@ import androidx.compose.runtime.setValue
 @Stable
 public class RevealOverlayArrowAnchor {
 
-	/** Horizontal center-relative offset; non-null for [RevealOverlayArrangement.Vertical] alignments. */
-	public var offsetX: Float? by mutableStateOf(null)
+    /** Horizontal center-relative offset; non-null for [RevealOverlayArrangement.Vertical] alignments. */
+    public var offsetX: Float? by mutableStateOf(null)
 
-	/** Vertical center-relative offset; non-null for [RevealOverlayArrangement.Horizontal] alignments. */
-	public var offsetY: Float? by mutableStateOf(null)
+    /** Vertical center-relative offset; non-null for [RevealOverlayArrangement.Horizontal] alignments. */
+    public var offsetY: Float? by mutableStateOf(null)
 }
 
 /**
@@ -42,5 +42,6 @@ public class RevealOverlayArrowAnchor {
  *
  * @see RevealOverlayArrowAnchor
  */
+@Suppress("ComposeCompositionLocalUsage")
 public val LocalRevealOverlayArrowAnchor: ProvidableCompositionLocal<RevealOverlayArrowAnchor?> =
-	compositionLocalOf { null }
+    compositionLocalOf { null }

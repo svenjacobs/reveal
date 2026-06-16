@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.DpOffset
 @Stable
 public class RevealCanvasState public constructor() {
 
-	internal var overlayContent: (@Composable () -> Unit)? by mutableStateOf(null)
-	internal var revealableOffset: DpOffset by mutableStateOf(DpOffset.Zero)
+    internal var overlayContent: (@Composable () -> Unit)? by mutableStateOf(null)
+    internal var revealableOffset: DpOffset by mutableStateOf(DpOffset.Zero)
 }
 
 @Composable

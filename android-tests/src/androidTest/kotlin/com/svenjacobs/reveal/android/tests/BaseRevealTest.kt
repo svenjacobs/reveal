@@ -17,57 +17,57 @@ import org.junit.Rule
 
 abstract class BaseRevealTest {
 
-	internal enum class Keys { Key1, Key2, Key3 }
+    internal enum class Keys { Key1, Key2, Key3 }
 
-	@get:Rule
-	val composeTestRule: ComposeContentTestRule = createComposeRule()
+    @get:Rule
+    val composeTestRule: ComposeContentTestRule = createComposeRule()
 
-	internal fun test(
-		onRevealableClick: OnClickListener = {},
-		onOverlayClick: OnClickListener = {},
-		body: (
-			testRule: ComposeContentTestRule,
-			revealState: RevealState,
-			scope: CoroutineScope,
-		) -> Unit,
-	) {
-		lateinit var revealState: RevealState
-		lateinit var scope: CoroutineScope
+    internal fun test(
+        onRevealableClick: OnClickListener = {},
+        onOverlayClick: OnClickListener = {},
+        body: (
+            testRule: ComposeContentTestRule,
+            revealState: RevealState,
+            scope: CoroutineScope,
+        ) -> Unit,
+    ) {
+        lateinit var revealState: RevealState
+        lateinit var scope: CoroutineScope
 
-		composeTestRule.setContent {
-			scope = rememberCoroutineScope()
-			revealState = rememberRevealState()
+        composeTestRule.setContent {
+            scope = rememberCoroutineScope()
+            revealState = rememberRevealState()
 
-			val revealCanvasState = rememberRevealCanvasState()
+            val revealCanvasState = rememberRevealCanvasState()
 
-			RevealCanvas(revealCanvasState = revealCanvasState) {
-				Reveal(
-					// this must take full screen for correct clicks handling by test runner
-					modifier = Modifier.fillMaxSize(),
-					onRevealableClick = onRevealableClick,
-					onOverlayClick = onOverlayClick,
-					revealCanvasState = revealCanvasState,
-					revealState = revealState,
-					overlayContent = { key ->
-						when (key) {
-							Keys.Key1 -> Text("Overlay1")
-							Keys.Key2 -> Text("Overlay2")
-						}
-					},
-				) {
-					Text(
-						modifier = Modifier.revealable(key = Keys.Key1),
-						text = "Element1",
-					)
+            RevealCanvas(revealCanvasState = revealCanvasState) {
+                Reveal(
+                    // this must take full screen for correct clicks handling by test runner
+                    modifier = Modifier.fillMaxSize(),
+                    onRevealableClick = onRevealableClick,
+                    onOverlayClick = onOverlayClick,
+                    revealCanvasState = revealCanvasState,
+                    revealState = revealState,
+                    overlayContent = { key ->
+                        when (key) {
+                            Keys.Key1 -> Text("Overlay1")
+                            Keys.Key2 -> Text("Overlay2")
+                        }
+                    },
+                ) {
+                    Text(
+                        modifier = Modifier.revealable(key = Keys.Key1),
+                        text = "Element1",
+                    )
 
-					Text(
-						modifier = Modifier.revealable(key = Keys.Key2),
-						text = "Element2",
-					)
-				}
-			}
-		}
+                    Text(
+                        modifier = Modifier.revealable(key = Keys.Key2),
+                        text = "Element2",
+                    )
+                }
+            }
+        }
 
-		body(composeTestRule, revealState, scope)
-	}
+        body(composeTestRule, revealState, scope)
+    }
 }

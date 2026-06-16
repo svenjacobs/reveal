@@ -14,17 +14,17 @@ import com.svenjacobs.reveal.RevealState
  */
 public interface RevealOverlayEffect {
 
-	@Composable
-	public fun Overlay(
-		revealState: RevealState,
-		currentRevealable: State<ActualRevealable?>,
-		previousRevealable: State<ActualRevealable?>,
-		modifier: Modifier,
-		content: @Composable RevealOverlayScope.(key: Key) -> Unit,
-	)
+    @Composable
+    public fun Overlay(
+        revealState: RevealState,
+        currentRevealable: State<ActualRevealable?>,
+        previousRevealable: State<ActualRevealable?>,
+        modifier: Modifier,
+        content: @Composable RevealOverlayScope.(key: Key) -> Unit,
+    )
 
-	/**
-	 * Animation spec for the animated alpha of the overlay when this effect is shown or hidden.
-	 */
-	public val alphaAnimationSpec: AnimationSpec<Float>
+    /**
+     * Animation spec for the animated alpha of the overlay when this effect is shown or hidden.
+     */
+    public val alphaAnimationSpec: AnimationSpec<Float>
 }

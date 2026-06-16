@@ -50,140 +50,144 @@ import org.robolectric.annotation.GraphicsMode
 @Config(qualifiers = "w360dp-h720dp-mdpi")
 class RevealOverlayScreenshotTest(private val case: Case) {
 
-	@get:Rule
-	val composeRule = createComposeRule()
+    @get:Rule
+    val composeRule = createComposeRule()
 
-	@Test
-	fun overlay() {
-		lateinit var revealState: RevealState
-		lateinit var scope: CoroutineScope
+    @Test
+    fun overlay() {
+        lateinit var revealState: RevealState
+        lateinit var scope: CoroutineScope
 
-		composeRule.setContent {
-			revealState = rememberRevealState()
-			scope = rememberCoroutineScope()
-			RevealScreenshotContent(case, revealState)
-		}
+        composeRule.setContent {
+            revealState = rememberRevealState()
+            scope = rememberCoroutineScope()
+            RevealScreenshotContent(case, revealState)
+        }
 
-		// Lay out the content first so the revealable is registered, then reveal it.
-		composeRule.waitForIdle()
-		scope.launch { revealState.reveal(KEY) }
-		composeRule.waitForIdle()
+        // Lay out the content first so the revealable is registered, then reveal it.
+        composeRule.waitForIdle()
+        scope.launch { revealState.reveal(KEY) }
+        composeRule.waitForIdle()
 
-		composeRule.onRoot().captureRoboImage("screenshots/${case.id}.png")
-	}
+        composeRule.onRoot().captureRoboImage("screenshots/${case.id}.png")
+    }
 
-	enum class Arrangement { Top, Bottom, Start, End }
+    enum class Arrangement { Top, Bottom, Start, End }
 
-	enum class GridPosition(val alignment: Alignment) {
-		TopStart(Alignment.TopStart),
-		TopCenter(Alignment.TopCenter),
-		TopEnd(Alignment.TopEnd),
-		CenterStart(Alignment.CenterStart),
-		Center(Alignment.Center),
-		CenterEnd(Alignment.CenterEnd),
-		BottomStart(Alignment.BottomStart),
-		BottomCenter(Alignment.BottomCenter),
-		BottomEnd(Alignment.BottomEnd),
-	}
+    enum class GridPosition(val alignment: Alignment) {
+        TopStart(Alignment.TopStart),
+        TopCenter(Alignment.TopCenter),
+        TopEnd(Alignment.TopEnd),
+        CenterStart(Alignment.CenterStart),
+        Center(Alignment.Center),
+        CenterEnd(Alignment.CenterEnd),
+        BottomStart(Alignment.BottomStart),
+        BottomCenter(Alignment.BottomCenter),
+        BottomEnd(Alignment.BottomEnd),
+    }
 
-	data class Case(val position: GridPosition, val arrangement: Arrangement, val anchored: Boolean) {
-		val id: String =
-			"${arrangement.name.lowercase()}_${position.name}_${if (anchored) "anchored" else "centered"}"
+    data class Case(
+        val position: GridPosition,
+        val arrangement: Arrangement,
+        val anchored: Boolean,
+    ) {
+        val id: String =
+            "${arrangement.name.lowercase()}_${position.name}_${if (anchored) "anchored" else "centered"}"
 
-		override fun toString(): String = id
-	}
+        override fun toString(): String = id
+    }
 
-	companion object {
-		const val KEY: String = "target"
+    companion object {
+        const val KEY: String = "target"
 
-		@JvmStatic
-		@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
-		fun cases(): List<Case> = buildList {
-			for (position in GridPosition.entries) {
-				for (arrangement in Arrangement.entries) {
-					for (anchored in listOf(true, false)) {
-						add(Case(position, arrangement, anchored))
-					}
-				}
-			}
-		}
-	}
+        @JvmStatic
+        @ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
+        fun cases(): List<Case> = buildList {
+            for (position in GridPosition.entries) {
+                for (arrangement in Arrangement.entries) {
+                    for (anchored in listOf(true, false)) {
+                        add(Case(position, arrangement, anchored))
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable
 private fun RevealScreenshotContent(
-	case: RevealOverlayScreenshotTest.Case,
-	revealState: RevealState,
+    case: RevealOverlayScreenshotTest.Case,
+    revealState: RevealState,
 ) {
-	val revealCanvasState = rememberRevealCanvasState()
+    val revealCanvasState = rememberRevealCanvasState()
 
-	RevealCanvas(
-		revealCanvasState = revealCanvasState,
-		modifier = Modifier
-			.fillMaxSize()
-			.background(Color.White),
-	) {
-		Reveal(
-			modifier = Modifier.fillMaxSize(),
-			revealCanvasState = revealCanvasState,
-			revealState = revealState,
-			// Use instant animations so the overlay is fully visible for a deterministic capture.
-			overlayEffect = DimRevealOverlayEffect(
-				alphaAnimationSpec = snap(),
-				contentAlphaAnimationSpec = snap(),
-			),
-			overlayContent = { OverlayBalloon(case) },
-		) {
-			Box(modifier = Modifier.fillMaxSize()) {
-				Box(
-					modifier = Modifier
-						.align(case.position.alignment)
-						.padding(24.dp)
-						.size(48.dp)
-						.background(Color.Blue)
-						.revealable(key = RevealOverlayScreenshotTest.KEY),
-				)
-			}
-		}
-	}
+    RevealCanvas(
+        revealCanvasState = revealCanvasState,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+    ) {
+        Reveal(
+            modifier = Modifier.fillMaxSize(),
+            revealCanvasState = revealCanvasState,
+            revealState = revealState,
+            // Use instant animations so the overlay is fully visible for a deterministic capture.
+            overlayEffect = DimRevealOverlayEffect(
+                alphaAnimationSpec = snap(),
+                contentAlphaAnimationSpec = snap(),
+            ),
+            overlayContent = { OverlayBalloon(case) },
+        ) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .align(case.position.alignment)
+                        .padding(24.dp)
+                        .size(48.dp)
+                        .background(Color.Blue)
+                        .revealable(key = RevealOverlayScreenshotTest.KEY),
+                )
+            }
+        }
+    }
 }
 
 @Composable
 private fun RevealOverlayScope.OverlayBalloon(case: RevealOverlayScreenshotTest.Case) {
-	val anchored = case.anchored
-	val modifier: Modifier
-	val arrow: Arrow
-	when (case.arrangement) {
-		RevealOverlayScreenshotTest.Arrangement.Top -> {
-			modifier = Modifier.align(verticalArrangement = RevealOverlayArrangement.Top)
-			arrow = Arrow.bottom(anchorToReveal = anchored)
-		}
+    val anchored = case.anchored
+    val modifier: Modifier
+    val arrow: Arrow
+    when (case.arrangement) {
+        RevealOverlayScreenshotTest.Arrangement.Top -> {
+            modifier = Modifier.align(verticalArrangement = RevealOverlayArrangement.Top)
+            arrow = Arrow.bottom(anchorToReveal = anchored)
+        }
 
-		RevealOverlayScreenshotTest.Arrangement.Bottom -> {
-			modifier = Modifier.align(verticalArrangement = RevealOverlayArrangement.Bottom)
-			arrow = Arrow.top(anchorToReveal = anchored)
-		}
+        RevealOverlayScreenshotTest.Arrangement.Bottom -> {
+            modifier = Modifier.align(verticalArrangement = RevealOverlayArrangement.Bottom)
+            arrow = Arrow.top(anchorToReveal = anchored)
+        }
 
-		RevealOverlayScreenshotTest.Arrangement.Start -> {
-			modifier = Modifier.align(horizontalArrangement = RevealOverlayArrangement.Start)
-			arrow = Arrow.end(anchorToReveal = anchored)
-		}
+        RevealOverlayScreenshotTest.Arrangement.Start -> {
+            modifier = Modifier.align(horizontalArrangement = RevealOverlayArrangement.Start)
+            arrow = Arrow.end(anchorToReveal = anchored)
+        }
 
-		RevealOverlayScreenshotTest.Arrangement.End -> {
-			modifier = Modifier.align(horizontalArrangement = RevealOverlayArrangement.End)
-			arrow = Arrow.start(anchorToReveal = anchored)
-		}
-	}
+        RevealOverlayScreenshotTest.Arrangement.End -> {
+            modifier = Modifier.align(horizontalArrangement = RevealOverlayArrangement.End)
+            arrow = Arrow.start(anchorToReveal = anchored)
+        }
+    }
 
-	Balloon(
-		modifier = modifier.padding(8.dp),
-		arrow = arrow,
-		backgroundColor = Color(0xFFD0D0FF),
-		cornerRadius = 8.dp,
-	) {
-		Text(
-			modifier = Modifier.padding(8.dp),
-			text = "Explanation text for the revealed item",
-		)
-	}
+    Balloon(
+        modifier = modifier.padding(8.dp),
+        arrow = arrow,
+        backgroundColor = Color(0xFFD0D0FF),
+        cornerRadius = 8.dp,
+    ) {
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = "Explanation text for the revealed item",
+        )
+    }
 }

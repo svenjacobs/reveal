@@ -25,11 +25,11 @@ import com.svenjacobs.reveal.common.inserter.RevealOverlayInserter
  * @see InPlaceRevealOverlayInserter
  */
 public class FullscreenRevealOverlayInserter(
-	override val revealableOffset: DpOffset = DpOffset.Zero,
+    override val revealableOffset: DpOffset = DpOffset.Zero,
 ) : RevealOverlayInserter {
 
-	@Composable
-	override fun Container(content: @Composable () -> Unit) {
-		Fullscreen(content = content)
-	}
+    @Composable
+    override fun Container(content: @Composable () -> Unit) {
+        Fullscreen(content = content)
+    }
 }

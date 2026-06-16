@@ -8,14 +8,14 @@ import com.svenjacobs.reveal.demo.presentation.theme.DemoTheme
 
 @Composable
 fun App(modifier: Modifier = Modifier) {
-	DemoTheme {
-		val revealCanvasState = rememberRevealCanvasState()
+    DemoTheme {
+        val revealCanvasState = rememberRevealCanvasState()
 
-		RevealCanvas(
-			revealCanvasState = revealCanvasState,
-			modifier = modifier,
-		) {
-			MainScreen(revealCanvasState = revealCanvasState)
-		}
-	}
+        RevealCanvas(
+            revealCanvasState = revealCanvasState,
+            modifier = modifier,
+        ) {
+            MainScreen(revealCanvasState = revealCanvasState)
+        }
+    }
 }

@@ -13,6 +13,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.key
+import androidx.compose.runtime.movableContentOf
+import androidx.compose.runtime.movableContentWithReceiverOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -51,137 +53,140 @@ import com.svenjacobs.reveal.internal.rect.toIntRect
  */
 @Immutable
 public class DimRevealOverlayEffect(
-	override val alphaAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
-	private val color: Color = Color.Black.copy(alpha = 0.8f),
-	private val contentAlphaAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
+    override val alphaAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
+    private val color: Color = Color.Black.copy(alpha = 0.8f),
+    private val contentAlphaAnimationSpec: AnimationSpec<Float> = tween(durationMillis = 500),
 ) : RevealOverlayEffect {
 
-	@Composable
-	override fun Overlay(
-		revealState: RevealState,
-		currentRevealable: State<ActualRevealable?>,
-		previousRevealable: State<ActualRevealable?>,
-		modifier: Modifier,
-		content: @Composable RevealOverlayScope.(key: Key) -> Unit,
-	) {
-		val currentItemHolder = currentRevealable.value?.let {
-			rememberDimItemHolder(
-				revealable = it,
-				fromState = Gone,
-				toState = Visible,
-				contentAlphaAnimationSpec = contentAlphaAnimationSpec,
-			)
-		}
+    @Composable
+    override fun Overlay(
+        revealState: RevealState,
+        currentRevealable: State<ActualRevealable?>,
+        previousRevealable: State<ActualRevealable?>,
+        modifier: Modifier,
+        content: @Composable RevealOverlayScope.(key: Key) -> Unit,
+    ) {
+        val currentItemHolder = currentRevealable.value?.let {
+            rememberDimItemHolder(
+                revealable = it,
+                fromState = Gone,
+                toState = Visible,
+                contentAlphaAnimationSpec = contentAlphaAnimationSpec,
+            )
+        }
 
-		val prevItemHolder = previousRevealable.value?.let {
-			rememberDimItemHolder(
-				revealable = it,
-				fromState = Visible,
-				toState = Gone,
-				contentAlphaAnimationSpec = contentAlphaAnimationSpec,
-			)
-		}
+        val prevItemHolder = previousRevealable.value?.let {
+            rememberDimItemHolder(
+                revealable = it,
+                fromState = Visible,
+                toState = Gone,
+                contentAlphaAnimationSpec = contentAlphaAnimationSpec,
+            )
+        }
 
-		val density = LocalDensity.current
+        val density = LocalDensity.current
+        val movableContent = movableContentWithReceiverOf<RevealOverlayScope, Key> { key ->
+            content(key)
+        }
 
-		Box(
-			modifier = modifier
-				.graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
-				.drawBehind {
-					drawRect(color)
-					prevItemHolder?.let { with(it) { draw(density) } }
-					currentItemHolder?.let { with(it) { draw(density) } }
-				},
-		) {
-			prevItemHolder?.let { with(it) { Container(content = content) } }
-			currentItemHolder?.let { with(it) { Container(content = content) } }
-		}
-	}
+        Box(
+            modifier = modifier
+                .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+                .drawBehind {
+                    drawRect(color)
+                    prevItemHolder?.let { with(it) { draw(density) } }
+                    currentItemHolder?.let { with(it) { draw(density) } }
+                },
+        ) {
+            prevItemHolder?.let { with(it) { Container(content = movableContent) } }
+            currentItemHolder?.let { with(it) { Container(content = movableContent) } }
+        }
+    }
 }
 
 @Stable
 private class DimItemHolder(val revealable: ActualRevealable, val contentAlpha: State<Float>) {
 
-	@Composable
-	fun BoxScope.Container(
-		modifier: Modifier = Modifier,
-		content: @Composable RevealOverlayScope.(key: Key) -> Unit,
-	) {
-		// Optimization: don't place element into composition if it isn't visible at all
-		if (contentAlpha.value == 0.0f) return
+    @Composable
+    fun BoxScope.Container(
+        modifier: Modifier = Modifier,
+        content: @Composable RevealOverlayScope.(key: Key) -> Unit,
+    ) {
+        // Optimization: don't place element into composition if it isn't visible at all
+        if (contentAlpha.value == 0.0f) return
 
-		val arrowAnchor = remember { RevealOverlayArrowAnchor() }
+        val arrowAnchor = remember { RevealOverlayArrowAnchor() }
 
-		Box(
-			modifier = modifier
-				.matchParentSize()
-				.alpha(contentAlpha.value),
-			content = {
-				CompositionLocalProvider(
-					LocalRevealOverlayArrowAnchor provides arrowAnchor,
-				) {
-					RevealOverlayScopeInstance(
-						revealableRect = revealable.area.toIntRect(),
-						arrowAnchor = arrowAnchor,
-					).content(revealable.key)
-				}
-			},
-		)
-	}
+        Box(
+            modifier = modifier
+                .matchParentSize()
+                .alpha(contentAlpha.value),
+            content = {
+                CompositionLocalProvider(
+                    LocalRevealOverlayArrowAnchor provides arrowAnchor,
+                ) {
+                    RevealOverlayScopeInstance(
+                        revealableRect = revealable.area.toIntRect(),
+                        arrowAnchor = arrowAnchor,
+                    ).content(revealable.key)
+                }
+            },
+        )
+    }
 
-	fun DrawScope.draw(density: Density) {
-		val path = revealable.createShapePath(
-			density = density,
-			layoutDirection = layoutDirection,
-		)
+    fun DrawScope.draw(density: Density) {
+        val path = revealable.createShapePath(
+            density = density,
+            layoutDirection = layoutDirection,
+        )
 
-		drawCutout(path)
-		revealable.borderStroke?.let { drawBorder(path, density, it) }
-	}
+        drawCutout(path)
+        revealable.borderStroke?.let { drawBorder(path, density, it) }
+    }
 
-	private fun DrawScope.drawCutout(path: Path) {
-		drawPath(
-			path = path,
-			color = Color.Black,
-			alpha = contentAlpha.value,
-			blendMode = BlendMode.DstOut,
-		)
-	}
+    private fun DrawScope.drawCutout(path: Path) {
+        drawPath(
+            path = path,
+            color = Color.Black,
+            alpha = contentAlpha.value,
+            blendMode = BlendMode.DstOut,
+        )
+    }
 
-	private fun DrawScope.drawBorder(path: Path, density: Density, borderStroke: BorderStroke) {
-		drawPath(
-			path = path,
-			brush = borderStroke.brush,
-			style = Stroke(width = with(density) { borderStroke.width.toPx() }),
-			alpha = contentAlpha.value,
-		)
-	}
+    private fun DrawScope.drawBorder(path: Path, density: Density, borderStroke: BorderStroke) {
+        drawPath(
+            path = path,
+            brush = borderStroke.brush,
+            style = Stroke(width = with(density) { borderStroke.width.toPx() }),
+            alpha = contentAlpha.value,
+        )
+    }
 }
 
 private enum class DimItemState { Visible, Gone }
 
 @Composable
 private fun rememberDimItemHolder(
-	revealable: ActualRevealable,
-	fromState: DimItemState,
-	toState: DimItemState,
-	contentAlphaAnimationSpec: AnimationSpec<Float>,
+    revealable: ActualRevealable,
+    fromState: DimItemState,
+    toState: DimItemState,
+    contentAlphaAnimationSpec: AnimationSpec<Float>,
 ): DimItemHolder = key(revealable.key) {
-	val targetState = remember { mutableStateOf(fromState) }
-	val contentAlpha = animateFloatAsState(
-		targetValue = if (targetState.value == Visible) 1.0f else 0.0f,
-		animationSpec = contentAlphaAnimationSpec,
-		label = "contentAlpha",
-	)
+    val targetState = remember { mutableStateOf(fromState) }
+    val contentAlpha = animateFloatAsState(
+        targetValue = if (targetState.value == Visible) 1.0f else 0.0f,
+        animationSpec = contentAlphaAnimationSpec,
+        label = "contentAlpha",
+    )
 
-	LaunchedEffect(Unit) {
-		targetState.value = toState
-	}
+    LaunchedEffect(Unit) {
+        targetState.value = toState
+    }
 
-	remember {
-		DimItemHolder(
-			revealable = revealable,
-			contentAlpha = contentAlpha,
-		)
-	}
+    remember {
+        DimItemHolder(
+            revealable = revealable,
+            contentAlpha = contentAlpha,
+        )
+    }
 }

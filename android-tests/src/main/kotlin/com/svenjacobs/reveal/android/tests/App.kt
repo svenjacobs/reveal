@@ -6,9 +6,9 @@ import com.svenjacobs.reveal.common.internal.log.Logger
 
 class App : Application() {
 
-	override fun onCreate() {
-		super.onCreate()
+    override fun onCreate() {
+        super.onCreate()
 
-		Logger.adapter = Logger.Adapter { message, tag -> Log.d(tag, message) }
-	}
+        Logger.adapter = Logger.Adapter { message, tag -> Log.d(tag, message) }
+    }
 }

@@ -1,16 +1,16 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-	alias(libs.plugins.android.library)
-	alias(libs.plugins.compose.compiler)
-	`maven-publish`
-	id("convention.publication")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.compose.compiler)
+    `maven-publish`
+    id("convention.publication")
 }
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 val publicationName by extra { "Reveal (Compat Android)" }
@@ -19,82 +19,82 @@ val androidMinSdk: Int by rootProject.extra
 val androidCompileSdk: Int by rootProject.extra
 
 android {
-	namespace = "com.svenjacobs.reveal.compat.android"
-	compileSdk { version = release(androidCompileSdk) }
+    namespace = "com.svenjacobs.reveal.compat.android"
+    compileSdk { version = release(androidCompileSdk) }
 
-	defaultConfig {
-		minSdk { version = release(androidMinSdk) }
+    defaultConfig {
+        minSdk { version = release(androidMinSdk) }
 
-		aarMetadata {
-			minCompileSdk = androidMinSdk
-		}
+        aarMetadata {
+            minCompileSdk = androidMinSdk
+        }
 
-		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-	}
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 
-	buildTypes {
-		release {
-			isMinifyEnabled = false
-			proguardFiles(
-				getDefaultProguardFile("proguard-android-optimize.txt"),
-				"proguard-rules.pro",
-			)
-		}
-	}
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+        }
+    }
 
-	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_11
-		targetCompatibility = JavaVersion.VERSION_11
-	}
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
 
-	buildFeatures {
-		compose = true
-	}
+    buildFeatures {
+        compose = true
+    }
 
-	publishing {
-		singleVariant("release") {
-			withSourcesJar()
-		}
-	}
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 
-	lint {
-		baseline = file("lint-baseline.xml")
-	}
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
 }
 
 kotlin {
-	explicitApi()
-	compilerOptions {
-		jvmTarget = JvmTarget.JVM_11
-	}
+    explicitApi()
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_11
+    }
 }
 
 publishing {
-	publications {
-		register<MavenPublication>("release") {
-			afterEvaluate {
-				from(components["release"])
-			}
-		}
-	}
+    publications {
+        register<MavenPublication>("release") {
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }
 
 dependencies {
-	api(project(":reveal-common"))
+    api(project(":reveal-common"))
 
-	val composeBom = platform(libs.androidx.compose.bom)
+    val composeBom = platform(libs.androidx.compose.bom)
 
-	implementation(composeBom)
-	api(libs.androidx.compose.foundation)
-	api(libs.androidx.compose.ui)
+    implementation(composeBom)
+    api(libs.androidx.compose.foundation)
+    api(libs.androidx.compose.ui)
 
-	debugApi(libs.androidx.compose.ui.tooling)
+    debugApi(libs.androidx.compose.ui.tooling)
 
-	testImplementation(libs.junit)
-	androidTestImplementation(composeBom)
-	androidTestImplementation(libs.androidx.test.ext.junit)
-	androidTestImplementation(libs.androidx.test.espresso.core)
-	androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    testImplementation(libs.junit)
+    androidTestImplementation(composeBom)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 
-	lintChecks(libs.slack.compose.lint.checks)
+    lintChecks(libs.slack.compose.lint.checks)
 }
