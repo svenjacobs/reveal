@@ -1,5 +1,5 @@
 [versions]
-android-gradle-plugin = "9.2.1"
+android-gradle-plugin = "9.3.0"
 androidx-compose-bom = "2026.06.01"
 jetbrains-compose = "1.11.1"
 kotlin = "2.4.0"
