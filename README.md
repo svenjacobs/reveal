@@ -136,7 +136,8 @@ Reveal(
 ```
 
 The scope of the overlay content composable provides `align()` modifiers to align the item either to
-the start, top, end or bottom of the reveal area.
+the start, top, end or bottom of the reveal area. `align()` must be applied to a direct child of the
+overlay content; it has no effect on elements nested further down the tree.
 
 `Reveal` provides two click listeners: `onRevealableClick` is called when the reveal area is clicked
 with the key of the current revealable as the first argument. `onOverlayClick` is called when the

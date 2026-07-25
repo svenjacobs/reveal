@@ -3,9 +3,11 @@ package com.svenjacobs.reveal
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.layout
-import androidx.compose.ui.unit.IntRect
-import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.layout.IntrinsicMeasurable
+import androidx.compose.ui.node.ModifierNodeElement
+import androidx.compose.ui.node.ParentDataModifierNode
+import androidx.compose.ui.platform.InspectorInfo
+import androidx.compose.ui.unit.Density
 
 /**
  * Scope for overlay content which provides Modifiers to align an element relative to the
@@ -23,8 +25,9 @@ public interface RevealOverlayScope {
      * of the reveal area. For instance use it with a vertical alignment of [Alignment.Top] to
      * implement a custom alignment.
      *
-     * Should be one of the first modifiers applied to the element so that other modifiers are
-     * applied after the element was positioned.
+     * Must be applied to a direct child of the overlay content; the modifier has no effect on
+     * elements nested further down the tree. The position within the modifier chain does not
+     * matter.
      *
      * @param horizontalArrangement Horizontal arrangement (start, end)
      * @param verticalAlignment Vertical alignment of element in relation to reveal area
@@ -45,8 +48,9 @@ public interface RevealOverlayScope {
      * of the reveal area. For instance use it with a horizontal alignment of [Alignment.Start] to
      * implement a custom alignment.
      *
-     * Should be one of the first modifiers applied to the element so that other modifiers are
-     * applied after the element was positioned.
+     * Must be applied to a direct child of the overlay content; the modifier has no effect on
+     * elements nested further down the tree. The position within the modifier chain does not
+     * matter.
      *
      * @param verticalArrangement Vertical arrangement (top, bottom)
      * @param horizontalAlignment Horizontal alignment in relation to reveal area
@@ -61,61 +65,20 @@ public interface RevealOverlayScope {
     ): Modifier
 }
 
-internal class RevealOverlayScopeInstance(
-    private val revealableRect: IntRect,
-    private val arrowAnchor: RevealOverlayArrowAnchor,
-) : RevealOverlayScope {
+internal object RevealOverlayScopeInstance : RevealOverlayScope {
 
     override fun Modifier.align(
         horizontalArrangement: RevealOverlayArrangement.Horizontal,
         verticalAlignment: Alignment.Vertical,
         confineHeight: Boolean,
     ): Modifier = this.then(
-        Modifier.layout { measurable, constraints ->
-            val space = IntSize(
-                width = constraints.maxWidth,
-                height = constraints.maxHeight,
-            )
-            val layoutSize = horizontalArrangement.arrange(
-                revealable = revealableRect,
-                space = space,
+        RevealOverlayAlignElement(
+            alignment = RevealOverlayAlignmentHorizontal(
+                arrangement = horizontalArrangement,
+                verticalAlignment = verticalAlignment,
                 confineHeight = confineHeight,
-                layoutDirection = layoutDirection,
-            )
-            // Constrain the content to the available space so it never exceeds the
-            // boundaries of the screen. The width is confined to the arranged layout area
-            // (the space beside the reveal area), the height to the whole available space.
-            val placeable = measurable.measure(
-                constraints.copy(
-                    maxWidth = layoutSize.width,
-                    maxHeight = space.height,
-                ),
-            )
-
-            layout(space.width, space.height) {
-                val x = horizontalArrangement.align(
-                    size = placeable.width,
-                    layout = layoutSize.width,
-                    space = space.width,
-                )
-                val y = layoutSize.top +
-                    verticalAlignment.align(
-                        size = placeable.height,
-                        space = layoutSize.height,
-                    )
-                val placedX = x.coerceWithin(size = placeable.width, space = space.width)
-                val placedY = y.coerceWithin(size = placeable.height, space = space.height)
-                // The content is placed to the side of the reveal area, so the arrow points
-                // horizontally and slides along the vertical axis towards the reveal center.
-                // The offset is stored relative to the composable's outer center so that the
-                // BalloonShape can recover the correct shape-local coordinate via size/2 + offset
-                // without needing to know the caller's outer padding value.
-                arrowAnchor.offsetX = null
-                arrowAnchor.offsetY =
-                    (revealableRect.center.y - placedY - placeable.height / 2).toFloat()
-                placeable.placeRelative(x = placedX, y = placedY)
-            }
-        },
+            ),
+        ),
     )
 
     override fun Modifier.align(
@@ -123,62 +86,58 @@ internal class RevealOverlayScopeInstance(
         horizontalAlignment: Alignment.Horizontal,
         confineWidth: Boolean,
     ): Modifier = this.then(
-        Modifier.layout { measurable, constraints ->
-            val space = IntSize(
-                width = constraints.maxWidth,
-                height = constraints.maxHeight,
-            )
-            val layoutSize = verticalArrangement.arrange(
-                revealable = revealableRect,
-                space = space,
+        RevealOverlayAlignElement(
+            alignment = RevealOverlayAlignmentVertical(
+                arrangement = verticalArrangement,
+                horizontalAlignment = horizontalAlignment,
                 confineWidth = confineWidth,
-            )
-            // Constrain the content to the available space so it never exceeds the
-            // boundaries of the screen. The height is confined to the arranged layout area
-            // (the space above/below the reveal area), the width to the whole available space.
-            val placeable = measurable.measure(
-                constraints.copy(
-                    maxWidth = space.width,
-                    maxHeight = layoutSize.height,
-                ),
-            )
-
-            layout(space.width, space.height) {
-                // Using place() instead of placeRelative() because layoutSize and the value
-                // returned by horizontalAlignment.align() are RTL-aware
-                val x = layoutSize.left +
-                    horizontalAlignment.align(
-                        size = placeable.width,
-                        space = layoutSize.width,
-                        layoutDirection = layoutDirection,
-                    )
-                val y = verticalArrangement.align(
-                    size = placeable.height,
-                    layout = layoutSize.height,
-                    space = space.height,
-                )
-                val placedX = x.coerceWithin(size = placeable.width, space = space.width)
-                val placedY = y.coerceWithin(size = placeable.height, space = space.height)
-                // The content is placed above/below the reveal area, so the arrow points
-                // vertically and slides along the horizontal axis towards the reveal center.
-                // The offset is stored relative to the composable's outer center so that the
-                // BalloonShape can recover the correct shape-local coordinate via size/2 + offset
-                // without needing to know the caller's outer padding value.
-                arrowAnchor.offsetX =
-                    (revealableRect.center.x - placedX - placeable.width / 2).toFloat()
-                arrowAnchor.offsetY = null
-                placeable.place(
-                    x = placedX,
-                    y = placedY,
-                )
-            }
-        },
+            ),
+        ),
     )
 }
 
 /**
- * Coerces this offset so that an element of [size] is fully contained within [space], shifting it
- * back into bounds when it would otherwise overflow the start or end of the available space.
+ * Parent data attached by [RevealOverlayScope.align], read by [RevealOverlayLayout] to measure and
+ * place its children at their real coordinates. Using parent data (rather than [Modifier.layout])
+ * ensures that the layout node of an aligned element always reports its actual size and on-screen
+ * position, so that semantics/accessibility bounds match what is drawn regardless of the order in
+ * which modifiers are applied.
  */
-private fun Int.coerceWithin(size: Int, space: Int): Int =
-    coerceIn(0, (space - size).coerceAtLeast(0))
+internal sealed interface RevealOverlayAlignment
+
+internal data class RevealOverlayAlignmentHorizontal(
+    val arrangement: RevealOverlayArrangement.Horizontal,
+    val verticalAlignment: Alignment.Vertical,
+    val confineHeight: Boolean,
+) : RevealOverlayAlignment
+
+internal data class RevealOverlayAlignmentVertical(
+    val arrangement: RevealOverlayArrangement.Vertical,
+    val horizontalAlignment: Alignment.Horizontal,
+    val confineWidth: Boolean,
+) : RevealOverlayAlignment
+
+internal val IntrinsicMeasurable.revealOverlayAlignment: RevealOverlayAlignment?
+    get() = parentData as? RevealOverlayAlignment
+
+private data class RevealOverlayAlignElement(val alignment: RevealOverlayAlignment) :
+    ModifierNodeElement<RevealOverlayAlignNode>() {
+
+    override fun create(): RevealOverlayAlignNode = RevealOverlayAlignNode(alignment)
+
+    override fun update(node: RevealOverlayAlignNode) {
+        node.alignment = alignment
+    }
+
+    override fun InspectorInfo.inspectableProperties() {
+        name = "align"
+        value = alignment
+    }
+}
+
+private class RevealOverlayAlignNode(var alignment: RevealOverlayAlignment) :
+    Modifier.Node(),
+    ParentDataModifierNode {
+
+    override fun Density.modifyParentData(parentData: Any?): Any? = alignment
+}
