@@ -33,8 +33,8 @@ import com.svenjacobs.reveal.ActualRevealable
 import com.svenjacobs.reveal.Key
 import com.svenjacobs.reveal.LocalRevealOverlayArrowAnchor
 import com.svenjacobs.reveal.RevealOverlayArrowAnchor
+import com.svenjacobs.reveal.RevealOverlayLayout
 import com.svenjacobs.reveal.RevealOverlayScope
-import com.svenjacobs.reveal.RevealOverlayScopeInstance
 import com.svenjacobs.reveal.RevealState
 import com.svenjacobs.reveal.effect.RevealOverlayEffect
 import com.svenjacobs.reveal.effect.dim.DimItemState.Gone
@@ -117,21 +117,17 @@ private class DimItemHolder(val revealable: ActualRevealable, val contentAlpha: 
 
         val arrowAnchor = remember { RevealOverlayArrowAnchor() }
 
-        Box(
-            modifier = modifier
-                .matchParentSize()
-                .alpha(contentAlpha.value),
-            content = {
-                CompositionLocalProvider(
-                    LocalRevealOverlayArrowAnchor provides arrowAnchor,
-                ) {
-                    RevealOverlayScopeInstance(
-                        revealableRect = revealable.area.toIntRect(),
-                        arrowAnchor = arrowAnchor,
-                    ).content(revealable.key)
-                }
-            },
-        )
+        CompositionLocalProvider(LocalRevealOverlayArrowAnchor provides arrowAnchor) {
+            RevealOverlayLayout(
+                revealableRect = revealable.area.toIntRect(),
+                arrowAnchor = arrowAnchor,
+                modifier = modifier
+                    .matchParentSize()
+                    .alpha(contentAlpha.value),
+            ) {
+                content(revealable.key)
+            }
+        }
     }
 
     fun DrawScope.draw(density: Density) {
