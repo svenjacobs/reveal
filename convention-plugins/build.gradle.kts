@@ -32,4 +32,14 @@ dependencies {
         name = "gradle",
         version = libs.findVersion("android-gradle-plugin").get().requiredVersion,
     )
+    implementation(
+        group = "com.vanniktech",
+        name = "gradle-maven-publish-plugin",
+        version = libs.findVersion("vanniktech-maven-publish").get().requiredVersion,
+    )
+    implementation(
+        group = "org.jetbrains.dokka",
+        name = "dokka-gradle-plugin",
+        version = libs.findVersion("dokka").get().requiredVersion,
+    )
 }
