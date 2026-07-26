@@ -2,10 +2,12 @@
 android-gradle-plugin = "9.3.1"
 androidx-activity = "1.13.0"
 androidx-compose-bom = "2026.06.01" # https://developer.android.com/jetpack/compose/bom/bom-mapping
+dokka = "2.2.0"
 jetbrains-compose = "1.11.0"
 kotlin = "2.4.10"
 roborazzi = "1.70.0"
 robolectric = "4.16.1"
+vanniktech-maven-publish = "0.37.0"
 
 [libraries]
 androidx-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
@@ -43,7 +45,8 @@ jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", ve
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ben-manes-versions = "com.github.ben-manes.versions:0.54.0"
-nexus-publish = "io.github.gradle-nexus.publish-plugin:2.0.0"
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kotlinter = "org.jmailen.kotlinter:5.6.0"
 binary-compat-validator = "org.jetbrains.kotlinx.binary-compatibility-validator:0.18.1"
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
+vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech-maven-publish" }

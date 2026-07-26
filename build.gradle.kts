@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.android.multiplatform.library) apply false
     alias(libs.plugins.compose.compiler) apply false
-    alias(libs.plugins.nexus.publish)
     alias(libs.plugins.ben.manes.versions)
     alias(libs.plugins.kotlinter)
     alias(libs.plugins.binary.compat.validator)
@@ -19,7 +18,7 @@ plugins {
 }
 
 group = "com.svenjacobs.reveal"
-version = (System.getenv("RELEASE_TAG_NAME") ?: "SNAPSHOT").replace("v", "")
+version = (System.getenv("RELEASE_TAG_NAME") ?: "0.0.1-SNAPSHOT").replace("v", "")
 
 subprojects {
     apply(plugin = "org.jmailen.kotlinter")
@@ -35,15 +34,6 @@ apiValidation {
         enabled = true
     }
 
-}
-
-nexusPublishing {
-    repositories {
-        sonatype {
-            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
-        }
-    }
 }
 
 tasks.withType<DependencyUpdatesTask> {

@@ -5,7 +5,12 @@ plugins {
 }
 
 val baseName by extra { "reveal-shapes" }
-val publicationName by extra { "Reveal (Shapes)" }
+
+mavenPublishing {
+    pom {
+        name.set("Reveal (Shapes)")
+    }
+}
 
 val androidMinSdk: Int by rootProject.extra
 val androidCompileSdk: Int by rootProject.extra

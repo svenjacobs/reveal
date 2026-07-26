@@ -5,7 +5,12 @@ plugins {
 }
 
 val baseName by extra { "reveal-core" }
-val publicationName by extra { "Reveal (Core)" }
+
+mavenPublishing {
+    pom {
+        name.set("Reveal (Core)")
+    }
+}
 
 val androidMinSdk: Int by rootProject.extra
 val androidTargetSdk: Int by rootProject.extra
