@@ -11,35 +11,18 @@ repositories {
     gradlePluginPortal()
 }
 
+fun version(alias: String): String = libs.findVersion(alias).get().requiredVersion
+
 dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${version("kotlin")}")
+    implementation("org.jetbrains.compose:compose-gradle-plugin:${version("jetbrains-compose")}")
     implementation(
-        group = "org.jetbrains.kotlin",
-        name = "kotlin-gradle-plugin",
-        version = libs.findVersion("kotlin").get().requiredVersion,
+        "org.jetbrains.kotlin.plugin.compose:" +
+            "org.jetbrains.kotlin.plugin.compose.gradle.plugin:${version("kotlin")}",
     )
+    implementation("com.android.tools.build:gradle:${version("android-gradle-plugin")}")
     implementation(
-        group = "org.jetbrains.compose",
-        name = "compose-gradle-plugin",
-        version = libs.findVersion("jetbrains-compose").get().requiredVersion,
+        "com.vanniktech:gradle-maven-publish-plugin:${version("vanniktech-maven-publish")}",
     )
-    implementation(
-        group = "org.jetbrains.kotlin.plugin.compose",
-        name = "org.jetbrains.kotlin.plugin.compose.gradle.plugin",
-        version = libs.findVersion("kotlin").get().requiredVersion,
-    )
-    implementation(
-        group = "com.android.tools.build",
-        name = "gradle",
-        version = libs.findVersion("android-gradle-plugin").get().requiredVersion,
-    )
-    implementation(
-        group = "com.vanniktech",
-        name = "gradle-maven-publish-plugin",
-        version = libs.findVersion("vanniktech-maven-publish").get().requiredVersion,
-    )
-    implementation(
-        group = "org.jetbrains.dokka",
-        name = "dokka-gradle-plugin",
-        version = libs.findVersion("dokka").get().requiredVersion,
-    )
+    implementation("org.jetbrains.dokka:dokka-gradle-plugin:${version("dokka")}")
 }

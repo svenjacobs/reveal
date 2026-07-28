@@ -5,7 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.v2.createComposeRule
 import com.svenjacobs.reveal.OnClickListener
 import com.svenjacobs.reveal.Reveal
 import com.svenjacobs.reveal.RevealCanvas
