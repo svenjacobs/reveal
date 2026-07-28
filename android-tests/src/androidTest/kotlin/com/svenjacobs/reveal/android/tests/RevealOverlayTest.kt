@@ -13,6 +13,7 @@ class RevealOverlayTest : BaseRevealTest() {
     fun revealShowsOverlay() {
         test { testRule, revealState, scope ->
             scope.launch { revealState.reveal(Keys.Key1) }
+            testRule.waitForIdle()
 
             assertTrue(revealState.isVisible)
             assertEquals(null, revealState.previousRevealableKey)
@@ -22,6 +23,7 @@ class RevealOverlayTest : BaseRevealTest() {
             testRule.onNodeWithText("Overlay2").assertDoesNotExist()
 
             scope.launch { revealState.reveal(Keys.Key2) }
+            testRule.waitForIdle()
 
             assertTrue(revealState.isVisible)
             assertEquals(Keys.Key1, revealState.previousRevealableKey)
@@ -36,11 +38,13 @@ class RevealOverlayTest : BaseRevealTest() {
     fun hideHidesOverlay() {
         test { testRule, revealState, scope ->
             scope.launch { revealState.reveal(Keys.Key1) }
+            testRule.waitForIdle()
 
             assertTrue(revealState.isVisible)
             assertEquals(Keys.Key1, revealState.currentRevealableKey)
 
             scope.launch { revealState.hide() }
+            testRule.waitForIdle()
 
             assertFalse(revealState.isVisible)
 
