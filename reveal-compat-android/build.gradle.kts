@@ -18,8 +18,8 @@ mavenPublishing {
     }
 }
 
-val androidMinSdk: Int by rootProject.extra
-val androidCompileSdk: Int by rootProject.extra
+val androidMinSdk = rootProject.extra.get("androidMinSdk") as Int
+val androidCompileSdk = rootProject.extra.get("androidCompileSdk") as Int
 
 android {
     namespace = "com.svenjacobs.reveal.compat.android"

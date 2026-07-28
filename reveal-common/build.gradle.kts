@@ -4,7 +4,7 @@ plugins {
     id("convention.publication")
 }
 
-val baseName by extra { "reveal-common" }
+extra.set("baseName", "reveal-common")
 
 mavenPublishing {
     pom {
@@ -12,8 +12,8 @@ mavenPublishing {
     }
 }
 
-val androidMinSdk: Int by rootProject.extra
-val androidCompileSdk: Int by rootProject.extra
+val androidMinSdk = rootProject.extra.get("androidMinSdk") as Int
+val androidCompileSdk = rootProject.extra.get("androidCompileSdk") as Int
 
 kotlin {
     android {
