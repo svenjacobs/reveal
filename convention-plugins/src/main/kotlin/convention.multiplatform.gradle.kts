@@ -31,7 +31,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         afterEvaluate {
-            val baseName: String by extra
+            val baseName = extra.get("baseName") as String
 
             it.binaries.framework {
                 this.baseName = baseName
@@ -39,7 +39,7 @@ kotlin {
         }
     }
 
-    js(IR) {
+    js {
         browser()
     }
 

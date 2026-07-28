@@ -21,7 +21,7 @@ group = "com.svenjacobs.reveal"
 version = (System.getenv("RELEASE_TAG_NAME") ?: "0.0.1-SNAPSHOT").replace("v", "")
 
 subprojects {
-    apply(plugin = "org.jmailen.kotlinter")
+    plugins.apply("org.jmailen.kotlinter")
 }
 
 apiValidation {
@@ -33,7 +33,10 @@ apiValidation {
     klib {
         enabled = true
     }
+}
 
+tasks.named<UpdateDaemonJvm>("updateDaemonJvm") {
+    languageVersion = JavaLanguageVersion.of(25)
 }
 
 tasks.withType<DependencyUpdatesTask> {
@@ -48,6 +51,6 @@ tasks.withType<DependencyUpdatesTask> {
     }
 }
 
-val androidMinSdk by extra { 23 }
-val androidTargetSdk by extra { 36 }
-val androidCompileSdk by extra { 36 }
+extra.set("androidMinSdk", 23)
+extra.set("androidTargetSdk", 37)
+extra.set("androidCompileSdk", 37)

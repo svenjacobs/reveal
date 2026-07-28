@@ -6,8 +6,8 @@ plugins {
     alias(libs.plugins.roborazzi)
 }
 
-val androidTargetSdk: Int by rootProject.extra
-val androidCompileSdk: Int by rootProject.extra
+val androidTargetSdk = rootProject.extra.get("androidTargetSdk") as Int
+val androidCompileSdk = rootProject.extra.get("androidCompileSdk") as Int
 
 java {
     toolchain {
