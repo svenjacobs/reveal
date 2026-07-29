@@ -1,16 +1,16 @@
 package com.svenjacobs.reveal.android.tests
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.v2.createComposeRule
+import androidx.compose.ui.unit.dp
 import com.svenjacobs.reveal.OnClickListener
 import com.svenjacobs.reveal.Reveal
-import com.svenjacobs.reveal.RevealCanvas
 import com.svenjacobs.reveal.RevealState
-import com.svenjacobs.reveal.rememberRevealCanvasState
 import com.svenjacobs.reveal.rememberRevealState
 import kotlinx.coroutines.CoroutineScope
 import org.junit.Rule
@@ -38,33 +38,34 @@ abstract class BaseRevealTest {
             scope = rememberCoroutineScope()
             revealState = rememberRevealState()
 
-            val revealCanvasState = rememberRevealCanvasState()
+            Reveal(
+                // this must take full screen for correct clicks handling by test runner
+                modifier = Modifier.fillMaxSize(),
+                onRevealableClick = onRevealableClick,
+                onOverlayClick = onOverlayClick,
+                revealState = revealState,
+                overlayContent = { key ->
+                    when (key) {
+                        Keys.Key1 -> Text("Overlay1")
+                        Keys.Key2 -> Text("Overlay2")
+                    }
+                },
+            ) {
+                Text(
+                    // Unaligned overlay content (e.g. "Overlay1" in RevealTest) is placed at the
+                    // popup's own top-left, which - unlike the app's own window - is not inset by
+                    // system bars (the popup deliberately draws behind them). A generous padding
+                    // keeps the revealable's mapped area overlapping that corner regardless of
+                    // system bar height, so tests relying on that overlap aren't tied to a specific
+                    // screen/density/system bar configuration.
+                    modifier = Modifier.revealable(key = Keys.Key1, padding = PaddingValues(64.dp)),
+                    text = "Element1",
+                )
 
-            RevealCanvas(revealCanvasState = revealCanvasState) {
-                Reveal(
-                    // this must take full screen for correct clicks handling by test runner
-                    modifier = Modifier.fillMaxSize(),
-                    onRevealableClick = onRevealableClick,
-                    onOverlayClick = onOverlayClick,
-                    revealCanvasState = revealCanvasState,
-                    revealState = revealState,
-                    overlayContent = { key ->
-                        when (key) {
-                            Keys.Key1 -> Text("Overlay1")
-                            Keys.Key2 -> Text("Overlay2")
-                        }
-                    },
-                ) {
-                    Text(
-                        modifier = Modifier.revealable(key = Keys.Key1),
-                        text = "Element1",
-                    )
-
-                    Text(
-                        modifier = Modifier.revealable(key = Keys.Key2),
-                        text = "Element2",
-                    )
-                }
+                Text(
+                    modifier = Modifier.revealable(key = Keys.Key2, padding = PaddingValues(64.dp)),
+                    text = "Element2",
+                )
             }
         }
 

@@ -7,26 +7,31 @@ import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.LayoutDirection
-import com.svenjacobs.reveal.common.inserter.RevealOverlayInserter
+import androidx.compose.ui.window.Popup
 import com.svenjacobs.reveal.effect.RevealOverlayEffect
 import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
+import com.svenjacobs.reveal.internal.popup.RevealOverlayPopupPositionProvider
+import com.svenjacobs.reveal.internal.popup.revealOverlayPopupProperties
 
 /**
  * Container composable for the reveal effect.
@@ -42,12 +47,11 @@ import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
  * images) next to the reveal area. This content is placed above the greyed out backdrop. Elements
  * in this scope can be aligned relative to the reveal area via [RevealOverlayScope.align].
  *
- * This composable requires a higher level [RevealCanvas] and its associated [RevealCanvasState].
- * While there should be only one [RevealCanvas] per application at a top position in the Compose
- * hierarchy, there can be many [Reveal] instances. The recommendation is one instance per "screen".
- * However only one [Reveal] should be active/visible at a time.
+ * The overlay effect is rendered in a full screen [Popup], so [Reveal] can be placed anywhere in
+ * the Compose hierarchy, including inside a `ModalBottomSheet` or `Dialog`, and the effect is
+ * always drawn above the rest of that window's content. There can be many [Reveal] instances,
+ * however only one should be active/visible at a time.
  *
- * @param revealCanvasState  State of higher level [RevealCanvas]
  * @param modifier           Modifier applied to this composable.
  * @param onRevealableClick  Called when the revealable area was clicked, where the parameter `key`
  *                           is the key of the current revealable item. Is not called for an item
@@ -66,16 +70,13 @@ import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
  *                           active. Elements are registered as revealables via modifiers provided
  *                           in the scope of this composable.
  *
- * @see RevealCanvas
  * @see RevealState
  * @see RevealScope
  * @see RevealOverlayScope
  * @see DimRevealOverlayEffect
- * @see RevealOverlayInserter
  */
 @Composable
 public fun Reveal(
-    revealCanvasState: RevealCanvasState,
     modifier: Modifier = Modifier,
     onRevealableClick: OnClickListener = {},
     onOverlayClick: OnClickListener = {},
@@ -97,12 +98,35 @@ public fun Reveal(
     val layoutDirection = LocalLayoutDirection.current
     val density = LocalDensity.current
 
+    // Reveal areas are recorded relative to this composable's composition root
+    // (Modifier.revealable uses positionInRoot()), while the overlay is rendered in the popup's
+    // own composition root. RevealOverlayPopupPositionProvider places that popup at the window
+    // origin, so the popup's local coordinates are window coordinates, and areas are mapped over
+    // by adding the root's own offset within the window.
+    //
+    // Note this is deliberately measured within a single composition root, rather than by
+    // comparing a positionOnScreen() reading taken in each root: screen conversion is not a
+    // portable common reference frame. Compose's skiko backends return Offset.Unspecified (NaN)
+    // from positionOnScreen() while the underlying component isn't showing, which silently
+    // poisons the arithmetic and places the reveal area nowhere.
+    var rootOffsetInWindow by remember { mutableStateOf(Offset.Zero) }
+
     val currentRevealable = remember {
         derivedStateOf {
             revealState.currentRevealable?.toActual(
                 density = density,
                 layoutDirection = layoutDirection,
-                additionalOffset = revealCanvasState.revealableOffset,
+                additionalOffset = rootOffsetInWindow,
+            )
+        }
+    }
+
+    val previousRevealable = remember {
+        derivedStateOf {
+            revealState.previousRevealable?.toActual(
+                density = density,
+                layoutDirection = layoutDirection,
+                additionalOffset = rootOffsetInWindow,
             )
         }
     }
@@ -141,47 +165,38 @@ public fun Reveal(
     }
 
     Box(
-        modifier = modifier
-            .then(clickModifier)
-            .semantics { testTag = "overlay" },
+        modifier = modifier.onGloballyPositioned {
+            rootOffsetInWindow = it.positionInWindow() - it.positionInRoot()
+        },
     ) {
         content(RevealScopeInstance(revealState))
-
-        val previousRevealable = remember {
-            derivedStateOf {
-                revealState.previousRevealable?.toActual(
-                    density = density,
-                    layoutDirection = layoutDirection,
-                    additionalOffset = revealCanvasState.revealableOffset,
-                )
-            }
-        }
-
-        LaunchedEffect(animatedOverlayAlpha) {
-            @Suppress("ktlint:standard:wrapping")
-            revealCanvasState.overlayContent = when {
-                animatedOverlayAlpha > 0.0f -> ({
-                    overlayEffect.Overlay(
-                        revealState = revealState,
-                        currentRevealable = currentRevealable,
-                        previousRevealable = previousRevealable,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .alpha(animatedOverlayAlpha),
-                        content = overlayContent,
-                    )
-                })
-
-                else -> null
-            }
-        }
     }
 
-    // When the Reveal composable is disposed we need to reset overlayContent or else the effect
-    // might remain on the screen (issue #196).
-    DisposableEffect(Unit) {
-        onDispose {
-            revealCanvasState.overlayContent = null
+    if (animatedOverlayAlpha > 0.0f) {
+        Popup(
+            popupPositionProvider = RevealOverlayPopupPositionProvider,
+            properties = revealOverlayPopupProperties(
+                passthrough = rev?.onClick is OnClick.Passthrough,
+            ),
+        ) {
+            Box(Modifier.fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .then(clickModifier)
+                        .semantics { testTag = "overlay" },
+                )
+
+                overlayEffect.Overlay(
+                    revealState = revealState,
+                    currentRevealable = currentRevealable,
+                    previousRevealable = previousRevealable,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .alpha(animatedOverlayAlpha),
+                    content = overlayContent,
+                )
+            }
         }
     }
 }
@@ -191,7 +206,7 @@ public typealias OnClickListener = (key: Key) -> Unit
 private fun Revealable.toActual(
     density: Density,
     layoutDirection: LayoutDirection,
-    additionalOffset: DpOffset,
+    additionalOffset: Offset,
 ): ActualRevealable = ActualRevealable(
     key = key,
     shape = shape,

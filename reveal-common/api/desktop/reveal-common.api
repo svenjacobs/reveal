@@ -11,18 +11,6 @@ public final class com/svenjacobs/reveal/RevealOverlayArrowAnchorKt {
 	public static final fun getLocalRevealOverlayArrowAnchor ()Landroidx/compose/runtime/ProvidableCompositionLocal;
 }
 
-public final class com/svenjacobs/reveal/common/inserter/InPlaceRevealOverlayInserter : com/svenjacobs/reveal/common/inserter/RevealOverlayInserter {
-	public static final field $stable I
-	public fun <init> ()V
-	public fun Container (Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
-	public fun getRevealableOffset-RKDOV3M ()J
-}
-
-public abstract interface class com/svenjacobs/reveal/common/inserter/RevealOverlayInserter {
-	public abstract fun Container (Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
-	public abstract fun getRevealableOffset-RKDOV3M ()J
-}
-
 public final class com/svenjacobs/reveal/common/internal/log/Logger {
 	public static final field $stable I
 	public static final field INSTANCE Lcom/svenjacobs/reveal/common/internal/log/Logger;

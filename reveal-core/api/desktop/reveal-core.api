@@ -23,7 +23,7 @@ public final class com/svenjacobs/reveal/ActualRevealable {
 public final class com/svenjacobs/reveal/ComposableSingletons$RevealKt {
 	public static final field INSTANCE Lcom/svenjacobs/reveal/ComposableSingletons$RevealKt;
 	public fun <init> ()V
-	public final fun getLambda$-10672920$Reveal_reveal_core ()Lkotlin/jvm/functions/Function4;
+	public final fun getLambda$1625692008$Reveal_reveal_core ()Lkotlin/jvm/functions/Function4;
 }
 
 public final class com/svenjacobs/reveal/ModifiersKt {
@@ -58,21 +58,8 @@ public final class com/svenjacobs/reveal/OnClick$Passthrough : com/svenjacobs/re
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class com/svenjacobs/reveal/RevealCanvasKt {
-	public static final fun RevealCanvas (Lcom/svenjacobs/reveal/RevealCanvasState;Landroidx/compose/ui/Modifier;Lcom/svenjacobs/reveal/common/inserter/RevealOverlayInserter;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
-}
-
-public final class com/svenjacobs/reveal/RevealCanvasState {
-	public static final field $stable I
-	public fun <init> ()V
-}
-
-public final class com/svenjacobs/reveal/RevealCanvasStateKt {
-	public static final fun rememberRevealCanvasState (Landroidx/compose/runtime/Composer;I)Lcom/svenjacobs/reveal/RevealCanvasState;
-}
-
 public final class com/svenjacobs/reveal/RevealKt {
-	public static final fun Reveal (Lcom/svenjacobs/reveal/RevealCanvasState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/effect/RevealOverlayEffect;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+	public static final fun Reveal (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lcom/svenjacobs/reveal/RevealState;Lcom/svenjacobs/reveal/effect/RevealOverlayEffect;Lkotlin/jvm/functions/Function4;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class com/svenjacobs/reveal/RevealOverlayArrangement {

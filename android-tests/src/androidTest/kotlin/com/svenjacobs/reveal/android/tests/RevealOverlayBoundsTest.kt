@@ -15,14 +15,11 @@ import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.unit.dp
 import com.svenjacobs.reveal.Reveal
-import com.svenjacobs.reveal.RevealCanvas
 import com.svenjacobs.reveal.RevealOverlayArrangement
 import com.svenjacobs.reveal.RevealOverlayScope
 import com.svenjacobs.reveal.RevealState
-import com.svenjacobs.reveal.rememberRevealCanvasState
 import com.svenjacobs.reveal.rememberRevealState
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.CoroutineScope
@@ -109,30 +106,23 @@ class RevealOverlayBoundsTest {
         composeTestRule.setContent {
             scope = rememberCoroutineScope()
             revealState = rememberRevealState()
-            val revealCanvasState = rememberRevealCanvasState()
 
-            RevealCanvas(
-                revealCanvasState = revealCanvasState,
+            Reveal(
                 modifier = Modifier.fillMaxSize(),
+                revealState = revealState,
+                overlayContent = { overlay() },
             ) {
-                Reveal(
-                    modifier = Modifier.fillMaxSize(),
-                    revealCanvasState = revealCanvasState,
-                    revealState = revealState,
-                    overlayContent = { overlay() },
-                ) {
-                    Box(modifier = Modifier.fillMaxSize()) {
-                        Box(
-                            modifier = Modifier
-                                .align(revealableAlignment)
-                                .padding(16.dp)
-                                .size(24.dp)
-                                .revealable(
-                                    key = Keys.Target,
-                                    padding = PaddingValues(0.dp),
-                                ),
-                        )
-                    }
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Box(
+                        modifier = Modifier
+                            .align(revealableAlignment)
+                            .padding(16.dp)
+                            .size(24.dp)
+                            .revealable(
+                                key = Keys.Target,
+                                padding = PaddingValues(0.dp),
+                            ),
+                    )
                 }
             }
         }
@@ -143,7 +133,10 @@ class RevealOverlayBoundsTest {
             composeTestRule.onAllNodesWithTag(OVERLAY_TAG).fetchSemanticsNodes().isNotEmpty()
         }
 
-        val root = composeTestRule.onRoot().getUnclippedBoundsInRoot()
+        // The overlay is rendered inside its own full screen Popup, which is a separate
+        // semantics root, so onRoot() would be ambiguous. Use the library's "overlay" catcher
+        // node (a sibling of the overlay content within the same popup) as the window bounds.
+        val root = composeTestRule.onNodeWithTag("overlay").getUnclippedBoundsInRoot()
         val overlayBounds = composeTestRule.onNodeWithTag(OVERLAY_TAG).getUnclippedBoundsInRoot()
 
         assertTrue(

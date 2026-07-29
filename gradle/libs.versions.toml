@@ -36,6 +36,7 @@ roborazzi-junit-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 compose-multiplatform-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "jetbrains-compose" }
 compose-multiplatform-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "jetbrains-compose" }
+compose-multiplatform-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "jetbrains-compose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }

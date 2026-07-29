@@ -7,7 +7,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.LayoutDirection
 
 @Immutable
@@ -40,25 +39,29 @@ public data class ActualRevealable(
 
 /**
  * Returns [Rect] in pixels of the reveal area including padding for this [Revealable].
+ *
+ * @param additionalOffset Offset in pixels between the composition root of [Reveal] and the
+ *                          window, so that the returned area is expressed in window coordinates,
+ *                          matching the overlay popup.
  */
 internal fun Revealable.computeArea(
     density: Density,
     layoutDirection: LayoutDirection,
-    additionalOffset: DpOffset,
+    additionalOffset: Offset,
 ): Rect = with(density) {
     val rect = Rect(
         left = layout.offset.x +
-            additionalOffset.x.toPx() -
+            additionalOffset.x -
             padding.calculateLeftPadding(layoutDirection).toPx(),
         top = layout.offset.y +
-            additionalOffset.y.toPx() -
+            additionalOffset.y -
             padding.calculateTopPadding().toPx(),
         right = layout.offset.x +
-            additionalOffset.x.toPx() +
+            additionalOffset.x +
             padding.calculateRightPadding(layoutDirection).toPx() +
             layout.size.width,
         bottom = layout.offset.y +
-            additionalOffset.y.toPx() +
+            additionalOffset.y +
             padding.calculateBottomPadding().toPx() +
             layout.size.height,
     )

@@ -30,14 +30,26 @@ kotlin {
     }
 
     sourceSets {
+        val skikoMain = create("skikoMain") {
+            dependsOn(commonMain.get())
+        }
+
         commonMain.dependencies {
             api(project(":reveal-common"))
             implementation(libs.compose.multiplatform.runtime)
             implementation(libs.compose.multiplatform.foundation)
+            implementation(libs.compose.multiplatform.ui)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
+        getByName("androidHostTest").dependencies {
+            implementation(kotlin("test"))
+        }
+        getByName("desktopMain") { dependsOn(skikoMain) }
+        getByName("iosMain") { dependsOn(skikoMain) }
+        getByName("jsMain") { dependsOn(skikoMain) }
+        getByName("wasmJsMain") { dependsOn(skikoMain) }
     }
 }
 
