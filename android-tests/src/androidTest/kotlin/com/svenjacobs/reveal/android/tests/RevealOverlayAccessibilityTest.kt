@@ -16,15 +16,12 @@ import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.dp
 import com.svenjacobs.reveal.Reveal
-import com.svenjacobs.reveal.RevealCanvas
 import com.svenjacobs.reveal.RevealOverlayArrangement
 import com.svenjacobs.reveal.RevealScope
 import com.svenjacobs.reveal.RevealState
-import com.svenjacobs.reveal.rememberRevealCanvasState
 import com.svenjacobs.reveal.rememberRevealState
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
@@ -66,36 +63,29 @@ class RevealOverlayAccessibilityTest {
         composeTestRule.setContent {
             scope = rememberCoroutineScope()
             revealState = rememberRevealState()
-            val revealCanvasState = rememberRevealCanvasState()
 
-            RevealCanvas(
-                revealCanvasState = revealCanvasState,
+            Reveal(
                 modifier = Modifier.fillMaxSize(),
+                revealState = revealState,
+                overlayContent = {
+                    // Composed first so that, under the pre-fix full-screen align() bounds, it
+                    // would be pruned from the semantics tree by the aligned item "drawn on top"
+                    // of it (semantics siblings are processed back-to-front).
+                    Box(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .testTag(SIBLING_TAG)
+                            .clickable { siblingClicked = true },
+                    )
+                    Box(
+                        modifier = Modifier
+                            .testTag(OVERLAY_TAG)
+                            .align(verticalArrangement = RevealOverlayArrangement.Bottom)
+                            .size(width = 120.dp, height = 48.dp),
+                    )
+                },
             ) {
-                Reveal(
-                    modifier = Modifier.fillMaxSize(),
-                    revealCanvasState = revealCanvasState,
-                    revealState = revealState,
-                    overlayContent = {
-                        // Composed first so that, under the pre-fix full-screen align() bounds, it
-                        // would be pruned from the semantics tree by the aligned item "drawn on top"
-                        // of it (semantics siblings are processed back-to-front).
-                        Box(
-                            modifier = Modifier
-                                .size(48.dp)
-                                .testTag(SIBLING_TAG)
-                                .clickable { siblingClicked = true },
-                        )
-                        Box(
-                            modifier = Modifier
-                                .testTag(OVERLAY_TAG)
-                                .align(verticalArrangement = RevealOverlayArrangement.Bottom)
-                                .size(width = 120.dp, height = 48.dp),
-                        )
-                    },
-                ) {
-                    RevealTarget(Keys.Target)
-                }
+                RevealTarget(Keys.Target)
             }
         }
 
@@ -117,41 +107,37 @@ class RevealOverlayAccessibilityTest {
         composeTestRule.setContent {
             scope = rememberCoroutineScope()
             revealState = rememberRevealState()
-            val revealCanvasState = rememberRevealCanvasState()
 
-            RevealCanvas(
-                revealCanvasState = revealCanvasState,
+            Reveal(
                 modifier = Modifier.fillMaxSize(),
-            ) {
-                Reveal(
-                    modifier = Modifier.fillMaxSize(),
-                    revealCanvasState = revealCanvasState,
-                    revealState = revealState,
-                    onOverlayClick = { overlayClicked = true },
-                    overlayContent = {
-                        val itemModifier = if (testTagAppliedBeforeAlign) {
-                            Modifier
-                                .testTag(OVERLAY_TAG)
-                                .align(verticalArrangement = RevealOverlayArrangement.Bottom)
-                                .clickable { itemClicked = true }
-                        } else {
-                            Modifier
-                                .align(verticalArrangement = RevealOverlayArrangement.Bottom)
-                                .testTag(OVERLAY_TAG)
-                                .clickable { itemClicked = true }
-                        }
+                revealState = revealState,
+                onOverlayClick = { overlayClicked = true },
+                overlayContent = {
+                    val itemModifier = if (testTagAppliedBeforeAlign) {
+                        Modifier
+                            .testTag(OVERLAY_TAG)
+                            .align(verticalArrangement = RevealOverlayArrangement.Bottom)
+                            .clickable { itemClicked = true }
+                    } else {
+                        Modifier
+                            .align(verticalArrangement = RevealOverlayArrangement.Bottom)
+                            .testTag(OVERLAY_TAG)
+                            .clickable { itemClicked = true }
+                    }
 
-                        Box(modifier = itemModifier.size(width = 120.dp, height = 48.dp))
-                    },
-                ) {
-                    RevealTarget(Keys.Target)
-                }
+                    Box(modifier = itemModifier.size(width = 120.dp, height = 48.dp))
+                },
+            ) {
+                RevealTarget(Keys.Target)
             }
         }
 
         revealTargetAndWaitForOverlay(scope, revealState)
 
-        val root = composeTestRule.onRoot().getUnclippedBoundsInRoot()
+        // The overlay is rendered inside its own full screen Popup, which is a separate
+        // semantics root, so onRoot() would be ambiguous. Use the library's "overlay" catcher
+        // node (a sibling of the overlay content within the same popup) as the window bounds.
+        val root = composeTestRule.onNodeWithTag("overlay").getUnclippedBoundsInRoot()
         val overlayBounds = composeTestRule.onNodeWithTag(OVERLAY_TAG).getUnclippedBoundsInRoot()
 
         assertTrue(

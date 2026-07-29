@@ -44,46 +44,31 @@ dependencies {
 
 #### Artifacts
 
-| Name                    | Description                                                                 |
-|-------------------------|-----------------------------------------------------------------------------|
-| `reveal-core`           | Contains core classes. You need this 🙂                                     |
-| `reveal-shapes`         | Additional shapes for explanatory items                                     |
-| `reveal-compat-android` | Compatibility utilities for Android targets with a mixed View/Compose setup |
+| Name            | Description                               |
+|------------------|--------------------------------------------|
+| `reveal-core`   | Contains core classes. You need this 🙂    |
+| `reveal-shapes` | Additional shapes for explanatory items    |
 
 ### Compose
 
-There are two significant composables:
-
-First, there is `RevealCanvas`, which is responsible for rendering the effect. There should only be
-one `RevealCanvas` instance in the Compose hierarchy and it should be at a top or the topmost
-position of the tree in order to ensure that the effect is rendered "full screen" above all other
-elements.
-
-Second, the `Reveal` composable is responsible for registration of and interaction with revealable
-items. There can be many `Reveal` instances and they have a direct relation to the `RevealCanvas`
-instance. Usually there should be at most one `Reveal` per "screen" of an application.
+The `Reveal` composable is responsible for registration of, interaction with and rendering the
+effect for revealable items. There can be many `Reveal` instances; usually there should be at most
+one `Reveal` per "screen" of an application. The overlay effect is rendered in a full screen popup,
+so `Reveal` can be placed anywhere in the Compose hierarchy, including inside a `ModalBottomSheet`
+or `Dialog`, and the effect is always drawn above the rest of that window's content.
 
 ```kotlin
 @Composable
 fun App() {
-    val revealCanvasState = rememberRevealCanvasState()
-
-    // Single instance that should be at the top of the Compose hierarchy
-    RevealCanvas(
-        modifier = Modifier.fillMaxSize(),
-        revealCanvasState = revealCanvasState,
-    ) {
-        MainScreen(revealCanvasState = revealCanvasState)
-    }
+    MainScreen()
 }
 
 @Composable
-fun MainScreen(revealCanvasState: RevealCanvasState) {
+fun MainScreen() {
     val revealState = rememberRevealState()
 
     // Usually one instance per screen
     Reveal(
-        revealCanvasState = revealCanvasState,
         revealState = revealState,
         onRevealableClick = {},
         onOverlayClick = {},
@@ -145,8 +130,31 @@ overlay is clicked somewhere, also with the key argument. Use any of these click
 the next item, for example for some kind of tutorial, or to hide the effect via
 `revealState.hide()`.
 
+### Bottom sheets and dialogs
+
+Because the overlay is rendered in a popup attached to whichever window `Reveal` is composed in,
+revealables inside a `ModalBottomSheet` or `Dialog` work as long as `Reveal` itself (and its
+revealables) are placed *inside* that sheet's or dialog's content, with their own `RevealState`:
+
+```kotlin
+ModalBottomSheet(onDismissRequest = { /* ... */ }) {
+    val revealState = rememberRevealState()
+
+    Reveal(revealState = revealState) {
+        // Sheet contents, revealable via Modifier.revealable(...)
+    }
+}
+```
+
+A `Reveal` placed *outside* the sheet cannot reveal items *inside* it, since they live in different
+windows.
+
 That's it for now. For more details have a look at the [demo application](./demo-app) and the
 JavaDoc. The library is well documented 😉
+
+## Migrating from a previous version
+
+See [MIGRATION.md](MIGRATION.md) for breaking changes between major versions.
 
 ## Frequently Asked Questions
 

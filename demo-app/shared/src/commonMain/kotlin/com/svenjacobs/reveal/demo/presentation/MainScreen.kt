@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -15,7 +16,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import com.svenjacobs.reveal.Key
 import com.svenjacobs.reveal.OnClick
 import com.svenjacobs.reveal.Reveal
-import com.svenjacobs.reveal.RevealCanvasState
 import com.svenjacobs.reveal.RevealOverlayArrangement
 import com.svenjacobs.reveal.RevealOverlayScope
 import com.svenjacobs.reveal.RevealShape
@@ -39,9 +43,10 @@ private enum class Keys { Fab, Explanation }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifier) {
+fun MainScreen(modifier: Modifier = Modifier) {
     val scope = rememberCoroutineScope()
     val revealState = rememberRevealState()
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         if (revealState.isVisible) return@LaunchedEffect
@@ -49,10 +54,13 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
         revealState.reveal(Keys.Fab)
     }
 
+    if (showBottomSheet) {
+        BottomSheetScreen(onDismissRequest = { showBottomSheet = false })
+    }
+
     Reveal(
         onOverlayClick = { scope.launch { revealState.hide() } },
         modifier = modifier,
-        revealCanvasState = revealCanvasState,
         revealState = revealState,
         overlayContent = { key -> RevealOverlayContent(key) },
     ) {
@@ -106,6 +114,13 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Justify,
                 )
+
+                Button(
+                    modifier = Modifier.padding(top = 16.dp),
+                    onClick = { showBottomSheet = true },
+                ) {
+                    Text("Show bottom sheet demo")
+                }
             }
         }
     }

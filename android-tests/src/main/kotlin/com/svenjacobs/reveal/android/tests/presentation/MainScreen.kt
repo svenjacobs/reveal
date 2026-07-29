@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import com.svenjacobs.reveal.Key
 import com.svenjacobs.reveal.OnClick
 import com.svenjacobs.reveal.Reveal
-import com.svenjacobs.reveal.RevealCanvasState
 import com.svenjacobs.reveal.RevealOverlayArrangement
 import com.svenjacobs.reveal.RevealOverlayScope
 import com.svenjacobs.reveal.RevealShape
@@ -39,7 +38,7 @@ private enum class Keys { Fab, Explanation }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifier) {
+fun MainScreen(modifier: Modifier = Modifier) {
     val scope = rememberCoroutineScope()
     val revealState = rememberRevealState()
 
@@ -52,7 +51,6 @@ fun MainScreen(revealCanvasState: RevealCanvasState, modifier: Modifier = Modifi
     Reveal(
         onOverlayClick = { scope.launch { revealState.hide() } },
         modifier = modifier,
-        revealCanvasState = revealCanvasState,
         revealState = revealState,
         overlayContent = { key -> RevealOverlayContent(key) },
     ) {

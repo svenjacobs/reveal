@@ -6,22 +6,6 @@
 // - Show declarations: true
 
 // Library unique name: <Reveal:reveal-common>
-abstract interface com.svenjacobs.reveal.common.inserter/RevealOverlayInserter { // com.svenjacobs.reveal.common.inserter/RevealOverlayInserter|null[0]
-    abstract val revealableOffset // com.svenjacobs.reveal.common.inserter/RevealOverlayInserter.revealableOffset|{}revealableOffset[0]
-        abstract fun <get-revealableOffset>(): androidx.compose.ui.unit/DpOffset // com.svenjacobs.reveal.common.inserter/RevealOverlayInserter.revealableOffset.<get-revealableOffset>|<get-revealableOffset>(){}[0]
-
-    abstract fun Container(kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.svenjacobs.reveal.common.inserter/RevealOverlayInserter.Container|Container(kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
-}
-
-final class com.svenjacobs.reveal.common.inserter/InPlaceRevealOverlayInserter : com.svenjacobs.reveal.common.inserter/RevealOverlayInserter { // com.svenjacobs.reveal.common.inserter/InPlaceRevealOverlayInserter|null[0]
-    constructor <init>() // com.svenjacobs.reveal.common.inserter/InPlaceRevealOverlayInserter.<init>|<init>(){}[0]
-
-    final val revealableOffset // com.svenjacobs.reveal.common.inserter/InPlaceRevealOverlayInserter.revealableOffset|{}revealableOffset[0]
-        final fun <get-revealableOffset>(): androidx.compose.ui.unit/DpOffset // com.svenjacobs.reveal.common.inserter/InPlaceRevealOverlayInserter.revealableOffset.<get-revealableOffset>|<get-revealableOffset>(){}[0]
-
-    final fun Container(kotlin/Function2<androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.svenjacobs.reveal.common.inserter/InPlaceRevealOverlayInserter.Container|Container(kotlin.Function2<androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
-}
-
 final class com.svenjacobs.reveal/RevealOverlayArrowAnchor { // com.svenjacobs.reveal/RevealOverlayArrowAnchor|null[0]
     constructor <init>() // com.svenjacobs.reveal/RevealOverlayArrowAnchor.<init>|<init>(){}[0]
 
@@ -45,12 +29,10 @@ final object com.svenjacobs.reveal.common.internal.log/Logger { // com.svenjacob
     }
 }
 
-final val com.svenjacobs.reveal.common.inserter/com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop // com.svenjacobs.reveal.common.inserter/com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop|#static{}com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop[0]
 final val com.svenjacobs.reveal.common.internal.log/com_svenjacobs_reveal_common_internal_log_Logger$stableprop // com.svenjacobs.reveal.common.internal.log/com_svenjacobs_reveal_common_internal_log_Logger$stableprop|#static{}com_svenjacobs_reveal_common_internal_log_Logger$stableprop[0]
 final val com.svenjacobs.reveal/LocalRevealOverlayArrowAnchor // com.svenjacobs.reveal/LocalRevealOverlayArrowAnchor|{}LocalRevealOverlayArrowAnchor[0]
     final fun <get-LocalRevealOverlayArrowAnchor>(): androidx.compose.runtime/ProvidableCompositionLocal<com.svenjacobs.reveal/RevealOverlayArrowAnchor?> // com.svenjacobs.reveal/LocalRevealOverlayArrowAnchor.<get-LocalRevealOverlayArrowAnchor>|<get-LocalRevealOverlayArrowAnchor>(){}[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrowAnchor$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrowAnchor$stableprop|#static{}com_svenjacobs_reveal_RevealOverlayArrowAnchor$stableprop[0]
 
-final fun com.svenjacobs.reveal.common.inserter/com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal.common.inserter/com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop_getter|com_svenjacobs_reveal_common_inserter_InPlaceRevealOverlayInserter$stableprop_getter(){}[0]
 final fun com.svenjacobs.reveal.common.internal.log/com_svenjacobs_reveal_common_internal_log_Logger$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal.common.internal.log/com_svenjacobs_reveal_common_internal_log_Logger$stableprop_getter|com_svenjacobs_reveal_common_internal_log_Logger$stableprop_getter(){}[0]
 final fun com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrowAnchor$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrowAnchor$stableprop_getter|com_svenjacobs_reveal_RevealOverlayArrowAnchor$stableprop_getter(){}[0]

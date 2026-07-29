@@ -13,16 +13,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.junit4.v2.createComposeRule
-import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.unit.dp
-import com.github.takahirom.roborazzi.captureRoboImage
+import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
+import com.github.takahirom.roborazzi.captureScreenRoboImage
 import com.svenjacobs.reveal.Reveal
-import com.svenjacobs.reveal.RevealCanvas
 import com.svenjacobs.reveal.RevealOverlayArrangement
 import com.svenjacobs.reveal.RevealOverlayScope
 import com.svenjacobs.reveal.RevealState
 import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
-import com.svenjacobs.reveal.rememberRevealCanvasState
 import com.svenjacobs.reveal.rememberRevealState
 import com.svenjacobs.reveal.shapes.balloon.Arrow
 import com.svenjacobs.reveal.shapes.balloon.Balloon
@@ -54,6 +52,7 @@ class RevealOverlayScreenshotTest(private val case: Case) {
     @get:Rule
     val composeRule = createComposeRule()
 
+    @OptIn(ExperimentalRoborazziApi::class)
     @Test
     fun overlay() {
         lateinit var revealState: RevealState
@@ -70,7 +69,9 @@ class RevealOverlayScreenshotTest(private val case: Case) {
         scope.launch { revealState.reveal(KEY) }
         composeRule.waitForIdle()
 
-        composeRule.onRoot().captureRoboImage("screenshots/${case.id}.png")
+        // The overlay now renders in its own Popup window, so the screenshot must include all
+        // windows, not just the compose test rule's root.
+        captureScreenRoboImage(filePath = "screenshots/${case.id}.png")
     }
 
     enum class Arrangement { Top, Bottom, Start, End }
@@ -120,35 +121,27 @@ private fun RevealScreenshotContent(
     case: RevealOverlayScreenshotTest.Case,
     revealState: RevealState,
 ) {
-    val revealCanvasState = rememberRevealCanvasState()
-
-    RevealCanvas(
-        revealCanvasState = revealCanvasState,
+    Reveal(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White),
+        revealState = revealState,
+        // Use instant animations so the overlay is fully visible for a deterministic capture.
+        overlayEffect = DimRevealOverlayEffect(
+            alphaAnimationSpec = snap(),
+            contentAlphaAnimationSpec = snap(),
+        ),
+        overlayContent = { OverlayBalloon(case) },
     ) {
-        Reveal(
-            modifier = Modifier.fillMaxSize(),
-            revealCanvasState = revealCanvasState,
-            revealState = revealState,
-            // Use instant animations so the overlay is fully visible for a deterministic capture.
-            overlayEffect = DimRevealOverlayEffect(
-                alphaAnimationSpec = snap(),
-                contentAlphaAnimationSpec = snap(),
-            ),
-            overlayContent = { OverlayBalloon(case) },
-        ) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                Box(
-                    modifier = Modifier
-                        .align(case.position.alignment)
-                        .padding(24.dp)
-                        .size(48.dp)
-                        .background(Color.Blue)
-                        .revealable(key = RevealOverlayScreenshotTest.KEY),
-                )
-            }
+        Box(modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .align(case.position.alignment)
+                    .padding(24.dp)
+                    .size(48.dp)
+                    .background(Color.Blue)
+                    .revealable(key = RevealOverlayScreenshotTest.KEY),
+            )
         }
     }
 }

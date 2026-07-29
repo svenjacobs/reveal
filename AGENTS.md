@@ -9,19 +9,20 @@ mark / onboarding effect, targeting Android, iOS, Desktop and Web.
 
 Modules:
 
-| Module                  | Purpose                                                                                            |
-|-------------------------|----------------------------------------------------------------------------------------------------|
-| `reveal-common`         | Shared common code used by other modules (commonMain only)                                         |
-| `reveal-core`           | Core library: `RevealCanvas`, `Reveal` composable, public API                                      |
-| `reveal-shapes`         | Additional shapes for explanatory overlay items                                                    |
-| `reveal-compat-android` | Compatibility utilities for mixed View/Compose Android setups                                      |
-| `android-tests`         | Android instrumentation/screenshot tests (Roborazzi) for the library                               |
-| `demo-app`              | Separate Gradle build (own `settings.gradle.kts`) demonstrating usage across Android/iOS/Desktop   |
-| `convention-plugins`    | Gradle convention plugins (`convention.multiplatform`, `convention.publication`) shared by modules |
+| Module                | Purpose                                                                                            |
+|-----------------------|------------------------------------------------------------------------------------------------------|
+| `reveal-common`       | Shared common code used by other modules (commonMain only)                                         |
+| `reveal-core`         | Core library: `Reveal` composable, public API                                                      |
+| `reveal-shapes`       | Additional shapes for explanatory overlay items                                                    |
+| `android-tests`       | Android instrumentation/screenshot tests (Roborazzi) for the library                               |
+| `demo-app`            | Separate Gradle build (own `settings.gradle.kts`) demonstrating usage across Android/iOS/Desktop   |
+| `convention-plugins`  | Gradle convention plugins (`convention.multiplatform`, `convention.publication`) shared by modules |
 
 `reveal-core`, `reveal-shapes` and `reveal-common` are Kotlin Multiplatform modules using
-`commonMain`/`commonTest` source sets (plus Android-specific source sets like `androidUnitTest`
-where relevant). `reveal-compat-android` and `android-tests` are Android-only.
+`commonMain`/`commonTest` source sets (plus Android-specific source sets like `androidHostTest`
+where relevant; `reveal-core` additionally has an `androidMain` and a `skikoMain` source set, the
+latter shared by desktop/iOS/JS/wasmJs, for the platform-specific overlay popup implementation).
+`android-tests` is Android-only.
 
 `demo-app` is its own root project with a separate `settings.gradle.kts` and Gradle wrapper —
 treat it as an independent build, not a subproject of the root build.
@@ -61,7 +62,7 @@ these locally before considering a change done.
 
 ## Public API surface
 
-`reveal-core`, `reveal-shapes` and `reveal-compat-android` use the Kotlin binary-compatibility
+`reveal-core`, `reveal-shapes` and `reveal-common` use the Kotlin binary-compatibility
 validator. Each module has an `api/` directory with dumped public API signatures (including
 per-target `.klib` dumps). Any change to public API (new/changed/removed public
 classes/functions/properties) requires running `./gradlew apiDump` and committing the updated
