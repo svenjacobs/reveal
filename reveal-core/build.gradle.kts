@@ -46,6 +46,16 @@ kotlin {
         getByName("androidHostTest").dependencies {
             implementation(kotlin("test"))
         }
+        // Desktop is the only target where the skiko overlay popup implementation can be
+        // exercised headlessly, so the cross-root geometry regression tests live here.
+        getByName("desktopTest").dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.compose.multiplatform.ui.test)
+            // Pulls in the skiko native runtime matching the host, which the tests need in order
+            // to actually lay out a scene.
+            implementation(compose.desktop.currentOs)
+        }
+
         getByName("desktopMain") { dependsOn(skikoMain) }
         getByName("iosMain") { dependsOn(skikoMain) }
         getByName("jsMain") { dependsOn(skikoMain) }
