@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 
 /**
@@ -17,7 +16,7 @@ public interface RevealScope {
      * Registers the element as a revealable item.
      *
      * [key] must be unique in the current scope and should be used for [RevealState.reveal].
-     * Internally [Modifier.onGloballyPositioned] is used. Hence elements are only registered after
+     * Registration happens from a layout modifier node, so elements are only known to Reveal after
      * they have been laid out.
      *
      * If the element that this modifier is applied to leaves the composition while the reveal
@@ -48,8 +47,8 @@ public interface RevealScope {
      * Registers the element as a revealable item.
      *
      * Each key in [keys] must be unique in the current scope and should be used for
-     * [RevealState.reveal]. Internally [Modifier.onGloballyPositioned] is used. Hence elements are
-     * only registered after they have been laid out.
+     * [RevealState.reveal]. Registration happens from a layout modifier node, so elements are only
+     * known to Reveal after they have been laid out.
      *
      * If the element that this modifier is applied to leaves the composition while the reveal
      * effect is shown for the element, the effect is finished.
@@ -79,8 +78,8 @@ public interface RevealScope {
      * Registers the element as a revealable item.
      *
      * Each key specified in [keys] must be unique in the current scope and should be used for
-     * [RevealState.reveal]. Internally [Modifier.onGloballyPositioned] is used. Hence elements are
-     * only registered after they have been laid out.
+     * [RevealState.reveal]. Registration happens from a layout modifier node, so elements are only
+     * known to Reveal after they have been laid out.
      *
      * If the element that this modifier is applied to leaves the composition while the reveal
      * effect is shown for the element, the effect is finished.
