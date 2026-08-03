@@ -23,11 +23,11 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.test.Test
 import kotlin.test.assertTrue
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * Tests for the coordinate mapping between [Reveal]'s own composition root, where reveal areas are

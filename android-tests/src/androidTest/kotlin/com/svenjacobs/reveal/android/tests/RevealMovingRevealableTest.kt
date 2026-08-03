@@ -27,11 +27,11 @@ import com.svenjacobs.reveal.RevealState
 import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
 import com.svenjacobs.reveal.rememberRevealState
 import junit.framework.TestCase.assertTrue
+import kotlin.math.abs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.junit.Rule
 import org.junit.Test
-import kotlin.math.abs
 
 /**
  * Regression test for issue #360: the reveal area must keep tracking the revealable when the
