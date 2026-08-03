@@ -185,6 +185,11 @@ public final class com/svenjacobs/reveal/RevealShape$RoundRect : com/svenjacobs/
 	public synthetic fun <init> (FLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun asRect-uvyYCjk (J)Landroidx/compose/ui/geometry/Rect;
 	public fun clip-Pq9zytI (JLandroidx/compose/ui/unit/Density;Landroidx/compose/ui/unit/LayoutDirection;)Landroidx/compose/ui/graphics/Path;
+	public final fun copy-0680j_4 (F)Lcom/svenjacobs/reveal/RevealShape$RoundRect;
+	public static synthetic fun copy-0680j_4$default (Lcom/svenjacobs/reveal/RevealShape$RoundRect;FILjava/lang/Object;)Lcom/svenjacobs/reveal/RevealShape$RoundRect;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class com/svenjacobs/reveal/RevealState {

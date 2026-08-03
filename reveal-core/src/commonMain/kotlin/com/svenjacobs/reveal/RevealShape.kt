@@ -2,13 +2,13 @@ package com.svenjacobs.reveal
 
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect as ComposeRect
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.geometry.Rect as ComposeRect
 
 /**
  * Shape of the reveal area.
@@ -36,7 +36,12 @@ public sealed interface RevealShape {
             }
     }
 
-    public class RoundRect(private val cornerSize: Dp) : RevealShape {
+    /**
+     * Value equality matters here: this is the default shape of the `revealable` modifier, so a
+     * fresh instance is allocated on every recomposition. Without `equals` no two [Revealable]s
+     * ever compare equal, which defeats snapshot state deduplication.
+     */
+    public data class RoundRect(private val cornerSize: Dp) : RevealShape {
 
         override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
             Path().apply {

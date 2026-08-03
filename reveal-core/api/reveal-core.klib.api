@@ -59,6 +59,10 @@ sealed interface com.svenjacobs.reveal/RevealShape { // com.svenjacobs.reveal/Re
         constructor <init>(androidx.compose.ui.unit/Dp) // com.svenjacobs.reveal/RevealShape.RoundRect.<init>|<init>(androidx.compose.ui.unit.Dp){}[0]
 
         final fun clip(androidx.compose.ui.geometry/Size, androidx.compose.ui.unit/Density, androidx.compose.ui.unit/LayoutDirection): androidx.compose.ui.graphics/Path // com.svenjacobs.reveal/RevealShape.RoundRect.clip|clip(androidx.compose.ui.geometry.Size;androidx.compose.ui.unit.Density;androidx.compose.ui.unit.LayoutDirection){}[0]
+        final fun copy(androidx.compose.ui.unit/Dp = ...): com.svenjacobs.reveal/RevealShape.RoundRect // com.svenjacobs.reveal/RevealShape.RoundRect.copy|copy(androidx.compose.ui.unit.Dp){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // com.svenjacobs.reveal/RevealShape.RoundRect.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // com.svenjacobs.reveal/RevealShape.RoundRect.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // com.svenjacobs.reveal/RevealShape.RoundRect.toString|toString(){}[0]
     }
 
     final object Circle : com.svenjacobs.reveal/RevealShape { // com.svenjacobs.reveal/RevealShape.Circle|null[0]

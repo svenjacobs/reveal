@@ -111,7 +111,7 @@ public fun Reveal(
     // poisons the arithmetic and places the reveal area nowhere.
     var rootOffsetInWindow by remember { mutableStateOf(Offset.Zero) }
 
-    val currentRevealable = remember {
+    val currentRevealable = remember(density, layoutDirection) {
         derivedStateOf {
             revealState.currentRevealable?.toActual(
                 density = density,
@@ -121,7 +121,7 @@ public fun Reveal(
         }
     }
 
-    val previousRevealable = remember {
+    val previousRevealable = remember(density, layoutDirection) {
         derivedStateOf {
             revealState.previousRevealable?.toActual(
                 density = density,
