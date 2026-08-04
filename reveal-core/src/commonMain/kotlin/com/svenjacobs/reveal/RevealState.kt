@@ -70,6 +70,11 @@ public class RevealState internal constructor(
     /**
      * Reveals revealable with given [key]
      *
+     * The reveal area tracks the element for as long as it is revealed: if the element moves or is
+     * resized afterwards — because of a later layout pass, a recomposition, insets settling or
+     * animated content — the effect follows it. There is no need to wait for the layout to become
+     * stable before calling this function.
+     *
      * Might throw [IllegalArgumentException] if the revealable item is not known to Reveal. This
      * might happen if for example the item is in a lazy container and is currently not part of the
      * visible area. It is the duty of the developer to ensure that a revealable item is currently
@@ -136,6 +141,30 @@ public class RevealState internal constructor(
      */
     public fun addRevealable(revealable: Revealable) {
         revealables[revealable.key] = revealable
+
+        // Keep the revealed geometry in sync with later layout passes. onGloballyPositioned fires
+        // again whenever the element moves or is resized, so without this the effect would stay
+        // frozen at the position the element had when reveal() was called.
+        //
+        // Only Layout is carried over, and only when it really changed. The remaining properties
+        // are deliberately kept as captured at reveal time. They come from the modifier call site
+        // and are reallocated on every recomposition, and while most of them compare by value,
+        // OnClick.Listener and RevealShape.Custom wrap caller-supplied lambdas and so cannot.
+        // Assigning the incoming Revealable wholesale would therefore write a never-equal value
+        // into snapshot state from the layout phase, invalidating the composition that reads it,
+        // which reallocates those lambdas and re-triggers this callback — composition would never
+        // go idle. Offset and Size do compare by value, so this converges once the layout settles.
+        currentRevealable?.let { current ->
+            if (current.key == revealable.key && current.layout != revealable.layout) {
+                currentRevealable = current.copy(layout = revealable.layout)
+            }
+        }
+
+        previousRevealable?.let { previous ->
+            if (previous.key == revealable.key && previous.layout != revealable.layout) {
+                previousRevealable = previous.copy(layout = revealable.layout)
+            }
+        }
 
         if (!didRestoreCurrentRevealable && restoreCurrentRevealableKey == revealable.key) {
             currentRevealable = revealable

@@ -13,7 +13,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.key
-import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.movableContentWithReceiverOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -179,7 +178,10 @@ private fun rememberDimItemHolder(
         targetState.value = toState
     }
 
-    remember {
+    // Keyed on the revealable so that a changed area (the element moved or was resized after being
+    // revealed) reaches both the cutout and the overlay content layout. targetState and
+    // contentAlpha are remembered outside of this, so the alpha animation is not restarted.
+    remember(revealable) {
         DimItemHolder(
             revealable = revealable,
             contentAlpha = contentAlpha,

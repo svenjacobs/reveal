@@ -36,7 +36,12 @@ public sealed interface RevealShape {
             }
     }
 
-    public class RoundRect(private val cornerSize: Dp) : RevealShape {
+    /**
+     * Value equality matters here: this is the default shape of the `revealable` modifier, so a
+     * fresh instance is allocated on every recomposition. Without `equals` no two [Revealable]s
+     * ever compare equal, which defeats snapshot state deduplication.
+     */
+    public data class RoundRect(private val cornerSize: Dp) : RevealShape {
 
         override fun clip(size: Size, density: Density, layoutDirection: LayoutDirection): Path =
             Path().apply {

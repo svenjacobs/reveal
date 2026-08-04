@@ -2,11 +2,17 @@ package com.svenjacobs.reveal
 
 import androidx.compose.animation.core.snap
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -79,6 +85,83 @@ class RevealOverlayGeometryTest {
                 target.top >= catcher.top &&
                 target.bottom <= catcher.bottom,
             "Reveal area should be contained by the overlay, but target=$target catcher=$catcher",
+        )
+    }
+
+    /**
+     * Regression test for issue #360: the reveal area must keep tracking the element when it moves
+     * after the reveal effect is already shown, for example because a settling layout pass or
+     * dynamically added content shifts it. Before the fix, `reveal()` snapshotted the geometry once
+     * and the overlay stayed behind at the original position.
+     */
+    @Test
+    fun revealAreaFollowsTheElementWhenItMovesAfterBeingRevealed() = runComposeUiTest {
+        lateinit var revealState: RevealState
+        lateinit var scope: CoroutineScope
+        var spacerHeight by mutableStateOf(0.dp)
+
+        setContent {
+            revealState = rememberRevealState()
+            scope = rememberCoroutineScope()
+
+            Reveal(
+                modifier = Modifier.fillMaxSize(),
+                revealState = revealState,
+                overlayEffect = DimRevealOverlayEffect(
+                    alphaAnimationSpec = snap(),
+                    contentAlphaAnimationSpec = snap(),
+                ),
+                overlayContent = {
+                    Box(
+                        modifier = Modifier
+                            .align(horizontalArrangement = RevealOverlayArrangement.Start)
+                            .size(80.dp)
+                            .testTag(OVERLAY_TAG),
+                    )
+                },
+            ) {
+                Column(modifier = Modifier.fillMaxSize()) {
+                    Spacer(modifier = Modifier.height(spacerHeight))
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .size(48.dp)
+                            .testTag(TARGET_TAG)
+                            .revealable(key = KEY, padding = PaddingValues(0.dp)),
+                    )
+                }
+            }
+        }
+
+        waitForIdle()
+        scope.launch { revealState.reveal(KEY) }
+        waitUntil(timeoutMillis = 5_000) {
+            onAllNodesWithTag(OVERLAY_TAG).fetchSemanticsNodes().isNotEmpty()
+        }
+
+        val overlayBefore = onNodeWithTag(OVERLAY_TAG).fetchSemanticsNode().boundsInWindow
+
+        // Push the target down, as a later layout pass or dynamically added content would.
+        spacerHeight = 160.dp
+        waitForIdle()
+
+        val target = onNodeWithTag(TARGET_TAG).fetchSemanticsNode().boundsInWindow
+        val overlay = onNodeWithTag(OVERLAY_TAG).fetchSemanticsNode().boundsInWindow
+
+        assertTrue(
+            overlay.center.y > overlayBefore.center.y,
+            "Overlay content should have moved down with the target, but it stayed at " +
+                "$overlayBefore",
+        )
+        assertTrue(
+            abs(overlay.right - target.left) <= TOLERANCE,
+            "Overlay content should still abut the moved reveal area's left edge, but " +
+                "overlay=$overlay target=$target",
+        )
+        assertTrue(
+            abs(overlay.center.y - target.center.y) <= TOLERANCE,
+            "Overlay content should still be vertically centered on the moved reveal area, but " +
+                "overlay=$overlay target=$target",
         )
     }
 
