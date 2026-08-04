@@ -15,7 +15,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.test.getUnclippedBoundsInRoot
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
@@ -96,20 +95,25 @@ class RevealMovingRevealableTest {
             composeTestRule.onAllNodesWithTag(OVERLAY_TAG).fetchSemanticsNodes().isNotEmpty()
         }
 
+        // boundsInWindow (not boundsInRoot) is used throughout because the target lives in the
+        // activity's composition root while the overlay content lives in the popup's own root, and
+        // the popup deliberately draws behind the system bars. In root coordinates the two are
+        // offset by the status bar height, which is zero only on an edge-to-edge device.
         val overlayBefore = composeTestRule
             .onNodeWithTag(OVERLAY_TAG)
-            .getUnclippedBoundsInRoot()
+            .fetchSemanticsNode()
+            .boundsInWindow
 
         // Insert content above the target, moving it down while the effect is visible.
         spacerHeight = 200.dp
         composeTestRule.waitForIdle()
 
-        val target = composeTestRule.onNodeWithTag(TARGET_TAG).getUnclippedBoundsInRoot()
-        val overlay = composeTestRule.onNodeWithTag(OVERLAY_TAG).getUnclippedBoundsInRoot()
+        val target = composeTestRule.onNodeWithTag(TARGET_TAG).fetchSemanticsNode().boundsInWindow
+        val overlay = composeTestRule.onNodeWithTag(OVERLAY_TAG).fetchSemanticsNode().boundsInWindow
 
         assertTrue(
             "Overlay content should have moved down with the target, but stayed at $overlayBefore",
-            overlay.top.value > overlayBefore.top.value,
+            overlay.top > overlayBefore.top,
         )
 
         // The overlay is aligned to the start of the reveal area, so it must abut the target's
@@ -117,23 +121,20 @@ class RevealMovingRevealableTest {
         assertTrue(
             "Overlay content should abut the moved reveal area's left edge, but " +
                 "overlay=$overlay target=$target",
-            abs(overlay.right.value - target.left.value) <= TOLERANCE,
+            abs(overlay.right - target.left) <= TOLERANCE,
         )
         assertTrue(
             "Overlay content should be vertically centered on the moved reveal area, but " +
                 "overlay=$overlay target=$target",
-            abs(
-                (overlay.top.value + overlay.bottom.value) /
-                    2f -
-                    (target.top.value + target.bottom.value) /
-                    2f,
-            ) <= TOLERANCE,
+            abs(overlay.center.y - target.center.y) <= TOLERANCE,
         )
     }
 
     private companion object {
         const val TARGET_TAG = "target"
         const val OVERLAY_TAG = "overlayContent"
-        const val TOLERANCE = 0.5f
+
+        // Pixels, since boundsInWindow reports pixels rather than dp.
+        const val TOLERANCE = 1.0f
     }
 }
