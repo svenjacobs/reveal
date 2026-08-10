@@ -5,7 +5,7 @@ androidx-compose-bom = "2026.06.01" # https://developer.android.com/jetpack/comp
 dokka = "2.2.0"
 jetbrains-compose = "1.11.1"
 kotlin = "2.4.10"
-roborazzi = "1.70.0"
+roborazzi = "1.71.0"
 robolectric = "4.16.1"
 vanniktech-maven-publish = "0.37.0"
 
