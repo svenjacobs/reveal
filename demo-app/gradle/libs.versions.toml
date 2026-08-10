@@ -29,4 +29,4 @@ android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library
 jetbrains-kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-ben-manes-versions = "com.github.ben-manes.versions:0.58.0"
+ben-manes-versions = "com.github.ben-manes.versions:0.60.0"
