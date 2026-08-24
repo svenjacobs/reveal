@@ -48,7 +48,7 @@ jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-com
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ben-manes-versions = "com.github.ben-manes.versions:0.61.0"
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-kotlinter = "org.jmailen.kotlinter:5.6.0"
+kotlinter = "org.jmailen.kotlinter:5.7.0"
 binary-compat-validator = "org.jetbrains.kotlinx.binary-compatibility-validator:0.18.1"
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech-maven-publish" }
