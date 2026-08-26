@@ -45,15 +45,10 @@ internal fun RevealOverlayLayout(
                     // Loose constraints (min = 0): the incoming constraints are fixed to the full
                     // overlay size (RevealOverlayLayout itself uses matchParentSize()), but the
                     // child should only be bounded by, not forced to, the arranged layout area.
-                    // layoutSize.width is coerced to non-negative because revealableRect is
-                    // inflated by the revealable's padding and can extend past the overlay edge
-                    // (e.g. an edge-flush revealable), which would otherwise make arrange() return
-                    // a negative width and Constraints() throw.
+                    // arrange() guarantees that layoutSize lies within space and has no negative
+                    // dimension, so it is safe to pass straight into Constraints().
                     placeables[index] = measurable.measure(
-                        Constraints(
-                            maxWidth = layoutSize.width.coerceAtLeast(0),
-                            maxHeight = space.height,
-                        ),
+                        Constraints(maxWidth = layoutSize.width, maxHeight = space.height),
                     )
                 }
 
@@ -65,10 +60,7 @@ internal fun RevealOverlayLayout(
                     )
                     layoutRects[index] = layoutSize
                     placeables[index] = measurable.measure(
-                        Constraints(
-                            maxWidth = space.width,
-                            maxHeight = layoutSize.height.coerceAtLeast(0),
-                        ),
+                        Constraints(maxWidth = space.width, maxHeight = layoutSize.height),
                     )
                 }
 

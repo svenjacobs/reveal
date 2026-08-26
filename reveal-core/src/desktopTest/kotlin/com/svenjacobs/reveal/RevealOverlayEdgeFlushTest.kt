@@ -14,6 +14,7 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
 import kotlin.test.Test
@@ -23,12 +24,16 @@ import kotlinx.coroutines.launch
 
 /**
  * Regression tests for issue #376: [Revealable.computeArea] inflates the reveal area by the
- * revealable's padding (8dp by default) without clamping to the overlay bounds, so an element
- * flush with a window edge produces a reveal area that extends past that edge. When
- * [RevealOverlayArrangement] then arranges overlay content on the outside of that edge (e.g.
- * [RevealOverlayArrangement.Top] for a top-flush element), the arranged area has a negative
- * width or height, which used to be passed straight into `Constraints(...)` and crash with
- * `IllegalArgumentException`.
+ * revealable's padding (8dp by default) — and, for [RevealShape.Circle], by the circle expansion
+ * around its centre — without clamping to the overlay bounds, so an element flush with a window
+ * edge produces a reveal area that extends past that edge. When [RevealOverlayArrangement] then
+ * arranges overlay content on the outside of that edge (e.g. [RevealOverlayArrangement.Top] for a
+ * top-flush element), the arranged area used to have a negative width or height, which was passed
+ * straight into `Constraints(...)` and crashed with `IllegalArgumentException`.
+ *
+ * [RevealOverlayArrangementTest] covers the same clamping at the level of the arranged geometry
+ * alone; these tests exercise it through a real composition, including the inflation that produces
+ * the out-of-bounds reveal area in the first place.
  *
  * These live in the desktop source set for the same reason as [RevealOverlayGeometryTest]: it is
  * the only target where the skiko popup implementation can be exercised without a device.
@@ -110,13 +115,46 @@ class RevealOverlayEdgeFlushTest {
         )
     }
 
+    @Test
+    fun alignTopDoesNotCrashForAWideCircleShapedRevealable() = runComposeUiTest {
+        // The other inflation source: RevealShape.Circle expands the area to a square of
+        // maxDimension / 2 around its centre, so a wide, short element grows by far more than the
+        // padding along the short axis. Here that pushes the reveal area roughly 116dp above the
+        // top edge, well past what the 8dp padding alone would do.
+        revealEdgeFlushAndWaitForOverlay(
+            targetAlignment = Alignment.TopCenter,
+            shape = RevealShape.Circle,
+            targetWidth = 240.dp,
+            targetHeight = 24.dp,
+        ) {
+            Box(
+                modifier = Modifier
+                    .align(verticalArrangement = RevealOverlayArrangement.Top)
+                    .size(80.dp)
+                    .testTag(OVERLAY_TAG),
+            )
+        }
+
+        val overlay = onNodeWithTag(OVERLAY_TAG).fetchSemanticsNode().boundsInWindow
+        assertTrue(
+            overlay.top >= 0f,
+            "Overlay content should stay within the window, but was $overlay",
+        )
+    }
+
     /**
-     * Reveals a target flush with the edge of the window implied by [targetAlignment], using the
-     * default 8dp revealable padding so that [Revealable.computeArea] pushes the reveal area past
-     * that edge, and waits for the overlay content built by [overlayContent] to appear.
+     * Reveals a target of [targetWidth] x [targetHeight] flush with the edge of the window implied
+     * by [targetAlignment], using the default 8dp revealable padding so that
+     * [Revealable.computeArea] pushes the reveal area past that edge, and waits for the overlay
+     * content built by [overlayContent] to appear. [shape] defaults to the same shape as
+     * [RevealScope.revealable]; pass [RevealShape.Circle] to additionally exercise the circle
+     * expansion in [Revealable.computeArea].
      */
     private fun ComposeUiTest.revealEdgeFlushAndWaitForOverlay(
         targetAlignment: Alignment,
+        shape: RevealShape = RevealShape.RoundRect(4.dp),
+        targetWidth: Dp = 48.dp,
+        targetHeight: Dp = 48.dp,
         overlayContent: @Composable RevealOverlayScope.(key: Key) -> Unit,
     ) {
         lateinit var revealState: RevealState
@@ -140,9 +178,9 @@ class RevealOverlayEdgeFlushTest {
                     Box(
                         modifier = Modifier
                             .align(targetAlignment)
-                            .size(48.dp)
+                            .size(width = targetWidth, height = targetHeight)
                             .testTag(TARGET_TAG)
-                            .revealable(key = KEY),
+                            .revealable(key = KEY, shape = shape),
                     )
                 }
             }
