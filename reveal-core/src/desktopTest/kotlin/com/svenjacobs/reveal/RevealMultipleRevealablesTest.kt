@@ -1,6 +1,8 @@
 package com.svenjacobs.reveal
 
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.snap
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -114,17 +116,49 @@ class RevealMultipleRevealablesTest {
     }
 
     /**
+     * The overlay is faded in and out via its animation specs. If the alpha animation were skipped,
+     * the overlay would disappear within a frame of [RevealState.hide] instead of after the
+     * animation has run.
+     */
+    @Test
+    fun overlayIsFadedOutInsteadOfDisappearingInstantly() = runComposeUiTest {
+        // Default animation specs, unlike the other tests here which use snap().
+        val (revealState, scope) = setUp(animationSpec = tween(durationMillis = 500))
+
+        scope.launch { revealState.reveal(FIRST) }
+        waitForOverlaysOf(FIRST)
+
+        mainClock.autoAdvance = false
+        scope.launch { revealState.hide() }
+        mainClock.advanceTimeBy(100)
+
+        assertTrue(
+            onAllNodesWithTag(overlayTag(FIRST)).fetchSemanticsNodes().isNotEmpty(),
+            "Overlay should still be fading out 100 ms after hide()",
+        )
+
+        mainClock.advanceTimeBy(1_000)
+
+        assertTrue(
+            onAllNodesWithTag(overlayTag(FIRST)).fetchSemanticsNodes().isEmpty(),
+            "Overlay should be gone after the fade out animation finished",
+        )
+    }
+
+    /**
      * Sets the content and lays it out, so that all revealables are registered via
      * `onGloballyPositioned` before anything is revealed.
      */
-    private fun ComposeUiTest.setUp(): Pair<RevealState, CoroutineScope> {
+    private fun ComposeUiTest.setUp(
+        animationSpec: AnimationSpec<Float> = snap(),
+    ): Pair<RevealState, CoroutineScope> {
         lateinit var revealState: RevealState
         lateinit var scope: CoroutineScope
 
         setContent {
             revealState = rememberRevealState()
             scope = rememberCoroutineScope()
-            RevealUnderTest(revealState)
+            RevealUnderTest(revealState, animationSpec)
         }
 
         waitForIdle()
@@ -139,14 +173,15 @@ class RevealMultipleRevealablesTest {
     }
 
     @Composable
-    private fun RevealUnderTest(revealState: RevealState) {
+    private fun RevealUnderTest(revealState: RevealState, animationSpec: AnimationSpec<Float>) {
         Reveal(
             modifier = Modifier.fillMaxSize(),
             revealState = revealState,
-            // Instant animations so the overlay is fully laid out once it appears.
+            // Instant animations by default, so the overlay is fully laid out once it
+            // appears.
             overlayEffect = DimRevealOverlayEffect(
-                alphaAnimationSpec = snap(),
-                contentAlphaAnimationSpec = snap(),
+                alphaAnimationSpec = animationSpec,
+                contentAlphaAnimationSpec = animationSpec,
             ),
             overlayContent = { key ->
                 Box(

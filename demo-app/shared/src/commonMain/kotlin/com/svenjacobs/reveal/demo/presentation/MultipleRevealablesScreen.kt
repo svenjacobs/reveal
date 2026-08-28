@@ -1,6 +1,5 @@
 package com.svenjacobs.reveal.demo.presentation
 
-import androidx.compose.animation.core.snap
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,7 +34,6 @@ import com.svenjacobs.reveal.Reveal
 import com.svenjacobs.reveal.RevealOverlayArrangement
 import com.svenjacobs.reveal.RevealOverlayScope
 import com.svenjacobs.reveal.RevealShape
-import com.svenjacobs.reveal.effect.dim.DimRevealOverlayEffect
 import com.svenjacobs.reveal.rememberRevealState
 import com.svenjacobs.reveal.shapes.balloon.Arrow
 import kotlin.time.Duration.Companion.seconds
@@ -67,10 +65,6 @@ fun MultipleRevealablesScreen(onBack: () -> Unit, modifier: Modifier = Modifier)
         revealState = revealState,
         onRevealableClick = { key -> lastClickedKey = key },
         onOverlayClick = { scope.launch { revealState.hide() } },
-        overlayEffect = DimRevealOverlayEffect(
-            alphaAnimationSpec = snap(),
-            contentAlphaAnimationSpec = snap(),
-        ),
         overlayContent = { key -> RevealOverlayContent(key) },
     ) {
         Scaffold(
