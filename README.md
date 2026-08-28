@@ -124,11 +124,50 @@ The scope of the overlay content composable provides `align()` modifiers to alig
 the start, top, end or bottom of the reveal area. `align()` must be applied to a direct child of the
 overlay content; it has no effect on elements nested further down the tree.
 
-`Reveal` provides two click listeners: `onRevealableClick` is called when the reveal area is clicked
-with the key of the current revealable as the first argument. `onOverlayClick` is called when the
+`Reveal` provides two click listeners: `onRevealableClick` is called when a reveal area is clicked
+with the key of the clicked revealable as the first argument. `onOverlayClick` is called when the
 overlay is clicked somewhere, also with the key argument. Use any of these click listeners to reveal
 the next item, for example for some kind of tutorial, or to hide the effect via
 `revealState.hide()`.
+
+### Multiple elements at once
+
+`reveal()` also accepts several keys, which reveals all of those elements at the same time. The
+overlay content is then called once per revealed element, so each of them can have its own
+explanatory item:
+
+```kotlin
+enum class Keys { First, Second }
+
+revealState.reveal(Keys.First, Keys.Second)
+// or from a collection: revealState.reveal(listOf(Keys.First, Keys.Second))
+```
+
+```kotlin
+Reveal(
+    overlayContent = { key ->
+        when (key) {
+            Keys.First -> Text("This one …")
+            Keys.Second -> Text("… and this one.")
+        }
+    },
+) {
+    // Contents
+}
+```
+
+Either all elements are revealed or none: `reveal()` throws an `IllegalArgumentException` naming
+the keys which are unknown, `tryReveal()` returns `false` in that case. `currentRevealableKeys`
+holds the keys of all currently revealed elements, while `currentRevealableKey` remains the first
+of them.
+
+Two details are worth knowing when revealing multiple elements:
+
+- `onOverlayClick` is called with the key of the *first* revealed element, since a click outside of
+  all reveal areas doesn't belong to a specific one. `onRevealableClick` always reports the element
+  which was actually clicked.
+- `OnClick.Passthrough` is a property of the whole overlay window, so it only takes effect when
+  *all* revealed elements declare it.
 
 ### Bottom sheets and dialogs
 

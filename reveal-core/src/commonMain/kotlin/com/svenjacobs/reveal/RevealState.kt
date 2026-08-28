@@ -20,21 +20,21 @@ import kotlinx.coroutines.sync.withLock
 @Suppress("MemberVisibilityCanBePrivate")
 public class RevealState internal constructor(
     visible: Boolean,
-    private val restoreCurrentRevealableKey: Key?,
+    private val restoreCurrentRevealableKeys: List<Key>,
 ) {
 
     public constructor() : this(
         visible = false,
-        restoreCurrentRevealableKey = null,
+        restoreCurrentRevealableKeys = emptyList(),
     )
 
     private val mutex = Mutex()
-    private var didRestoreCurrentRevealable = false
+    private var didRestoreCurrentRevealables = restoreCurrentRevealableKeys.isEmpty()
     private var visible by mutableStateOf(visible)
     private val revealables = mutableStateMapOf<Key, Revealable>()
-    internal var currentRevealable by mutableStateOf<Revealable?>(null)
+    internal var currentRevealables by mutableStateOf<List<Revealable>>(emptyList())
         private set
-    internal var previousRevealable by mutableStateOf<Revealable?>(null)
+    internal var previousRevealables by mutableStateOf<List<Revealable>>(emptyList())
         private set
 
     /**
@@ -44,20 +44,46 @@ public class RevealState internal constructor(
         get() = visible
 
     /**
+     * Observable keys of the currently revealed items, in the order they were passed to [reveal],
+     * or an empty list if no revealable is currently visible
+     *
+     * @see previousRevealableKeys
+     */
+    public val currentRevealableKeys: List<Key>
+        get() = currentRevealables.map(Revealable::key)
+
+    /**
+     * Observable keys of the previous revealables which were displayed before
+     * [currentRevealableKeys]
+     *
+     * Keys which are still revealed are not contained in this list.
+     *
+     * @see currentRevealableKeys
+     */
+    public val previousRevealableKeys: List<Key>
+        get() = previousRevealables.map(Revealable::key)
+
+    /**
      * Observable key of current revealable or `null` if no revealable is currently visible
      *
+     * If multiple revealables are revealed at once, this is the first of [currentRevealableKeys].
+     *
+     * @see currentRevealableKeys
      * @see previousRevealableKey
      */
     public val currentRevealableKey: Key?
-        get() = currentRevealable?.key
+        get() = currentRevealables.firstOrNull()?.key
 
     /**
      * Observable key of previous revealable which was displayed before [currentRevealableKey]
      *
+     * If multiple revealables were revealed at once, this is the first of [previousRevealableKeys].
+     *
+     * @see previousRevealableKeys
      * @see currentRevealableKey
      */
     public val previousRevealableKey: Key?
-        get() = previousRevealable?.key
+        get() = previousRevealables.firstOrNull()?.key
 
     /**
      * Observable set of keys known to this state instance
@@ -88,7 +114,42 @@ public class RevealState internal constructor(
      */
     public suspend fun reveal(key: Key) {
         require(containsRevealable(key)) { "Revealable with key \"$key\" not found" }
-        internalReveal(key)
+        internalReveal(listOf(key))
+    }
+
+    /**
+     * Reveals all revealables with given [keys] at once
+     *
+     * @see reveal
+     * @throws IllegalArgumentException if [keys] is empty or any of the revealables was not found
+     */
+    public suspend fun reveal(vararg keys: Key): Unit = reveal(keys.asIterable())
+
+    /**
+     * Reveals all revealables with given [keys] at once
+     *
+     * All keys must be known to Reveal: if any of them is missing, nothing is revealed and an
+     * exception is thrown.
+     *
+     * The reveal areas track their elements for as long as they are revealed: if an element moves
+     * or is resized afterwards — because of a later layout pass, a recomposition, insets settling
+     * or animated content — the effect follows it. There is no need to wait for the layout to
+     * become stable before calling this function.
+     *
+     * @see reveal
+     * @see tryReveal
+     * @see containsRevealable
+     * @see revealableKeys
+     * @throws IllegalArgumentException if [keys] is empty or any of the revealables was not found
+     */
+    public suspend fun reveal(keys: Iterable<Key>) {
+        val list = keys.toList()
+        require(list.isNotEmpty()) { "No keys specified" }
+        val missing = list.filterNot(::containsRevealable)
+        require(missing.isEmpty()) {
+            "Revealables with keys ${missing.joinToString { "\"$it\"" }} not found"
+        }
+        internalReveal(list)
     }
 
     /**
@@ -99,14 +160,44 @@ public class RevealState internal constructor(
      */
     public suspend fun tryReveal(key: Key): Boolean {
         if (!containsRevealable(key)) return false
-        internalReveal(key)
+        internalReveal(listOf(key))
         return true
     }
 
-    private suspend fun internalReveal(key: Key) {
+    /**
+     * Like [reveal] but doesn't throw exception if a revealable was not found.
+     * Instead returns `false`.
+     *
+     * @see reveal
+     */
+    public suspend fun tryReveal(vararg keys: Key): Boolean = tryReveal(keys.asIterable())
+
+    /**
+     * Like [reveal] but doesn't throw exception if a revealable was not found.
+     * Instead returns `false`.
+     *
+     * Either all revealables are revealed or, if any of [keys] is unknown, none of them.
+     *
+     * @see reveal
+     */
+    public suspend fun tryReveal(keys: Iterable<Key>): Boolean {
+        val list = keys.toList()
+        if (list.isEmpty() || !list.all(::containsRevealable)) return false
+        internalReveal(list)
+        return true
+    }
+
+    private suspend fun internalReveal(keys: List<Key>) {
+        // Duplicates would result in the same key being used twice for the composition groups of
+        // the overlay effect, so they are dropped here rather than in each effect.
+        val distinctKeys = keys.distinct()
+
         mutex.withLock {
-            previousRevealable = currentRevealable
-            currentRevealable = revealables[key]
+            val next = distinctKeys.mapNotNull(revealables::get)
+            // A key which stays revealed must not fade out at the same time, which would draw its
+            // reveal area twice with two different alpha values.
+            previousRevealables = currentRevealables.filterNot { it.key in distinctKeys }
+            currentRevealables = next
             visible = true
         }
     }
@@ -126,8 +217,8 @@ public class RevealState internal constructor(
     public fun containsRevealable(key: Key): Boolean = revealableKeys.contains(key)
 
     internal fun onHideAnimationFinished() {
-        currentRevealable = null
-        previousRevealable = null
+        currentRevealables = emptyList()
+        previousRevealables = emptyList()
     }
 
     /**
@@ -154,21 +245,17 @@ public class RevealState internal constructor(
         // into snapshot state from the layout phase, invalidating the composition that reads it,
         // which reallocates those lambdas and re-triggers this callback — composition would never
         // go idle. Offset and Size do compare by value, so this converges once the layout settles.
-        currentRevealable?.let { current ->
-            if (current.key == revealable.key && current.layout != revealable.layout) {
-                currentRevealable = current.copy(layout = revealable.layout)
-            }
-        }
+        currentRevealables = currentRevealables.withLayoutOf(revealable)
+        previousRevealables = previousRevealables.withLayoutOf(revealable)
 
-        previousRevealable?.let { previous ->
-            if (previous.key == revealable.key && previous.layout != revealable.layout) {
-                previousRevealable = previous.copy(layout = revealable.layout)
-            }
-        }
-
-        if (!didRestoreCurrentRevealable && restoreCurrentRevealableKey == revealable.key) {
-            currentRevealable = revealable
-            didRestoreCurrentRevealable = true
+        if (!didRestoreCurrentRevealables &&
+            revealable.key in restoreCurrentRevealableKeys &&
+            currentRevealables.none { it.key == revealable.key }
+        ) {
+            currentRevealables = (currentRevealables + revealable)
+                .sortedBy { restoreCurrentRevealableKeys.indexOf(it.key) }
+            didRestoreCurrentRevealables =
+                currentRevealables.size == restoreCurrentRevealableKeys.size
         }
     }
 
@@ -190,16 +277,35 @@ public class RevealState internal constructor(
     public fun removeRevealable(key: Key) {
         revealables.remove(key)
 
-        // Hide effect if the current revealable left the composition.
-        // currentRevealable and previousRevealable are reset via onHideAnimationFinished().
-        if (currentRevealableKey == key) {
-            visible = false
+        if (currentRevealables.any { it.key == key }) {
+            if (currentRevealables.size == 1) {
+                // Hide effect if the last current revealable left the composition.
+                // currentRevealables and previousRevealables are reset via
+                // onHideAnimationFinished(), so the item can still fade out.
+                visible = false
+            } else {
+                // One of several revealed items disappears without a fade-out. Moving it into
+                // previousRevealables would animate it, at the cost of a second code path for a
+                // rather exotic case (an element leaving the composition while others stay
+                // revealed).
+                currentRevealables = currentRevealables.filterNot { it.key == key }
+            }
         }
 
-        if (previousRevealableKey == key) {
-            previousRevealable = null
-        }
+        previousRevealables = previousRevealables.filterNot { it.key == key }
     }
+
+    /**
+     * Returns this list with the [Revealable.Layout] of [incoming] applied to the entry with the
+     * same key, or this very instance when nothing changed, so that no write to snapshot state
+     * happens while the layout is stable.
+     */
+    private fun List<Revealable>.withLayoutOf(incoming: Revealable): List<Revealable> =
+        if (none { it.key == incoming.key && it.layout != incoming.layout }) {
+            this
+        } else {
+            map { if (it.key == incoming.key) it.copy(layout = incoming.layout) else it }
+        }
 
     internal companion object {
 
@@ -207,14 +313,14 @@ public class RevealState internal constructor(
             save = {
                 listOf(
                     it.isVisible,
-                    it.currentRevealableKey?.let { key -> with(keySaver) { save(key) } },
+                    it.currentRevealableKeys.map { key -> with(keySaver) { save(key) } },
                 )
             },
             restore = {
                 RevealState(
                     visible = it[0] as Boolean,
-                    restoreCurrentRevealableKey = it[1]?.let { keySaveable ->
-                        keySaver.restore(keySaveable)
+                    restoreCurrentRevealableKeys = (it[1] as List<*>).mapNotNull { keySaveable ->
+                        keySaveable?.let(keySaver::restore)
                     },
                 )
             },
