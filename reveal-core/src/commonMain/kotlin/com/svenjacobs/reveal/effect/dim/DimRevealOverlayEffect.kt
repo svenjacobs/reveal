@@ -28,10 +28,10 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
-import com.svenjacobs.reveal.ActualRevealable
-import com.svenjacobs.reveal.ActualRevealables
 import com.svenjacobs.reveal.Key
 import com.svenjacobs.reveal.LocalRevealOverlayArrowAnchor
+import com.svenjacobs.reveal.PositionedRevealable
+import com.svenjacobs.reveal.PositionedRevealables
 import com.svenjacobs.reveal.RevealOverlayArrowAnchor
 import com.svenjacobs.reveal.RevealOverlayLayout
 import com.svenjacobs.reveal.RevealOverlayScope
@@ -61,7 +61,7 @@ public class DimRevealOverlayEffect(
     @Composable
     override fun Overlay(
         revealState: RevealState,
-        revealables: State<ActualRevealables>,
+        revealables: State<PositionedRevealables>,
         modifier: Modifier,
         content: @Composable RevealOverlayScope.(key: Key) -> Unit,
     ) {
@@ -108,7 +108,7 @@ public class DimRevealOverlayEffect(
 }
 
 @Stable
-private class DimItemHolder(val revealable: ActualRevealable, val contentAlpha: State<Float>) {
+private class DimItemHolder(val revealable: PositionedRevealable, val contentAlpha: State<Float>) {
 
     @Composable
     fun BoxScope.Container(
@@ -166,7 +166,7 @@ private enum class DimItemState { Visible, Gone }
 
 @Composable
 private fun rememberDimItemHolder(
-    revealable: ActualRevealable,
+    revealable: PositionedRevealable,
     fromState: DimItemState,
     toState: DimItemState,
     contentAlphaAnimationSpec: AnimationSpec<Float>,

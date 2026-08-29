@@ -6,9 +6,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.svenjacobs.reveal.ActualRevealable
-import com.svenjacobs.reveal.ActualRevealables
 import com.svenjacobs.reveal.Key
+import com.svenjacobs.reveal.PositionedRevealable
+import com.svenjacobs.reveal.PositionedRevealables
 import com.svenjacobs.reveal.RevealOverlayScope
 import com.svenjacobs.reveal.RevealState
 
@@ -29,7 +29,7 @@ public interface RevealOverlayEffect {
     @Composable
     public fun Overlay(
         revealState: RevealState,
-        revealables: State<ActualRevealables>,
+        revealables: State<PositionedRevealables>,
         modifier: Modifier,
         content: @Composable RevealOverlayScope.(key: Key) -> Unit,
     ) {
@@ -51,14 +51,14 @@ public interface RevealOverlayEffect {
     }
 
     @Deprecated(
-        message = "Override the Overlay() overload which takes ActualRevealables. This one only " +
-            "ever receives the first of possibly multiple revealed items.",
+        message = "Override the Overlay() overload which takes PositionedRevealables. This one " +
+            "only ever receives the first of possibly multiple revealed items.",
     )
     @Composable
     public fun Overlay(
         revealState: RevealState,
-        currentRevealable: State<ActualRevealable?>,
-        previousRevealable: State<ActualRevealable?>,
+        currentRevealable: State<PositionedRevealable?>,
+        previousRevealable: State<PositionedRevealable?>,
         modifier: Modifier,
         content: @Composable RevealOverlayScope.(key: Key) -> Unit,
     ) {

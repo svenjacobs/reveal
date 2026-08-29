@@ -5,9 +5,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import com.svenjacobs.reveal.ActualRevealable
+import com.svenjacobs.reveal.PositionedRevealable
 
-internal fun ActualRevealable.createShapePath(
+internal fun PositionedRevealable.createShapePath(
     density: Density,
     layoutDirection: LayoutDirection,
 ): Path = shape

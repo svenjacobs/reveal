@@ -114,15 +114,12 @@ internal class RevealScopeInstance(private val revealState: RevealState) : Revea
         padding: PaddingValues,
         borderStroke: BorderStroke?,
         onClick: OnClick?,
-    ): Modifier = this.then(
-        Modifier.revealable(
-            key = key,
-            state = revealState,
-            shape = shape,
-            padding = padding,
-            borderStroke = borderStroke,
-            onClick = onClick,
-        ),
+    ): Modifier = revealable(
+        keys = listOf(key),
+        shape = shape,
+        padding = padding,
+        borderStroke = borderStroke,
+        onClick = onClick,
     )
 
     override fun Modifier.revealable(
@@ -131,15 +128,12 @@ internal class RevealScopeInstance(private val revealState: RevealState) : Revea
         padding: PaddingValues,
         borderStroke: BorderStroke?,
         onClick: OnClick?,
-    ): Modifier = this.then(
-        Modifier.revealable(
-            keys = keys,
-            state = revealState,
-            shape = shape,
-            padding = padding,
-            borderStroke = borderStroke,
-            onClick = onClick,
-        ),
+    ): Modifier = revealable(
+        keys = keys.toList(),
+        shape = shape,
+        padding = padding,
+        borderStroke = borderStroke,
+        onClick = onClick,
     )
 
     override fun Modifier.revealable(
@@ -148,14 +142,12 @@ internal class RevealScopeInstance(private val revealState: RevealState) : Revea
         padding: PaddingValues,
         borderStroke: BorderStroke?,
         onClick: OnClick?,
-    ): Modifier = this.then(
-        Modifier.revealable(
-            keys = keys,
-            state = revealState,
-            shape = shape,
-            padding = padding,
-            borderStroke = borderStroke,
-            onClick = onClick,
-        ),
+    ): Modifier = revealable(
+        keys = keys,
+        state = revealState,
+        shape = shape,
+        padding = padding,
+        borderStroke = borderStroke,
+        onClick = onClick,
     )
 }
