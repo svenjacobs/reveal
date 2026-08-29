@@ -34,7 +34,6 @@ import com.svenjacobs.reveal.RevealOverlayScope
 import com.svenjacobs.reveal.RevealShape
 import com.svenjacobs.reveal.rememberRevealState
 import com.svenjacobs.reveal.shapes.balloon.Arrow
-import com.svenjacobs.reveal.shapes.balloon.Balloon
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -43,7 +42,7 @@ private enum class Keys { Fab, Explanation }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen(onShowMultipleRevealables: () -> Unit, modifier: Modifier = Modifier) {
     val scope = rememberCoroutineScope()
     val revealState = rememberRevealState()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -121,6 +120,13 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 ) {
                     Text("Show bottom sheet demo")
                 }
+
+                Button(
+                    modifier = Modifier.padding(top = 8.dp),
+                    onClick = onShowMultipleRevealables,
+                ) {
+                    Text("Show multiple revealables demo")
+                }
             }
         }
     }
@@ -143,23 +149,6 @@ private fun RevealOverlayScope.RevealOverlayContent(key: Key) {
             ),
             text = "Actually we already started. This was an example of the reveal effect.",
             arrow = Arrow.top(anchorToReveal = true),
-        )
-    }
-}
-
-@Composable
-private fun OverlayText(text: String, arrow: Arrow, modifier: Modifier = Modifier) {
-    Balloon(
-        modifier = modifier.padding(8.dp),
-        arrow = arrow,
-        backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
-        elevation = 2.dp,
-    ) {
-        Text(
-            modifier = Modifier.padding(8.dp),
-            text = text,
-            style = MaterialTheme.typography.labelLarge,
-            textAlign = TextAlign.Center,
         )
     }
 }

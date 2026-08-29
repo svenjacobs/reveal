@@ -38,6 +38,19 @@ public data class ActualRevealable(
 )
 
 /**
+ * The revealables which are currently revealed ([current]) and those which were revealed before and
+ * are fading out ([previous]).
+ *
+ * A key never appears in both lists: revealing a key which is already revealed keeps it in
+ * [current] instead of also fading it out.
+ */
+@Immutable
+public data class ActualRevealables(
+    val current: List<ActualRevealable> = emptyList(),
+    val previous: List<ActualRevealable> = emptyList(),
+)
+
+/**
  * Returns [Rect] in pixels of the reveal area including padding for this [Revealable].
  *
  * @param additionalOffset Offset in pixels between the composition root of [Reveal] and the

@@ -36,7 +36,10 @@ import com.svenjacobs.reveal.internal.popup.revealOverlayPopupProperties
 /**
  * Container composable for the reveal effect.
  *
- * When active, applies the [overlayEffect] and only reveals current revealable element.
+ * When active, applies the [overlayEffect] and only reveals the current revealable elements.
+ *
+ * Multiple elements can be revealed at once via [RevealState.reveal]. In that case [overlayContent]
+ * is called once per revealed element, with the key of the respective element.
  *
  * Elements inside the contents of this composable are registered as "revealables" via the
  * [RevealScope.revealable] modifier in the scope of the [content] composable.
@@ -53,12 +56,12 @@ import com.svenjacobs.reveal.internal.popup.revealOverlayPopupProperties
  * however only one should be active/visible at a time.
  *
  * @param modifier           Modifier applied to this composable.
- * @param onRevealableClick  Called when the revealable area was clicked, where the parameter `key`
- *                           is the key of the current revealable item. Is not called for an item
+ * @param onRevealableClick  Called when a revealable area was clicked, where the parameter `key`
+ *                           is the key of the clicked revealable item. Is not called for an item
  *                           when the clicked revealable item declares `onClick` via its modifier.
  * @param onOverlayClick     Called when the overlay is clicked somewhere outside of the current
- *                           revealable, where the parameter `key` is the key of the current
- *                           revealable.
+ *                           revealables, where the parameter `key` is the key of the current
+ *                           revealable, or the first one if multiple items are revealed at once.
  * @param revealState        State which controls the visibility of the reveal effect.
  * @param overlayEffect      The effect which is used for the background and reveal of items.
  *                           Currently only [DimRevealOverlayEffect] is supported.
@@ -111,51 +114,58 @@ public fun Reveal(
     // poisons the arithmetic and places the reveal area nowhere.
     var rootOffsetInWindow by remember { mutableStateOf(Offset.Zero) }
 
-    val currentRevealable = remember(density, layoutDirection) {
+    val revealables = remember(density, layoutDirection) {
         derivedStateOf {
-            revealState.currentRevealable?.toActual(
-                density = density,
-                layoutDirection = layoutDirection,
-                additionalOffset = rootOffsetInWindow,
+            ActualRevealables(
+                current = revealState.currentRevealables.map {
+                    it.toActual(
+                        density = density,
+                        layoutDirection = layoutDirection,
+                        additionalOffset = rootOffsetInWindow,
+                    )
+                },
+                previous = revealState.previousRevealables.map {
+                    it.toActual(
+                        density = density,
+                        layoutDirection = layoutDirection,
+                        additionalOffset = rootOffsetInWindow,
+                    )
+                },
             )
         }
     }
 
-    val previousRevealable = remember(density, layoutDirection) {
-        derivedStateOf {
-            revealState.previousRevealable?.toActual(
-                density = density,
-                layoutDirection = layoutDirection,
-                additionalOffset = rootOffsetInWindow,
-            )
-        }
-    }
+    val revs by rememberUpdatedState(revealables.value.current)
 
-    val rev by rememberUpdatedState(currentRevealable.value)
+    // Passthrough is a window level property on Android (FLAG_NOT_TOUCHABLE), so it can only be
+    // honoured when every revealed item opts into it.
+    val passthrough = revs.isNotEmpty() && revs.all { it.onClick is OnClick.Passthrough }
 
     val clickModifier = when {
         revealState.isVisible -> Modifier.pointerInput(Unit) {
             awaitEachGesture {
                 val down = awaitFirstDown(pass = PointerEventPass.Initial)
-                if (rev?.onClick !is OnClick.Passthrough) {
+                if (!passthrough) {
                     down.consume()
                 }
 
                 val up = waitForUpOrCancellation(pass = PointerEventPass.Initial)
                     ?: return@awaitEachGesture
 
-                rev?.key?.let(
-                    if (rev?.area?.contains(up.position) == true) {
+                when (val hit = revs.firstOrNull { it.area.contains(up.position) }) {
+                    // Clicks outside of all reveal areas are reported with the key of the first
+                    // revealed item.
+                    null -> revs.firstOrNull()?.key?.let(onOverlayClick)
+
+                    else -> when (val onClick = hit.onClick) {
                         // pass through touches in the area on top of revealable
-                        if (rev?.onClick is OnClick.Passthrough) {
-                            return@awaitEachGesture
-                        } else {
-                            (rev?.onClick as? OnClick.Listener)?.listener ?: onRevealableClick
-                        }
-                    } else {
-                        onOverlayClick
-                    },
-                )
+                        is OnClick.Passthrough -> return@awaitEachGesture
+
+                        is OnClick.Listener -> onClick.listener(hit.key)
+
+                        null -> onRevealableClick(hit.key)
+                    }
+                }
 
                 up.consume()
             }
@@ -175,9 +185,7 @@ public fun Reveal(
     if (animatedOverlayAlpha > 0.0f) {
         Popup(
             popupPositionProvider = RevealOverlayPopupPositionProvider,
-            properties = revealOverlayPopupProperties(
-                passthrough = rev?.onClick is OnClick.Passthrough,
-            ),
+            properties = revealOverlayPopupProperties(passthrough = passthrough),
         ) {
             Box(Modifier.fillMaxSize()) {
                 Box(
@@ -189,8 +197,7 @@ public fun Reveal(
 
                 overlayEffect.Overlay(
                     revealState = revealState,
-                    currentRevealable = currentRevealable,
-                    previousRevealable = previousRevealable,
+                    revealables = revealables,
                     modifier = Modifier
                         .fillMaxSize()
                         .alpha(animatedOverlayAlpha),

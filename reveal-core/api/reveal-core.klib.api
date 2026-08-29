@@ -10,7 +10,8 @@ abstract interface com.svenjacobs.reveal.effect/RevealOverlayEffect { // com.sve
     abstract val alphaAnimationSpec // com.svenjacobs.reveal.effect/RevealOverlayEffect.alphaAnimationSpec|{}alphaAnimationSpec[0]
         abstract fun <get-alphaAnimationSpec>(): androidx.compose.animation.core/AnimationSpec<kotlin/Float> // com.svenjacobs.reveal.effect/RevealOverlayEffect.alphaAnimationSpec.<get-alphaAnimationSpec>|<get-alphaAnimationSpec>(){}[0]
 
-    abstract fun Overlay(com.svenjacobs.reveal/RevealState, androidx.compose.runtime/State<com.svenjacobs.reveal/ActualRevealable?>, androidx.compose.runtime/State<com.svenjacobs.reveal/ActualRevealable?>, androidx.compose.ui/Modifier, kotlin/Function4<com.svenjacobs.reveal/RevealOverlayScope, kotlin/Any, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.svenjacobs.reveal.effect/RevealOverlayEffect.Overlay|Overlay(com.svenjacobs.reveal.RevealState;androidx.compose.runtime.State<com.svenjacobs.reveal.ActualRevealable?>;androidx.compose.runtime.State<com.svenjacobs.reveal.ActualRevealable?>;androidx.compose.ui.Modifier;kotlin.Function4<com.svenjacobs.reveal.RevealOverlayScope,kotlin.Any,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+    open fun Overlay(com.svenjacobs.reveal/RevealState, androidx.compose.runtime/State<com.svenjacobs.reveal/ActualRevealable?>, androidx.compose.runtime/State<com.svenjacobs.reveal/ActualRevealable?>, androidx.compose.ui/Modifier, kotlin/Function4<com.svenjacobs.reveal/RevealOverlayScope, kotlin/Any, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.svenjacobs.reveal.effect/RevealOverlayEffect.Overlay|Overlay(com.svenjacobs.reveal.RevealState;androidx.compose.runtime.State<com.svenjacobs.reveal.ActualRevealable?>;androidx.compose.runtime.State<com.svenjacobs.reveal.ActualRevealable?>;androidx.compose.ui.Modifier;kotlin.Function4<com.svenjacobs.reveal.RevealOverlayScope,kotlin.Any,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+    open fun Overlay(com.svenjacobs.reveal/RevealState, androidx.compose.runtime/State<com.svenjacobs.reveal/ActualRevealables>, androidx.compose.ui/Modifier, kotlin/Function4<com.svenjacobs.reveal/RevealOverlayScope, kotlin/Any, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.svenjacobs.reveal.effect/RevealOverlayEffect.Overlay|Overlay(com.svenjacobs.reveal.RevealState;androidx.compose.runtime.State<com.svenjacobs.reveal.ActualRevealables>;androidx.compose.ui.Modifier;kotlin.Function4<com.svenjacobs.reveal.RevealOverlayScope,kotlin.Any,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 }
 
 abstract interface com.svenjacobs.reveal/RevealOverlayScope { // com.svenjacobs.reveal/RevealOverlayScope|null[0]
@@ -86,7 +87,7 @@ final class com.svenjacobs.reveal.effect.dim/DimRevealOverlayEffect : com.svenja
     final val alphaAnimationSpec // com.svenjacobs.reveal.effect.dim/DimRevealOverlayEffect.alphaAnimationSpec|{}alphaAnimationSpec[0]
         final fun <get-alphaAnimationSpec>(): androidx.compose.animation.core/AnimationSpec<kotlin/Float> // com.svenjacobs.reveal.effect.dim/DimRevealOverlayEffect.alphaAnimationSpec.<get-alphaAnimationSpec>|<get-alphaAnimationSpec>(){}[0]
 
-    final fun Overlay(com.svenjacobs.reveal/RevealState, androidx.compose.runtime/State<com.svenjacobs.reveal/ActualRevealable?>, androidx.compose.runtime/State<com.svenjacobs.reveal/ActualRevealable?>, androidx.compose.ui/Modifier, kotlin/Function4<com.svenjacobs.reveal/RevealOverlayScope, kotlin/Any, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.svenjacobs.reveal.effect.dim/DimRevealOverlayEffect.Overlay|Overlay(com.svenjacobs.reveal.RevealState;androidx.compose.runtime.State<com.svenjacobs.reveal.ActualRevealable?>;androidx.compose.runtime.State<com.svenjacobs.reveal.ActualRevealable?>;androidx.compose.ui.Modifier;kotlin.Function4<com.svenjacobs.reveal.RevealOverlayScope,kotlin.Any,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
+    final fun Overlay(com.svenjacobs.reveal/RevealState, androidx.compose.runtime/State<com.svenjacobs.reveal/ActualRevealables>, androidx.compose.ui/Modifier, kotlin/Function4<com.svenjacobs.reveal/RevealOverlayScope, kotlin/Any, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int) // com.svenjacobs.reveal.effect.dim/DimRevealOverlayEffect.Overlay|Overlay(com.svenjacobs.reveal.RevealState;androidx.compose.runtime.State<com.svenjacobs.reveal.ActualRevealables>;androidx.compose.ui.Modifier;kotlin.Function4<com.svenjacobs.reveal.RevealOverlayScope,kotlin.Any,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int){}[0]
 }
 
 final class com.svenjacobs.reveal/ActualRevealable { // com.svenjacobs.reveal/ActualRevealable|null[0]
@@ -117,15 +118,35 @@ final class com.svenjacobs.reveal/ActualRevealable { // com.svenjacobs.reveal/Ac
     final fun toString(): kotlin/String // com.svenjacobs.reveal/ActualRevealable.toString|toString(){}[0]
 }
 
+final class com.svenjacobs.reveal/ActualRevealables { // com.svenjacobs.reveal/ActualRevealables|null[0]
+    constructor <init>(kotlin.collections/List<com.svenjacobs.reveal/ActualRevealable> = ..., kotlin.collections/List<com.svenjacobs.reveal/ActualRevealable> = ...) // com.svenjacobs.reveal/ActualRevealables.<init>|<init>(kotlin.collections.List<com.svenjacobs.reveal.ActualRevealable>;kotlin.collections.List<com.svenjacobs.reveal.ActualRevealable>){}[0]
+
+    final val current // com.svenjacobs.reveal/ActualRevealables.current|{}current[0]
+        final fun <get-current>(): kotlin.collections/List<com.svenjacobs.reveal/ActualRevealable> // com.svenjacobs.reveal/ActualRevealables.current.<get-current>|<get-current>(){}[0]
+    final val previous // com.svenjacobs.reveal/ActualRevealables.previous|{}previous[0]
+        final fun <get-previous>(): kotlin.collections/List<com.svenjacobs.reveal/ActualRevealable> // com.svenjacobs.reveal/ActualRevealables.previous.<get-previous>|<get-previous>(){}[0]
+
+    final fun component1(): kotlin.collections/List<com.svenjacobs.reveal/ActualRevealable> // com.svenjacobs.reveal/ActualRevealables.component1|component1(){}[0]
+    final fun component2(): kotlin.collections/List<com.svenjacobs.reveal/ActualRevealable> // com.svenjacobs.reveal/ActualRevealables.component2|component2(){}[0]
+    final fun copy(kotlin.collections/List<com.svenjacobs.reveal/ActualRevealable> = ..., kotlin.collections/List<com.svenjacobs.reveal/ActualRevealable> = ...): com.svenjacobs.reveal/ActualRevealables // com.svenjacobs.reveal/ActualRevealables.copy|copy(kotlin.collections.List<com.svenjacobs.reveal.ActualRevealable>;kotlin.collections.List<com.svenjacobs.reveal.ActualRevealable>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.svenjacobs.reveal/ActualRevealables.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.svenjacobs.reveal/ActualRevealables.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.svenjacobs.reveal/ActualRevealables.toString|toString(){}[0]
+}
+
 final class com.svenjacobs.reveal/RevealState { // com.svenjacobs.reveal/RevealState|null[0]
     constructor <init>() // com.svenjacobs.reveal/RevealState.<init>|<init>(){}[0]
 
     final val currentRevealableKey // com.svenjacobs.reveal/RevealState.currentRevealableKey|{}currentRevealableKey[0]
         final fun <get-currentRevealableKey>(): kotlin/Any? // com.svenjacobs.reveal/RevealState.currentRevealableKey.<get-currentRevealableKey>|<get-currentRevealableKey>(){}[0]
+    final val currentRevealableKeys // com.svenjacobs.reveal/RevealState.currentRevealableKeys|{}currentRevealableKeys[0]
+        final fun <get-currentRevealableKeys>(): kotlin.collections/List<kotlin/Any> // com.svenjacobs.reveal/RevealState.currentRevealableKeys.<get-currentRevealableKeys>|<get-currentRevealableKeys>(){}[0]
     final val isVisible // com.svenjacobs.reveal/RevealState.isVisible|{}isVisible[0]
         final fun <get-isVisible>(): kotlin/Boolean // com.svenjacobs.reveal/RevealState.isVisible.<get-isVisible>|<get-isVisible>(){}[0]
     final val previousRevealableKey // com.svenjacobs.reveal/RevealState.previousRevealableKey|{}previousRevealableKey[0]
         final fun <get-previousRevealableKey>(): kotlin/Any? // com.svenjacobs.reveal/RevealState.previousRevealableKey.<get-previousRevealableKey>|<get-previousRevealableKey>(){}[0]
+    final val previousRevealableKeys // com.svenjacobs.reveal/RevealState.previousRevealableKeys|{}previousRevealableKeys[0]
+        final fun <get-previousRevealableKeys>(): kotlin.collections/List<kotlin/Any> // com.svenjacobs.reveal/RevealState.previousRevealableKeys.<get-previousRevealableKeys>|<get-previousRevealableKeys>(){}[0]
     final val revealableKeys // com.svenjacobs.reveal/RevealState.revealableKeys|{}revealableKeys[0]
         final fun <get-revealableKeys>(): kotlin.collections/Set<kotlin/Any> // com.svenjacobs.reveal/RevealState.revealableKeys.<get-revealableKeys>|<get-revealableKeys>(){}[0]
 
@@ -134,8 +155,12 @@ final class com.svenjacobs.reveal/RevealState { // com.svenjacobs.reveal/RevealS
     final fun putRevealable(com.svenjacobs.reveal/Revealable) // com.svenjacobs.reveal/RevealState.putRevealable|putRevealable(com.svenjacobs.reveal.Revealable){}[0]
     final fun removeRevealable(kotlin/Any) // com.svenjacobs.reveal/RevealState.removeRevealable|removeRevealable(kotlin.Any){}[0]
     final suspend fun hide() // com.svenjacobs.reveal/RevealState.hide|hide(){}[0]
+    final suspend fun reveal(kotlin.collections/Iterable<kotlin/Any>) // com.svenjacobs.reveal/RevealState.reveal|reveal(kotlin.collections.Iterable<kotlin.Any>){}[0]
     final suspend fun reveal(kotlin/Any) // com.svenjacobs.reveal/RevealState.reveal|reveal(kotlin.Any){}[0]
+    final suspend fun reveal(kotlin/Array<out kotlin/Any>...) // com.svenjacobs.reveal/RevealState.reveal|reveal(kotlin.Array<out|kotlin.Any>...){}[0]
+    final suspend fun tryReveal(kotlin.collections/Iterable<kotlin/Any>): kotlin/Boolean // com.svenjacobs.reveal/RevealState.tryReveal|tryReveal(kotlin.collections.Iterable<kotlin.Any>){}[0]
     final suspend fun tryReveal(kotlin/Any): kotlin/Boolean // com.svenjacobs.reveal/RevealState.tryReveal|tryReveal(kotlin.Any){}[0]
+    final suspend fun tryReveal(kotlin/Array<out kotlin/Any>...): kotlin/Boolean // com.svenjacobs.reveal/RevealState.tryReveal|tryReveal(kotlin.Array<out|kotlin.Any>...){}[0]
 }
 
 final class com.svenjacobs.reveal/Revealable { // com.svenjacobs.reveal/Revealable|null[0]
@@ -228,6 +253,7 @@ final object com.svenjacobs.reveal/RevealOverlayArrangement { // com.svenjacobs.
 
 final val com.svenjacobs.reveal.effect.dim/com_svenjacobs_reveal_effect_dim_DimRevealOverlayEffect$stableprop // com.svenjacobs.reveal.effect.dim/com_svenjacobs_reveal_effect_dim_DimRevealOverlayEffect$stableprop|#static{}com_svenjacobs_reveal_effect_dim_DimRevealOverlayEffect$stableprop[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_ActualRevealable$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_ActualRevealable$stableprop|#static{}com_svenjacobs_reveal_ActualRevealable$stableprop[0]
+final val com.svenjacobs.reveal/com_svenjacobs_reveal_ActualRevealables$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_ActualRevealables$stableprop|#static{}com_svenjacobs_reveal_ActualRevealables$stableprop[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_OnClick_Listener$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_OnClick_Listener$stableprop|#static{}com_svenjacobs_reveal_OnClick_Listener$stableprop[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_OnClick_Passthrough$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_OnClick_Passthrough$stableprop|#static{}com_svenjacobs_reveal_OnClick_Passthrough$stableprop[0]
 final val com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement$stableprop // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement$stableprop|#static{}com_svenjacobs_reveal_RevealOverlayArrangement$stableprop[0]
@@ -249,6 +275,7 @@ final fun (androidx.compose.ui/Modifier).com.svenjacobs.reveal/revealable(kotlin
 final fun com.svenjacobs.reveal.effect.dim/com_svenjacobs_reveal_effect_dim_DimRevealOverlayEffect$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal.effect.dim/com_svenjacobs_reveal_effect_dim_DimRevealOverlayEffect$stableprop_getter|com_svenjacobs_reveal_effect_dim_DimRevealOverlayEffect$stableprop_getter(){}[0]
 final fun com.svenjacobs.reveal/Reveal(androidx.compose.ui/Modifier?, kotlin/Function1<kotlin/Any, kotlin/Unit>?, kotlin/Function1<kotlin/Any, kotlin/Unit>?, com.svenjacobs.reveal/RevealState?, com.svenjacobs.reveal.effect/RevealOverlayEffect?, kotlin/Function4<com.svenjacobs.reveal/RevealOverlayScope, kotlin/Any, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>?, kotlin/Function3<com.svenjacobs.reveal/RevealScope, androidx.compose.runtime/Composer, kotlin/Int, kotlin/Unit>, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.svenjacobs.reveal/Reveal|Reveal(androidx.compose.ui.Modifier?;kotlin.Function1<kotlin.Any,kotlin.Unit>?;kotlin.Function1<kotlin.Any,kotlin.Unit>?;com.svenjacobs.reveal.RevealState?;com.svenjacobs.reveal.effect.RevealOverlayEffect?;kotlin.Function4<com.svenjacobs.reveal.RevealOverlayScope,kotlin.Any,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>?;kotlin.Function3<com.svenjacobs.reveal.RevealScope,androidx.compose.runtime.Composer,kotlin.Int,kotlin.Unit>;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun com.svenjacobs.reveal/com_svenjacobs_reveal_ActualRevealable$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_ActualRevealable$stableprop_getter|com_svenjacobs_reveal_ActualRevealable$stableprop_getter(){}[0]
+final fun com.svenjacobs.reveal/com_svenjacobs_reveal_ActualRevealables$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_ActualRevealables$stableprop_getter|com_svenjacobs_reveal_ActualRevealables$stableprop_getter(){}[0]
 final fun com.svenjacobs.reveal/com_svenjacobs_reveal_OnClick_Listener$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_OnClick_Listener$stableprop_getter|com_svenjacobs_reveal_OnClick_Listener$stableprop_getter(){}[0]
 final fun com.svenjacobs.reveal/com_svenjacobs_reveal_OnClick_Passthrough$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_OnClick_Passthrough$stableprop_getter|com_svenjacobs_reveal_OnClick_Passthrough$stableprop_getter(){}[0]
 final fun com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement$stableprop_getter(): kotlin/Int // com.svenjacobs.reveal/com_svenjacobs_reveal_RevealOverlayArrangement$stableprop_getter|com_svenjacobs_reveal_RevealOverlayArrangement$stableprop_getter(){}[0]

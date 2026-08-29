@@ -24,8 +24,9 @@ internal object RevealOverlayPopupPositionProvider : PopupPositionProvider {
 /**
  * Platform specific properties for the full screen overlay popup.
  *
- * @param passthrough Whether the current revealable uses [com.svenjacobs.reveal.OnClick.Passthrough].
+ * @param passthrough Whether all current revealables use [com.svenjacobs.reveal.OnClick.Passthrough].
  *                     If supported by the platform, the popup should not intercept touches in this
- *                     case.
+ *                     case. Since this is a property of the whole popup window, it cannot be
+ *                     honoured for individual items when multiple items are revealed at once.
  */
 internal expect fun revealOverlayPopupProperties(passthrough: Boolean): PopupProperties

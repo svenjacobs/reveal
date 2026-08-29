@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import com.svenjacobs.reveal.ActualRevealable
+import com.svenjacobs.reveal.ActualRevealables
 import com.svenjacobs.reveal.Key
 import com.svenjacobs.reveal.LocalRevealOverlayArrowAnchor
 import com.svenjacobs.reveal.RevealOverlayArrowAnchor
@@ -60,12 +61,15 @@ public class DimRevealOverlayEffect(
     @Composable
     override fun Overlay(
         revealState: RevealState,
-        currentRevealable: State<ActualRevealable?>,
-        previousRevealable: State<ActualRevealable?>,
+        revealables: State<ActualRevealables>,
         modifier: Modifier,
         content: @Composable RevealOverlayScope.(key: Key) -> Unit,
     ) {
-        val currentItemHolder = currentRevealable.value?.let {
+        val value = revealables.value
+
+        // rememberDimItemHolder() keys its contents on the revealable's key, which is what makes
+        // calling it from within a loop safe when items are added, removed or reordered.
+        val currentItemHolders = value.current.map {
             rememberDimItemHolder(
                 revealable = it,
                 fromState = Gone,
@@ -74,7 +78,7 @@ public class DimRevealOverlayEffect(
             )
         }
 
-        val prevItemHolder = previousRevealable.value?.let {
+        val prevItemHolders = value.previous.map {
             rememberDimItemHolder(
                 revealable = it,
                 fromState = Visible,
@@ -93,12 +97,12 @@ public class DimRevealOverlayEffect(
                 .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
                 .drawBehind {
                     drawRect(color)
-                    prevItemHolder?.let { with(it) { draw(density) } }
-                    currentItemHolder?.let { with(it) { draw(density) } }
+                    prevItemHolders.forEach { with(it) { draw(density) } }
+                    currentItemHolders.forEach { with(it) { draw(density) } }
                 },
         ) {
-            prevItemHolder?.let { with(it) { Container(content = movableContent) } }
-            currentItemHolder?.let { with(it) { Container(content = movableContent) } }
+            prevItemHolders.forEach { with(it) { Container(content = movableContent) } }
+            currentItemHolders.forEach { with(it) { Container(content = movableContent) } }
         }
     }
 }

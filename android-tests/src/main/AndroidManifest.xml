@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    This module hosts instrumentation and screenshot tests only. The tests compose their own
+    content via createComposeRule(), which runs in the ComponentActivity provided by
+    androidx.compose.ui.test.manifest, so no application class, activity or theme is needed here.
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:name=".App"
         android:allowBackup="false"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
+        android:supportsRtl="true" />
 
 </manifest>

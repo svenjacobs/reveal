@@ -20,6 +20,22 @@ public final class com/svenjacobs/reveal/ActualRevealable {
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class com/svenjacobs/reveal/ActualRevealables {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Ljava/util/List;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;Ljava/util/List;)Lcom/svenjacobs/reveal/ActualRevealables;
+	public static synthetic fun copy$default (Lcom/svenjacobs/reveal/ActualRevealables;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lcom/svenjacobs/reveal/ActualRevealables;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCurrent ()Ljava/util/List;
+	public final fun getPrevious ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class com/svenjacobs/reveal/ComposableSingletons$RevealKt {
 	public static final field INSTANCE Lcom/svenjacobs/reveal/ComposableSingletons$RevealKt;
 	public fun <init> ()V
@@ -198,14 +214,20 @@ public final class com/svenjacobs/reveal/RevealState {
 	public final fun addRevealable (Lcom/svenjacobs/reveal/Revealable;)V
 	public final fun containsRevealable (Ljava/lang/Object;)Z
 	public final fun getCurrentRevealableKey ()Ljava/lang/Object;
+	public final fun getCurrentRevealableKeys ()Ljava/util/List;
 	public final fun getPreviousRevealableKey ()Ljava/lang/Object;
+	public final fun getPreviousRevealableKeys ()Ljava/util/List;
 	public final fun getRevealableKeys ()Ljava/util/Set;
 	public final fun hide (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun isVisible ()Z
 	public final fun putRevealable (Lcom/svenjacobs/reveal/Revealable;)V
 	public final fun removeRevealable (Ljava/lang/Object;)V
+	public final fun reveal (Ljava/lang/Iterable;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun reveal (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun reveal ([Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun tryReveal (Ljava/lang/Iterable;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public final fun tryReveal (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun tryReveal ([Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/svenjacobs/reveal/RevealStateKt {
@@ -249,8 +271,14 @@ public final class com/svenjacobs/reveal/Revealable$Layout {
 }
 
 public abstract interface class com/svenjacobs/reveal/effect/RevealOverlayEffect {
-	public abstract fun Overlay (Lcom/svenjacobs/reveal/RevealState;Landroidx/compose/runtime/State;Landroidx/compose/runtime/State;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;I)V
+	public fun Overlay (Lcom/svenjacobs/reveal/RevealState;Landroidx/compose/runtime/State;Landroidx/compose/runtime/State;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;I)V
+	public fun Overlay (Lcom/svenjacobs/reveal/RevealState;Landroidx/compose/runtime/State;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;I)V
 	public abstract fun getAlphaAnimationSpec ()Landroidx/compose/animation/core/AnimationSpec;
+}
+
+public final class com/svenjacobs/reveal/effect/RevealOverlayEffect$DefaultImpls {
+	public static fun Overlay (Lcom/svenjacobs/reveal/effect/RevealOverlayEffect;Lcom/svenjacobs/reveal/RevealState;Landroidx/compose/runtime/State;Landroidx/compose/runtime/State;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;I)V
+	public static fun Overlay (Lcom/svenjacobs/reveal/effect/RevealOverlayEffect;Lcom/svenjacobs/reveal/RevealState;Landroidx/compose/runtime/State;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;I)V
 }
 
 public final class com/svenjacobs/reveal/effect/dim/DimRevealOverlayEffect : com/svenjacobs/reveal/effect/RevealOverlayEffect {
@@ -258,6 +286,7 @@ public final class com/svenjacobs/reveal/effect/dim/DimRevealOverlayEffect : com
 	public synthetic fun <init> (Landroidx/compose/animation/core/AnimationSpec;JLandroidx/compose/animation/core/AnimationSpec;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (Landroidx/compose/animation/core/AnimationSpec;JLandroidx/compose/animation/core/AnimationSpec;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun Overlay (Lcom/svenjacobs/reveal/RevealState;Landroidx/compose/runtime/State;Landroidx/compose/runtime/State;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;I)V
+	public fun Overlay (Lcom/svenjacobs/reveal/RevealState;Landroidx/compose/runtime/State;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;I)V
 	public fun getAlphaAnimationSpec ()Landroidx/compose/animation/core/AnimationSpec;
 }
 
