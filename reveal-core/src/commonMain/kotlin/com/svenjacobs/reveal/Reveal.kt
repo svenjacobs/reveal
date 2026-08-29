@@ -116,21 +116,17 @@ public fun Reveal(
 
     val revealables = remember(density, layoutDirection) {
         derivedStateOf {
-            ActualRevealables(
-                current = revealState.currentRevealables.map {
-                    it.toActual(
-                        density = density,
-                        layoutDirection = layoutDirection,
-                        additionalOffset = rootOffsetInWindow,
-                    )
-                },
-                previous = revealState.previousRevealables.map {
-                    it.toActual(
-                        density = density,
-                        layoutDirection = layoutDirection,
-                        additionalOffset = rootOffsetInWindow,
-                    )
-                },
+            PositionedRevealables(
+                current = revealState.currentRevealables.toPositioned(
+                    density = density,
+                    layoutDirection = layoutDirection,
+                    additionalOffset = rootOffsetInWindow,
+                ),
+                previous = revealState.previousRevealables.toPositioned(
+                    density = density,
+                    layoutDirection = layoutDirection,
+                    additionalOffset = rootOffsetInWindow,
+                ),
             )
         }
     }
@@ -210,19 +206,21 @@ public fun Reveal(
 
 public typealias OnClickListener = (key: Key) -> Unit
 
-private fun Revealable.toActual(
+private fun List<Revealable>.toPositioned(
     density: Density,
     layoutDirection: LayoutDirection,
     additionalOffset: Offset,
-): ActualRevealable = ActualRevealable(
-    key = key,
-    shape = shape,
-    padding = padding,
-    borderStroke = borderStroke,
-    area = computeArea(
-        density = density,
-        layoutDirection = layoutDirection,
-        additionalOffset = additionalOffset,
-    ),
-    onClick = onClick,
-)
+): List<PositionedRevealable> = map {
+    PositionedRevealable(
+        key = it.key,
+        shape = it.shape,
+        padding = it.padding,
+        borderStroke = it.borderStroke,
+        area = it.computeArea(
+            density = density,
+            layoutDirection = layoutDirection,
+            additionalOffset = additionalOffset,
+        ),
+        onClick = it.onClick,
+    )
+}

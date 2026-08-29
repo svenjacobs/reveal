@@ -27,8 +27,13 @@ public data class Revealable(
     public data class Layout(val offset: Offset, val size: Size)
 }
 
+/**
+ * A [Revealable] whose [Revealable.Layout] has been resolved into the final reveal [area]: density,
+ * layout direction, the revealable's padding and the shape's own expansion are already applied, and
+ * the rect is expressed in window coordinates, matching the overlay popup.
+ */
 @Immutable
-public data class ActualRevealable(
+public data class PositionedRevealable(
     val key: Key,
     val shape: RevealShape,
     val padding: PaddingValues,
@@ -45,9 +50,9 @@ public data class ActualRevealable(
  * [current] instead of also fading it out.
  */
 @Immutable
-public data class ActualRevealables(
-    val current: List<ActualRevealable> = emptyList(),
-    val previous: List<ActualRevealable> = emptyList(),
+public data class PositionedRevealables(
+    val current: List<PositionedRevealable> = emptyList(),
+    val previous: List<PositionedRevealable> = emptyList(),
 )
 
 /**
@@ -62,21 +67,13 @@ internal fun Revealable.computeArea(
     layoutDirection: LayoutDirection,
     additionalOffset: Offset,
 ): Rect = with(density) {
+    val x = layout.offset.x + additionalOffset.x
+    val y = layout.offset.y + additionalOffset.y
     val rect = Rect(
-        left = layout.offset.x +
-            additionalOffset.x -
-            padding.calculateLeftPadding(layoutDirection).toPx(),
-        top = layout.offset.y +
-            additionalOffset.y -
-            padding.calculateTopPadding().toPx(),
-        right = layout.offset.x +
-            additionalOffset.x +
-            padding.calculateRightPadding(layoutDirection).toPx() +
-            layout.size.width,
-        bottom = layout.offset.y +
-            additionalOffset.y +
-            padding.calculateBottomPadding().toPx() +
-            layout.size.height,
+        left = x - padding.calculateLeftPadding(layoutDirection).toPx(),
+        top = y - padding.calculateTopPadding().toPx(),
+        right = x + padding.calculateRightPadding(layoutDirection).toPx() + layout.size.width,
+        bottom = y + padding.calculateBottomPadding().toPx() + layout.size.height,
     )
 
     if (shape == RevealShape.Circle) {

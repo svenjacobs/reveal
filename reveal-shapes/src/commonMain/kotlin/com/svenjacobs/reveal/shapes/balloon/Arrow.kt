@@ -61,10 +61,14 @@ public sealed interface Arrow {
             verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
             anchorToReveal: Boolean = false,
             cornerMargin: Dp = DefaultCornerMargin,
-        ): Arrow = when (LocalLayoutDirection.current) {
-            LayoutDirection.Ltr -> ::StartInternal
-            LayoutDirection.Rtl -> ::EndInternal
-        }(width, height, verticalAlignment, anchorToReveal, cornerMargin)
+        ): Arrow = VerticalArrow(
+            width = width,
+            height = height,
+            verticalAlignment = verticalAlignment,
+            anchorToReveal = anchorToReveal,
+            cornerMargin = cornerMargin,
+            atEnd = LocalLayoutDirection.current == LayoutDirection.Rtl,
+        )
 
         /**
          * Arrow pointing upward, placed on the top side of the balloon.
@@ -85,12 +89,13 @@ public sealed interface Arrow {
             horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
             anchorToReveal: Boolean = false,
             cornerMargin: Dp = DefaultCornerMargin,
-        ): Arrow = TopInternal(
+        ): Arrow = HorizontalArrow(
             width = width,
             height = height,
             horizontalAlignment = horizontalAlignment,
             anchorToReveal = anchorToReveal,
             cornerMargin = cornerMargin,
+            atBottom = false,
         )
 
         /**
@@ -113,10 +118,14 @@ public sealed interface Arrow {
             verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
             anchorToReveal: Boolean = false,
             cornerMargin: Dp = DefaultCornerMargin,
-        ): Arrow = when (LocalLayoutDirection.current) {
-            LayoutDirection.Ltr -> ::EndInternal
-            LayoutDirection.Rtl -> ::StartInternal
-        }(width, height, verticalAlignment, anchorToReveal, cornerMargin)
+        ): Arrow = VerticalArrow(
+            width = width,
+            height = height,
+            verticalAlignment = verticalAlignment,
+            anchorToReveal = anchorToReveal,
+            cornerMargin = cornerMargin,
+            atEnd = LocalLayoutDirection.current == LayoutDirection.Ltr,
+        )
 
         /**
          * Arrow pointing downward, placed on the bottom side of the balloon.
@@ -137,12 +146,13 @@ public sealed interface Arrow {
             horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
             anchorToReveal: Boolean = false,
             cornerMargin: Dp = DefaultCornerMargin,
-        ): Arrow = BottomInternal(
+        ): Arrow = HorizontalArrow(
             width = width,
             height = height,
             horizontalAlignment = horizontalAlignment,
             anchorToReveal = anchorToReveal,
             cornerMargin = cornerMargin,
+            atBottom = true,
         )
 
         /**
@@ -173,8 +183,8 @@ public sealed interface Arrow {
          */
         internal fun shapeLocalAnchor(arrow: Arrow, offset: Float, size: Size): Float =
             when (arrow) {
-                is TopInternal, is BottomInternal -> size.width / 2f + offset
-                is StartInternal, is EndInternal -> size.height / 2f + offset
+                is HorizontalArrow -> size.width / 2f + offset
+                is VerticalArrow -> size.height / 2f + offset
             }
 
         private fun Alignment.Horizontal.cornerRadiusOffset(
@@ -229,21 +239,38 @@ public sealed interface Arrow {
         anchor: Float? = null,
     ): Offset
 
-    private class StartInternal(
+    /**
+     * Arrow on the start or end side of the balloon ([atEnd] selects which), sliding along the
+     * vertical axis.
+     */
+    private class VerticalArrow(
         override val width: Dp,
         override val height: Dp,
         private val verticalAlignment: Alignment.Vertical,
-        override val anchorToReveal: Boolean = false,
-        private val cornerMargin: Dp = DefaultCornerMargin,
+        override val anchorToReveal: Boolean,
+        private val cornerMargin: Dp,
+        private val atEnd: Boolean,
     ) : Arrow {
 
-        override val padding: PaddingValues = PaddingValues.Absolute(left = width)
+        override val padding: PaddingValues = if (atEnd) {
+            PaddingValues.Absolute(right = width)
+        } else {
+            PaddingValues.Absolute(left = width)
+        }
 
         override fun path(density: Density): Path = with(density) {
+            val w = width.toPx()
+            val h = height.toPx()
             Path().apply {
-                moveTo(0f, height.toPx() / 2f)
-                lineTo(width.toPx(), 0f)
-                lineTo(width.toPx(), height.toPx())
+                if (atEnd) {
+                    moveTo(0f, 0f)
+                    lineTo(w, h / 2f)
+                    lineTo(0f, h)
+                } else {
+                    moveTo(0f, h / 2f)
+                    lineTo(w, 0f)
+                    lineTo(w, h)
+                }
                 close()
             }
         }
@@ -256,7 +283,7 @@ public sealed interface Arrow {
             anchor: Float?,
         ): Offset = with(density) {
             Offset(
-                x = 0f,
+                x = if (atEnd) size.width - width.toPx() else 0f,
                 y = if (anchorToReveal && anchor != null) {
                     clampArrowOffset(
                         center = anchor,
@@ -276,21 +303,38 @@ public sealed interface Arrow {
         }
     }
 
-    private class TopInternal(
+    /**
+     * Arrow on the top or bottom side of the balloon ([atBottom] selects which), sliding along the
+     * horizontal axis.
+     */
+    private class HorizontalArrow(
         override val width: Dp,
         override val height: Dp,
         private val horizontalAlignment: Alignment.Horizontal,
-        override val anchorToReveal: Boolean = false,
-        private val cornerMargin: Dp = DefaultCornerMargin,
+        override val anchorToReveal: Boolean,
+        private val cornerMargin: Dp,
+        private val atBottom: Boolean,
     ) : Arrow {
 
-        override val padding: PaddingValues = PaddingValues.Absolute(top = height)
+        override val padding: PaddingValues = if (atBottom) {
+            PaddingValues.Absolute(bottom = height)
+        } else {
+            PaddingValues.Absolute(top = height)
+        }
 
         override fun path(density: Density): Path = with(density) {
+            val w = width.toPx()
+            val h = height.toPx()
             Path().apply {
-                moveTo(0f, height.toPx())
-                lineTo(width.toPx() / 2f, 0f)
-                lineTo(width.toPx(), height.toPx())
+                if (atBottom) {
+                    moveTo(0f, 0f)
+                    lineTo(w / 2f, h)
+                    lineTo(w, 0f)
+                } else {
+                    moveTo(0f, h)
+                    lineTo(w / 2f, 0f)
+                    lineTo(w, h)
+                }
                 close()
             }
         }
@@ -322,103 +366,7 @@ public sealed interface Arrow {
                             layoutDirection,
                         )
                 },
-                y = 0f,
-            )
-        }
-    }
-
-    private class EndInternal(
-        override val width: Dp,
-        override val height: Dp,
-        private val verticalAlignment: Alignment.Vertical,
-        override val anchorToReveal: Boolean = false,
-        private val cornerMargin: Dp = DefaultCornerMargin,
-    ) : Arrow {
-
-        override val padding: PaddingValues = PaddingValues.Absolute(right = width)
-
-        override fun path(density: Density): Path = with(density) {
-            Path().apply {
-                lineTo(width.toPx(), height.toPx() / 2f)
-                lineTo(0f, height.toPx())
-                close()
-            }
-        }
-
-        override fun offset(
-            density: Density,
-            size: Size,
-            cornerRadius: Float,
-            layoutDirection: LayoutDirection,
-            anchor: Float?,
-        ): Offset = with(density) {
-            Offset(
-                x = size.width - width.toPx(),
-                y = if (anchorToReveal && anchor != null) {
-                    clampArrowOffset(
-                        center = anchor,
-                        arrowLength = height.toPx(),
-                        available = size.height,
-                        cornerRadius = cornerRadius,
-                        margin = cornerMargin.toPx(),
-                    )
-                } else {
-                    verticalAlignment.align(
-                        size = height.roundToPx(),
-                        space = size.height.toInt(),
-                    ).toFloat() +
-                        verticalAlignment.cornerRadiusOffset(cornerRadius)
-                },
-            )
-        }
-    }
-
-    private class BottomInternal(
-        override val width: Dp,
-        override val height: Dp,
-        private val horizontalAlignment: Alignment.Horizontal,
-        override val anchorToReveal: Boolean = false,
-        private val cornerMargin: Dp = DefaultCornerMargin,
-    ) : Arrow {
-
-        override val padding: PaddingValues = PaddingValues.Absolute(bottom = height)
-
-        override fun path(density: Density): Path = with(density) {
-            Path().apply {
-                lineTo(width.toPx() / 2f, height.toPx())
-                lineTo(width.toPx(), 0f)
-                close()
-            }
-        }
-
-        override fun offset(
-            density: Density,
-            size: Size,
-            cornerRadius: Float,
-            layoutDirection: LayoutDirection,
-            anchor: Float?,
-        ): Offset = with(density) {
-            Offset(
-                x = if (anchorToReveal && anchor != null) {
-                    clampArrowOffset(
-                        center = anchor,
-                        arrowLength = width.toPx(),
-                        available = size.width,
-                        cornerRadius = cornerRadius,
-                        margin = cornerMargin.toPx(),
-                    )
-                } else {
-                    horizontalAlignment.align(
-                        width.roundToPx(),
-                        size.width.toInt(),
-                        layoutDirection,
-                    ).toFloat() +
-                        horizontalAlignment.cornerRadiusOffset(
-                            cornerRadius,
-                            layoutDirection,
-                        )
-                },
-                y = size.height - height.toPx(),
+                y = if (atBottom) size.height - height.toPx() else 0f,
             )
         }
     }

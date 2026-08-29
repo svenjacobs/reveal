@@ -158,11 +158,7 @@ public class RevealState internal constructor(
      *
      * @see reveal
      */
-    public suspend fun tryReveal(key: Key): Boolean {
-        if (!containsRevealable(key)) return false
-        internalReveal(listOf(key))
-        return true
-    }
+    public suspend fun tryReveal(key: Key): Boolean = tryReveal(listOf(key))
 
     /**
      * Like [reveal] but doesn't throw exception if a revealable was not found.

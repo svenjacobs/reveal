@@ -57,15 +57,13 @@ public fun Modifier.revealable(
     padding: PaddingValues = PaddingValues(8.dp),
     borderStroke: BorderStroke? = null,
     onClick: OnClick? = null,
-): Modifier = this.then(
-    Modifier.revealable(
-        state = state,
-        keys = listOf(key),
-        shape = shape,
-        padding = padding,
-        borderStroke = borderStroke,
-        onClick = onClick,
-    ),
+): Modifier = revealable(
+    keys = listOf(key),
+    state = state,
+    shape = shape,
+    padding = padding,
+    borderStroke = borderStroke,
+    onClick = onClick,
 )
 
 /**
@@ -99,15 +97,13 @@ public fun Modifier.revealable(
     padding: PaddingValues = PaddingValues(8.dp),
     borderStroke: BorderStroke? = null,
     onClick: OnClick? = null,
-): Modifier = this.then(
-    Modifier.revealable(
-        state = state,
-        keys = keys.toList(),
-        shape = shape,
-        padding = padding,
-        borderStroke = borderStroke,
-        onClick = onClick,
-    ),
+): Modifier = revealable(
+    keys = keys.toList(),
+    state = state,
+    shape = shape,
+    padding = padding,
+    borderStroke = borderStroke,
+    onClick = onClick,
 )
 
 /**
