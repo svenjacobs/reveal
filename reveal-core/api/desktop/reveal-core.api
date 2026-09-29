@@ -283,6 +283,7 @@ public final class com/svenjacobs/reveal/effect/RevealOverlayEffect$DefaultImpls
 
 public final class com/svenjacobs/reveal/effect/dim/DimRevealOverlayEffect : com/svenjacobs/reveal/effect/RevealOverlayEffect {
 	public static final field $stable I
+	public fun <init> ()V
 	public synthetic fun <init> (Landroidx/compose/animation/core/AnimationSpec;JLandroidx/compose/animation/core/AnimationSpec;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (Landroidx/compose/animation/core/AnimationSpec;JLandroidx/compose/animation/core/AnimationSpec;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun Overlay (Lcom/svenjacobs/reveal/RevealState;Landroidx/compose/runtime/State;Landroidx/compose/runtime/State;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;I)V
