@@ -2,7 +2,7 @@
 android-gradle-plugin = "9.4.1"
 androidx-compose-bom = "2026.09.00"
 jetbrains-compose = "1.12.1"
-kotlin = "2.4.10"
+kotlin = "2.4.20"
 reveal = "5.2.0"
 
 [libraries]
