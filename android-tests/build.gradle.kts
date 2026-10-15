@@ -51,6 +51,10 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            all {
+                // Robolectric 4.17 accesses JDK internals for SDK 37 (FileDescriptor interceptor)
+                it.jvmArgs("--add-opens=java.base/jdk.internal.access=ALL-UNNAMED")
+            }
         }
     }
 }
