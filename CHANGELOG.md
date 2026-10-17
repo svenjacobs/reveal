@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.2.2](https://github.com/svenjacobs/reveal/compare/v5.2.1...v5.2.2) (2026-10-17)
+
+
+### Bug Fixes
+
+* **deps:** Update Kotlin from 2.4.20 to 2.4.21 ([#419](https://github.com/svenjacobs/reveal/issues/419)) ([cbb3223](https://github.com/svenjacobs/reveal/commit/cbb322328713e2a9c9d1165a58cc9317005fa42f))
+
 ## [5.2.1](https://github.com/svenjacobs/reveal/compare/v5.2.0...v5.2.1) (2026-10-17)
 
 
