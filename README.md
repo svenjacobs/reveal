@@ -198,3 +198,8 @@ See [MIGRATION.md](MIGRATION.md) for breaking changes between major versions.
 ## Frequently Asked Questions
 
 See [FAQ.md](FAQ.md)
+
+## Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for how to set up the project,
+our coding and commit message conventions, and how to report bugs.

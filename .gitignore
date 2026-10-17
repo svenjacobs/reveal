@@ -11,3 +11,4 @@ local.properties
 xcuserdata
 kotlin-js-store
 .kotlin
+node_modules
