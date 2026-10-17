@@ -73,6 +73,17 @@ files in `api/`, otherwise `./gradlew check` (via `apiCheck`) will fail.
 - The library version is derived from the `RELEASE_TAG_NAME` environment variable (set in CI on
   release); locally it builds as `0.0.1-SNAPSHOT`. Do not hardcode version numbers in module build
   files.
+- Releases are managed by [release-please](https://github.com/googleapis/release-please)
+  (`.github/workflows/release-please.yml`, configured in `.github/release-please-config.json` and
+  `.github/.release-please-manifest.json`). It maintains a release PR that bumps the version and
+  updates `CHANGELOG.md` from commit messages; merging that PR creates the `vX.Y.Z` tag and GitHub
+  release, which triggers `deploy-release.yml`. Do not edit the manifest or `CHANGELOG.md` by hand.
+- Commit messages (and PR titles, since PRs are squash-merged) must follow
+  [Conventional Commits](https://www.conventionalcommits.org/), enforced by commitlint
+  (`commitlint.config.js`, `lint-commits.yml`, and a husky `commit-msg` hook installed by
+  `npm install`). `feat:` triggers a minor release, `fix:`/`perf:` a patch release, and
+  `!`/`BREAKING CHANGE:` a major release; `chore:`, `docs:` etc. don't trigger a release on their
+  own.
 - Publishing to Maven Central is handled by the `com.vanniktech.maven.publish` plugin, configured in
   the `convention.publication` plugin, and the `deploy-release.yml` workflow (which runs
   `publishAndReleaseToMavenCentral`) — this is not something to trigger from local changes.
