@@ -7,7 +7,7 @@ export default {
   rules: {
     'header-max-length': [1, 'always', 100],
     'body-max-line-length': [0, 'always', 100],
-    // Dependabot (and this repo's history) use sentence-case subjects ("Bump ...")
+    // This repo's history (Dependabot) uses sentence-case subjects ("Bump ...")
     'subject-case': [0]
   }
 };
