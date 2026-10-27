@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.2.3](https://github.com/svenjacobs/reveal/compare/v5.2.2...v5.2.3) (2026-10-27)
+
+
+### Bug Fixes
+
+* **deps:** Bump gradle-wrapper from 9.8.1 to 9.8.2 ([#427](https://github.com/svenjacobs/reveal/issues/427)) ([f04df13](https://github.com/svenjacobs/reveal/commit/f04df135c5c34daab1c0e314e067d61f5bad4406))
+* **deps:** Bump jetbrains-compose from 1.12.0 to 1.12.2 ([#424](https://github.com/svenjacobs/reveal/issues/424)) ([538b5f1](https://github.com/svenjacobs/reveal/commit/538b5f149ad3c532435e7cb86b4eeeda4739390a))
+* **deps:** Bump roborazzi from 1.76.0 to 1.77.0 ([#426](https://github.com/svenjacobs/reveal/issues/426)) ([faabd7e](https://github.com/svenjacobs/reveal/commit/faabd7ea44f56b1e5c43b6787a1038e8b77106ba))
+
 ## [5.2.2](https://github.com/svenjacobs/reveal/compare/v5.2.1...v5.2.2) (2026-10-17)
 
 
