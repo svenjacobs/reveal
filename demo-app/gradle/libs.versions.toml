@@ -1,7 +1,7 @@
 [versions]
 android-gradle-plugin = "9.4.1"
 androidx-compose-bom = "2026.09.00"
-jetbrains-compose = "1.12.2"
+jetbrains-compose = "23.10.16.1"
 kotlin = "2.4.21"
 reveal = "5.2.2"
 
