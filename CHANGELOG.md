@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.2.4](https://github.com/svenjacobs/reveal/compare/v5.2.3...v5.2.4) (2026-11-04)
+
+
+### Bug Fixes
+
+* **deps:** update android.gradle.plugin to v9.5.0 ([#441](https://github.com/svenjacobs/reveal/issues/441)) ([cd7bad9](https://github.com/svenjacobs/reveal/commit/cd7bad9fbe345e733025bff36b962e40381de708))
+* **deps:** update plugin ben-manes-versions to v0.67.0 ([#442](https://github.com/svenjacobs/reveal/issues/442)) ([a8eea45](https://github.com/svenjacobs/reveal/commit/a8eea45fac8a3e9ef60491b70c7fd526dc18cf37))
+
 ## [5.2.3](https://github.com/svenjacobs/reveal/compare/v5.2.2...v5.2.3) (2026-10-27)
 
 
