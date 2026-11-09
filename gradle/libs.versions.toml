@@ -2,7 +2,7 @@
 android-gradle-plugin = "9.5.0"
 androidx-activity = "1.13.0"
 androidx-compose-bom = "2026.09.00" # https://developer.android.com/jetpack/compose/bom/bom-mapping
-dokka = "2.2.0"
+dokka = "2.3.0"
 jetbrains-compose = "1.12.2"
 kotlin = "2.4.21"
 roborazzi = "1.77.0"
