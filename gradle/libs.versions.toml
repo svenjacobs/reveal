@@ -1,5 +1,5 @@
 [versions]
-android-gradle-plugin = "9.5.0"
+android-gradle-plugin = "9.5.1"
 androidx-activity = "1.13.0"
 androidx-compose-bom = "2026.09.00" # https://developer.android.com/jetpack/compose/bom/bom-mapping
 dokka = "2.2.0"
