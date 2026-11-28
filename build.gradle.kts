@@ -51,6 +51,7 @@ tasks.withType<DependencyUpdatesTask> {
     }
 }
 
-extra.set("androidMinSdk", 23)
+extra.set("androidMinSdk", 24)
 extra.set("androidTargetSdk", 37)
 extra.set("androidCompileSdk", 37)
+extra.set("androidCompileSdkMinor", 1)

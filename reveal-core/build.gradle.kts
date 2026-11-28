@@ -15,11 +15,12 @@ mavenPublishing {
 val androidMinSdk = rootProject.extra.get("androidMinSdk") as Int
 val androidTargetSdk = rootProject.extra.get("androidTargetSdk") as Int
 val androidCompileSdk = rootProject.extra.get("androidCompileSdk") as Int
+val androidCompileSdkMinor = rootProject.extra.get("androidCompileSdkMinor") as Int
 
 kotlin {
     android {
         namespace = "com.svenjacobs.reveal"
-        compileSdk { version = release(androidCompileSdk) }
+        compileSdk { version = release(androidCompileSdk) { minorApiLevel = androidCompileSdkMinor } }
         minSdk { version = release(androidMinSdk) }
 
         aarMetadata {
