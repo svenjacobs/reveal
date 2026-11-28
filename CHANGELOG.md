@@ -1,5 +1,23 @@
 # Changelog
 
+## [6.0.0](https://github.com/svenjacobs/reveal/compare/v5.2.3...v6.0.0) (2026-11-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** the minimum supported Android SDK is now 24 (Android 7.0).
+
+### Bug Fixes
+
+* **deps:** update android.gradle.plugin ([#452](https://github.com/svenjacobs/reveal/issues/452)) ([4b03553](https://github.com/svenjacobs/reveal/commit/4b03553b778e9361ab15176f7067eeb323b6e645))
+* **deps:** update android.gradle.plugin to v9.5.0 ([#441](https://github.com/svenjacobs/reveal/issues/441)) ([cd7bad9](https://github.com/svenjacobs/reveal/commit/cd7bad9fbe345e733025bff36b962e40381de708))
+* **deps:** update android.gradle.plugin to v9.5.1 ([#446](https://github.com/svenjacobs/reveal/issues/446)) ([06f6914](https://github.com/svenjacobs/reveal/commit/06f6914655f1ed30fcff60418a8874af2c0e7372))
+* **deps:** update dependency androidx.compose:compose-bom to v2026.11.01 ([#454](https://github.com/svenjacobs/reveal/issues/454)) ([338d92f](https://github.com/svenjacobs/reveal/commit/338d92f05d0650551d341378def25d3a2a75226e))
+* **deps:** update dependency org.jetbrains.dokka to v2.3.0 ([#449](https://github.com/svenjacobs/reveal/issues/449)) ([8874b6f](https://github.com/svenjacobs/reveal/commit/8874b6f593b5eb4aa8a105c9e91552291a4d9499))
+* **deps:** update dependency org.robolectric:robolectric to v4.18.1 ([#455](https://github.com/svenjacobs/reveal/issues/455)) ([21d58b2](https://github.com/svenjacobs/reveal/commit/21d58b2c4704a1bde4d9a7c84e514df6e1cd2a91))
+* **deps:** update plugin ben-manes-versions to v0.67.0 ([#442](https://github.com/svenjacobs/reveal/issues/442)) ([a8eea45](https://github.com/svenjacobs/reveal/commit/a8eea45fac8a3e9ef60491b70c7fd526dc18cf37))
+* **deps:** update roborazzi to v1.79.0 ([#450](https://github.com/svenjacobs/reveal/issues/450)) ([908dc81](https://github.com/svenjacobs/reveal/commit/908dc81ab5a18c69e5a9b4a2fc87c63a070007c5))
+
 ## [5.2.3](https://github.com/svenjacobs/reveal/compare/v5.2.2...v5.2.3) (2026-10-27)
 
 
