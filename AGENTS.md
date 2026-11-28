@@ -47,7 +47,7 @@ The `demo-app` directory is a separate Gradle build; run its own `./gradlew` fro
 `demo-app/` (e.g. `cd demo-app && ./gradlew build`).
 
 CI (`.github/workflows/verify-pr.yml`) runs `./gradlew check`,
-`:android-tests:verifyRoborazziDebug`, and `connectedAndroidTest` on API levels 23 and 29 — mirror
+`:android-tests:verifyRoborazziDebug`, and `connectedAndroidTest` on API levels 24 and 29 — mirror
 these locally before considering a change done.
 
 ## Code style
@@ -92,7 +92,7 @@ files in `api/`, otherwise `./gradlew check` (via `apiCheck`) will fail.
 
 ## Working in this repo
 
-- Minimum Android SDK is 23 (`androidMinSdk` in the root `build.gradle.kts`); avoid introducing
+- Minimum Android SDK is 24 (`androidMinSdk` in the root `build.gradle.kts`); avoid introducing
   APIs that require a higher minSdk without updating that constant deliberately.
 - Prefer adding code to the most specific module that needs it: shared/common logic with no
   platform dependency belongs in `reveal-common`; public reveal-effect API belongs in

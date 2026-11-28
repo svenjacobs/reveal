@@ -8,6 +8,8 @@ plugins {
 
 val androidTargetSdk = rootProject.extra.get("androidTargetSdk") as Int
 val androidCompileSdk = rootProject.extra.get("androidCompileSdk") as Int
+val androidCompileSdkMinor = rootProject.extra.get("androidCompileSdkMinor") as Int
+val androidMinSdk = rootProject.extra.get("androidMinSdk") as Int
 
 java {
     toolchain {
@@ -17,11 +19,11 @@ java {
 
 android {
     namespace = "com.svenjacobs.reveal.android.tests"
-    compileSdk { version = release(androidCompileSdk) }
+    compileSdk { version = release(androidCompileSdk) { minorApiLevel = androidCompileSdkMinor } }
 
     defaultConfig {
         applicationId = "com.svenjacobs.reveal.android.tests"
-        minSdk { version = release(23) }
+        minSdk { version = release(androidMinSdk) }
         targetSdk { version = release(androidTargetSdk) }
         versionCode = 1
         versionName = "1.0"
